@@ -13,3 +13,9 @@ border: 1px solid rgba(223, 174, 174, 0.57); */
            background:linear-gradient(to left,rgb(176, 209, 226),rgb(165, 224, 253)); 
 
     }
+
+    .background {
+       background: linear-gradient(to top, rgb(116, 34, 119), rgb(96, 117, 97));
+       height: 100%;
+   
+   }

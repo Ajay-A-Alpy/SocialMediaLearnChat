@@ -41,7 +41,7 @@ export const updateProfile= createAsyncThunk("auth/updateProfile",async ({formVa
 
 
 const authSlice=createSlice({
-    name:"auth",
+    name:"auth", // the name used in the useSelector
     initialState:{
         user:null,
         error:"",

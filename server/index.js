@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const PORT = process.env.PORT;
 
 const studentRoute = require("./router/student");
+const ArticleRoute=require("../server/router/article")
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -31,9 +32,11 @@ app.use((req, res, next) => {
 connect();
 
 //student route
-app.use("/student", studentRoute); //http://localhost:5000/student
+app.use("/student", studentRoute); //http://localhost:5000/student;
+app.use('/article',ArticleRoute); //http://localhost:5000/article;
 
 //server running
 app.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);
 });
+

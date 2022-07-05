@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
 import StudentLogin from "./pages/Students/StudentLogin/StudentLogin";
 import StudentHome from "./pages/Students/StudentHome/StudentHome";
 import StudentRegister from "./pages/Students/StudentRegister/StudentRegister";
@@ -8,20 +14,19 @@ import { useEffect } from "react";
 import { setUser } from "./redux/features/authSlice";
 
 function App() {
+  const dispatch = useDispatch();
 
-  const dispatch=useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
-  const user=JSON.parse(localStorage.getItem("profile"))
+  useEffect(() => {
+    dispatch(setUser(user));
+  }, []);
 
-  useEffect(()=>{
-
-    dispatch(setUser(user))
-
-  },[])
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<StudentHome></StudentHome>}></Route>
+
         <Route path="/login" element={<StudentLogin />}></Route>
         <Route
           path="/signup"

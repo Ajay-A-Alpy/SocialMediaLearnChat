@@ -26,7 +26,7 @@ import { useSelector } from "react-redux";
 function Sidebar(){
     const {user}=useSelector((state)=>({...state.auth}))
 return (
-    <Box flex={1}  bgcolor="white" p={2} sx={{display:{xs:"none", sm:"block"}}  } >
+    <Box flex={1}  bgcolor="#d4d4dc" p={2} sx={{display:{xs:"none", sm:"block"}}  } >
         <Box sx={{position:"fixed"}}>
       <List>
 {user ? <ListItem disablePadding>

@@ -32,6 +32,13 @@ export default function StudentLogin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    const token=localStorage.getItem("profile")
+    if(token){
+      navigate('/')
+    }
+  })
+
   const valid = () => {
     if (email == "") {
       setEmailError("Email must be filled");
@@ -89,8 +96,8 @@ export default function StudentLogin() {
   };
 
   return (
-    <>
-      <Container className="">
+        <section className="background">
+    <Container className="">
         <Grid
           container
           sx={{
@@ -189,6 +196,6 @@ export default function StudentLogin() {
           </Grid>
         </Grid>
       </Container>
-    </>
+      </section>
   );
 }
