@@ -7,7 +7,7 @@ const articleSchema=mongoose.Schema({
     username:{type:String,required:true},
     description:{type:String,required:true},
     subject:{type:String,required:true},
-    images:[String],
+    images:String,
     likes:{type:[Number],default:0},
     verifiedBy:{type:[Number],default:0},
     public:Boolean,

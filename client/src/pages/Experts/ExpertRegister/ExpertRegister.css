@@ -1,0 +1,22 @@
+.signup {
+    align-items: center;
+    height: 100vh;
+    background: rgba(152, 102, 175, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(132, 70, 204, 0.1);
+    backdrop-filter: blur(5.3px);
+    -webkit-backdrop-filter: blur(5.3px);
+    border: 1px solid rgba(223, 174, 174, 0.57);
+    color: white;
+}
+
+.signupForm {
+    background: linear-gradient(to left, rgb(116, 34, 119), rgb(43, 71, 45));
+    color: white;
+
+}
+
+.background {
+    background: linear-gradient(to top, rgb(116, 34, 119), rgb(96, 117, 97));
+    height: 100vh;
+}

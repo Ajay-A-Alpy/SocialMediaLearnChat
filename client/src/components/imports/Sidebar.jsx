@@ -5,7 +5,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 import HomeIcon from '@mui/icons-material/Home';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
@@ -25,6 +25,8 @@ import { useSelector } from "react-redux";
 
 function Sidebar(){
     const {user}=useSelector((state)=>({...state.auth}))
+  const navigate=useNavigate()
+
 return (
     <Box flex={1}  bgcolor="#d4d4dc" p={2} sx={{display:{xs:"none", sm:"block"}}  } >
         <Box sx={{position:"fixed"}}>
@@ -44,7 +46,7 @@ return (
               <ListItemIcon>
               <HomeIcon></HomeIcon>
               </ListItemIcon>
-              <Link to="/"  > <ListItemText  primary="Home" sx={{textDecorationLine:"none",color:"black"}}/></Link> 
+            <ListItemText  primary="Home" onClick={()=>navigate('/student')} />
             </ListItemButton>
           </ListItem>
 
@@ -53,7 +55,7 @@ return (
               <ListItemIcon>
                <AccountBoxIcon></AccountBoxIcon>
               </ListItemIcon >
-            <Link to="/profile"  > <ListItemText  primary="Profile" sx={{textDecoration:"none",color:"black"}}/></Link> 
+        <ListItemText  primary="Profile" onClick={()=>navigate('/student/profile')} />
             </ListItemButton>
           </ListItem>
 
@@ -62,7 +64,7 @@ return (
               <ListItemIcon>
              <FeedIcon></FeedIcon>
               </ListItemIcon>
-              <ListItemText primary="Articles" />
+              <ListItemText primary="Articles"  onClick={()=>navigate('/student/articles')} />
             </ListItemButton>
           </ListItem>
 
@@ -98,7 +100,7 @@ return (
               <ListItemIcon>
            <PeopleIcon></PeopleIcon>
               </ListItemIcon>
-              <ListItemText primary="Followers" />
+              <ListItemText primary="Followers"  onClick={()=>navigate('/student/followers')} />
             </ListItemButton>
           </ListItem>
 
@@ -130,14 +132,14 @@ return (
             </ListItemButton>
           </ListItem>
 
-          <ListItem disablePadding>
+          {/* <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
         <NightlightIcon></NightlightIcon>
               </ListItemIcon>
               <Switch  defaultChecked  />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
         </List>
         </Box>
     </Box>

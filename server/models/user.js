@@ -7,10 +7,17 @@ const studentSchema= mongoose.Schema({
     mobile:{type:String,required:true},
     googleId:{type:String,required:false},
     place:{type:String},
-    class:{type:String},
-    institution:{type:String},
-    subject:{type:[String]},
-    hobby:{type:[String]}
+    classNum:{type:String},
+    school:{type:String},
+    subjects:{type:String},
+    hobbies:{type:String},
+    dob:{type:Date},
+    createdAt:{type:Date},
+    followers:[mongoose.ObjectId],
+    following:[mongoose.ObjectId],
+    experts:[mongoose.ObjectId],
+    public:Boolean,
+    
 })
 
 module.exports=mongoose.model('students',studentSchema)

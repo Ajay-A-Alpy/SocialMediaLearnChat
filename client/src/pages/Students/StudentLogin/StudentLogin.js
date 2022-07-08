@@ -33,10 +33,10 @@ export default function StudentLogin() {
   const navigate = useNavigate();
 
   useEffect(()=>{
-    const token=localStorage.getItem("profile")
-    if(token){
-      navigate('/')
-    }
+    // const token=localStorage.getItem("profile")
+    // if(token){
+    //   navigate('/')
+    // }
   })
 
   const valid = () => {
@@ -103,7 +103,7 @@ export default function StudentLogin() {
           sx={{
             alignItems: "center",
             margin: "auto",
-            marginTop: "3rem",
+            marginTop: "",
             padding: "1rem",
           }}
           className="login"

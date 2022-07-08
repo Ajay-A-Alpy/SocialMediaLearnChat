@@ -1,21 +1,37 @@
 import { Box } from "@mui/system";
+import { useEffect } from "react";
 import Posts from "./Posts";
+import { useDispatch, useSelector } from "react-redux";
+import { getArticles } from "../../redux/features/articleSlice";
+import { Typography } from "@mui/material";
 
+export default function Feed() {
+  const { articles, loading } = useSelector((state) => ({ ...state.article }));
 
+  const dispatch = useDispatch();
 
-export default function Feed(){
+  useEffect(() => {
+    dispatch(getArticles());
+  }, []);
 
-    return(
-        
-<Box flex={4} sx={{backgroundColor:"#393f4d"}}> 
+  return (
+    <Box flex={4} sx={{ backgroundColor: "#393f4d" }}>
+      <Typography
+        fontSize="2rem"
+        sx={{
+          height: "3rem",
+          dispay: "block",
+          width: "100%",
+          textAlign: "center",
+          color: "white",
+        }}
+      >
+        {articles.length} Articles{" "}
+      </Typography>
 
-    <Posts></Posts>
-    <Posts></Posts>
-    <Posts></Posts>
-    <Posts></Posts>
-    
-</Box>
-    )
-
-
+      {articles.map((item, index) => {
+        return <Posts key={index} {...item} />;
+      })}
+    </Box>
+  );
 }

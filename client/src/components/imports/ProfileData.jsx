@@ -1,24 +1,38 @@
 import { Box ,styled,} from "@mui/system";
 import Stack from '@mui/material/Stack';
-import List from '@mui/material/List';
+
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import { Typography } from "@mui/material";
+
+import { Tooltip, Typography } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
+import ProfileEdit from "./ProfileEdit";
 
+import { useState } from "react";
+import { useSelector } from "react-redux";
+ 
 
+export default function ProfileData(){
 
-export default function ProfileData({edit,setEdit}){
+    const [edit, setEdit] = useState(false);
+    const {user}=useSelector((state)=>({...state.auth}))
+
     
 
     return (
        
-        <Box flex={4} sx={{backgroundColor:"", height:"100vh" }}>
+        <Box flex={4} sx={{backgroundColor:"white", height:"100%" }}>
             <Stack direction={{xs:"column" ,sm:"row"}} spacing={4} >
-                <Box flex={2} sx={{backgroundColor:"white", height:"100vh", display:{xs:"block",sm:"block"}}}>
-                    <Box sx={{height:"",width:"90%",alignItems:"center", paddingTop:{xs:"10%",sm:"35%"} ,  justifyContent:"center",display:"flex"}}>
-                     <img  style={{width:"90%"}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZRW8MprfJzvyxKiP8t7o1E-LKC9NkPEVClQ&usqp=CAU"/>
+                <Box flex={2} sx={{backgroundColor:"white", height:"100%", display:{xs:"block",sm:"block"}}}> 
+                <Box sx={{dispaly:"block", textAlign:"end"}}> 
+                <Tooltip title="Edit Profile" placement="left">
+                  <EditIcon  color="white" onClick={()=>{setEdit(!edit)}} >
+                  </EditIcon>
+               </Tooltip>
+                  </Box>
+             
+                    <Box sx={{height:"",width:"90%",alignItems:"center", paddingTop:{xs:"10%",sm:"25%"} ,  justifyContent:"center",display:"flex"}}>
+                     <img  onClick={()=>{setEdit(true)}} style={{width:"90%"}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZRW8MprfJzvyxKiP8t7o1E-LKC9NkPEVClQ&usqp=CAU"/>
                     </Box>
                     <Box sx={{height:"50%",width:"90%",alignItems:"center",justifyContent:"center",display:"flex"}}>
                         <Stack direction="column" sx={{marginTop:"2rem" ,textAlign:"start",position:"relative"}}>
@@ -40,12 +54,10 @@ export default function ProfileData({edit,setEdit}){
 
 
 
-
-
-                <Box flex={4} sx={{backgroundColor:"", height:"100vh"}}>
-                    <Box sx={{backgroundColor:"white", height:"auto",textAlign:"center"}}>
+{edit ? <ProfileEdit></ProfileEdit>:  <Box flex={4} sx={{backgroundColor:"", height:"100%"}}>
+                    <Box sx={{backgroundColor:"", height:"auto",textAlign:"center"}}>
                         <Typography component="h5" variant="h5" color="white" sx={{width:"100%", backgroundColor:"#34568B"}}>
-                            Personal Info   <span style={{marginLeft:"3rem",color:"white"}}><EditIcon onclick={()=>{setEdit(true)}}></EditIcon></span>
+                            Personal Info  
                         </Typography>
                      
                        <Stack direction="column">
@@ -55,7 +67,7 @@ export default function ProfileData({edit,setEdit}){
                         </Typography>
 
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                       Rahul
+                       {user.result.name}
                         </Typography>
                         </Stack>
 
@@ -65,7 +77,7 @@ export default function ProfileData({edit,setEdit}){
                         </Typography>
 
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                         rahul@gmil.com
+                        {user.result.email}
                         </Typography>
                         </Stack>
 
@@ -75,7 +87,7 @@ export default function ProfileData({edit,setEdit}){
                         </Typography>
 
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                         9495848525
+                        {user.result.mobile}
                         </Typography>
                         </Stack>
 
@@ -84,16 +96,16 @@ export default function ProfileData({edit,setEdit}){
                      Place
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                         Kochi
+                        {user.result?.place}
                         </Typography>
                         </Stack>
 
                         <Stack direction="row">
                        <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"40%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                   DOB
+                   DOB 
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                         12/02/1996
+                        {user.result?.dob.substring(0,10)}
                         </Typography>
                         </Stack>
 
@@ -102,7 +114,7 @@ export default function ProfileData({edit,setEdit}){
                Hobbies
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                         Reading books,playing football 
+                        {user.result?.hobbies}
                         </Typography>
                         </Stack>
                             </Stack>
@@ -120,7 +132,7 @@ export default function ProfileData({edit,setEdit}){
               Class
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                       10th
+                    {user.result.classNum}
                         </Typography>
                         </Stack>
                         <Stack direction="row">
@@ -128,7 +140,7 @@ export default function ProfileData({edit,setEdit}){
                   School/college
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                        National Public School,Kochi
+                        {user.result?.school}
                         </Typography>
                         </Stack>
                         <Stack direction="row">
@@ -136,13 +148,16 @@ export default function ProfileData({edit,setEdit}){
                 Interested Topics
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                        Maths,English,Chemistry
+                       {user.result?.subjects}
                         </Typography>
                         </Stack>
                       
                             </Stack>
                     </Box>
-                    </Box>
+                    </Box>   }
+
+               
+                    
 
 
             </Stack>

@@ -7,7 +7,7 @@ export const login= createAsyncThunk("auth/login",async ({formValue,navigate,toa
     try{
         const response= await api.logIn(formValue);
        toast.success("Login successfully");
-        navigate("/"); 
+        navigate("/student"); 
         return response.data
     }
     catch(err){
@@ -18,7 +18,7 @@ export const register= createAsyncThunk("auth/register",async ({formValue,naviga
     try{
         const response= await api.SignUp(formValue);
        toast.success("Account created successfully");
-        navigate("/"); 
+        navigate("/student"); 
         return response.data
     }
     catch(err){
@@ -26,11 +26,27 @@ export const register= createAsyncThunk("auth/register",async ({formValue,naviga
     }
 })
 
-export const updateProfile= createAsyncThunk("auth/updateProfile",async ({formValue,navigate,toast},{rejectWithValue})=>{
+export const updateProfile= createAsyncThunk("auth/updateProfile",async ({profileData,Id,navigate,toast},{rejectWithValue})=>{
     try{
-        const response= await api.UpdateProfile(formValue);
+        console.log("111111111111")
+        const response= await api.UpdateProfile(profileData,Id);
        toast.success("Profile updated successfully");
-        navigate("/"); 
+        navigate("/student/profile"); 
+        return response.data
+    }
+    catch(err){
+        return rejectWithValue(err.response.data)
+    }
+})
+
+
+export const followOne= createAsyncThunk("auth/follow",async ({userData,Id,navigate,toast},{rejectWithValue})=>{
+    try{
+        console.log("111111111111")
+        console.log(userData)
+        const response= await api.followOne(userData,Id);
+       toast.success("started following");
+        navigate("/student"); 
         return response.data
     }
     catch(err){
@@ -41,7 +57,7 @@ export const updateProfile= createAsyncThunk("auth/updateProfile",async ({formVa
 
 
 const authSlice=createSlice({
-    name:"auth", // the name used in the useSelector
+    name:"auth", // the name used in the useSelector,also in store
     initialState:{
         user:null,
         error:"",
@@ -100,7 +116,7 @@ const authSlice=createSlice({
             state.loading=false;
             
             localStorage.setItem("profile",JSON.stringify({...action.payload}));
-            state.user=action.payload;
+             state.user.result=action.payload;
         },
         [updateProfile.rejected]:(state,action)=>{
             state.loading=false;
