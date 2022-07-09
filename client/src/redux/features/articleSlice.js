@@ -10,7 +10,7 @@ export const createArticle = createAsyncThunk(
     try {
       const response = api.AddArticle(fd);
       toast.success("You have succefully posted ");
-      navigate("/student");
+       navigate("/student");
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

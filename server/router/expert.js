@@ -1,13 +1,14 @@
 const router =require('express').Router()
 const controller= require('../controller/expert/expertController')
+const auth=require('../middleware/auth')
 
-//student signup
+//expert signup
  router.post('/signup',controller.signup );
 
- //student login
+ //expert login
  router.post('/login',controller.login );
 
- //student profile update
- router.put('/profile/:id',controller.profile)
+ //expert profile update
+ router.put('/profile/:id',auth,controller.profile)
 
  module.exports=router;

@@ -61,7 +61,7 @@ const authSlice=createSlice({
     initialState:{
         user:null,
         error:"",
-        loading:false
+        loading:false,
     },
 
     reducers:{
@@ -87,6 +87,9 @@ const authSlice=createSlice({
             state.loading=false;
            
             localStorage.setItem("profile",JSON.stringify({...action.payload}));
+            let {token}=action.payload;
+            console.log('student login')
+            localStorage.setItem("userToken",JSON.stringify(token))
             state.user=action.payload;
         },
         [login.rejected]:(state,action)=>{
@@ -101,6 +104,9 @@ const authSlice=createSlice({
             state.loading=false;
             
             localStorage.setItem("profile",JSON.stringify({...action.payload}));
+            let {token}=action.payload;
+            console.log('student login')
+            localStorage.setItem("userToken",JSON.stringify(token))
             state.user=action.payload;
         },
         [register.rejected]:(state,action)=>{

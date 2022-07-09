@@ -8,7 +8,7 @@ import { Tooltip, Typography } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import ProfileEdit from "./ProfileEdit";
 
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { useSelector } from "react-redux";
  
 
@@ -16,8 +16,6 @@ export default function ProfileData(){
 
     const [edit, setEdit] = useState(false);
     const {user}=useSelector((state)=>({...state.auth}))
-
-    
 
     return (
        
@@ -54,7 +52,7 @@ export default function ProfileData(){
 
 
 
-{edit ? <ProfileEdit></ProfileEdit>:  <Box flex={4} sx={{backgroundColor:"", height:"100%"}}>
+{edit ? <ProfileEdit  setEdit></ProfileEdit>:  <Box flex={4} sx={{backgroundColor:"", height:"100%"}}>
                     <Box sx={{backgroundColor:"", height:"auto",textAlign:"center"}}>
                         <Typography component="h5" variant="h5" color="white" sx={{width:"100%", backgroundColor:"#34568B"}}>
                             Personal Info  

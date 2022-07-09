@@ -47,18 +47,21 @@ exports.signup = async (req, res) => {
 };
 
 exports.profile = async (req, res) => {
-  console.log("update reched");
+  console.log(" student update reched");
   let Id = req.params.id;
+
+  if (Id != req.userId) {
+    return res.status(500).json({ message: "something went wrong" });
+  }
   let userData = req.body;
-  console.log(req.body);
+
   try {
     let doc = await studentModal.findOneAndUpdate(
       { _id: Id },
       { ...userData },
       { new: true }
     );
-    console.log("hello");
-    console.log(doc);
+
     res.status(201).json(doc);
   } catch (err) {
     console.log(err);
@@ -110,7 +113,6 @@ exports.follow = async (req, res) => {
   }
 };
 
-
 // exports.getFollowers = async (req, res) => {
 //     let userId=req.params.id
 
@@ -132,13 +134,8 @@ exports.follow = async (req, res) => {
 
 //         ])
 
-
-
-    
-  
 //       res.status(201).json(articles);
 //     } catch (error) {
 //       res.status(404).json({ messsage: "something wernt wrong" });
 //     }
 //   };
-  

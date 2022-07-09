@@ -72,6 +72,9 @@ const expertSlice=createSlice({
             state.loading=false;
            
             localStorage.setItem("expertProfile",JSON.stringify({...action.payload}));
+            let {token}=action.payload;
+            console.log('expert login')
+            localStorage.setItem("expertToken",JSON.stringify(token))
             state.expert=action.payload;
         },
         [expertLogin.rejected]:(state,action)=>{
@@ -86,6 +89,10 @@ const expertSlice=createSlice({
             state.loading=false;
             
             localStorage.setItem("expertProfile",JSON.stringify({...action.payload}));
+            let {token}=action.payload;
+            console.log('expert login')
+            localStorage.setItem("expertToken",JSON.stringify(token))
+            
             state.expert=action.payload;
         },
         [expertRegister.rejected]:(state,action)=>{
@@ -99,8 +106,9 @@ const expertSlice=createSlice({
         },
         [expertUpdateProfile.fulfilled]:(state,action)=>{
             state.loading=false;
+        
             
-            localStorage.setItem("expertProfile",JSON.stringify({...action.payload}));
+            // localStorage.setItem("expertProfile",JSON.stringify({...action.payload}));
              state.expert.result=action.payload;
         },
         [expertUpdateProfile.rejected]:(state,action)=>{

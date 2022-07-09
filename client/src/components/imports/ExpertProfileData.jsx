@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 export default function ExpertProfileData() {
   const [edit, setEdit] = useState(false);
   const { expert } = useSelector((state) => ({ ...state.expertAuth }));
+ 
 
   return (
     <Box flex={4} sx={{ backgroundColor: "white", height: "100%" }}>

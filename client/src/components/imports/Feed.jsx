@@ -11,6 +11,7 @@ export default function Feed() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('articlessss callllllll')
     dispatch(getArticles());
   }, []);
 
@@ -26,11 +27,11 @@ export default function Feed() {
           color: "white",
         }}
       >
-        {articles.length} Articles{" "}
+        {articles.length} Articles
       </Typography>
 
-      {articles.map((item, index) => {
-        return <Posts key={index} {...item} />;
+      {articles.map((item,index) => {
+        return <Posts key={item._id} {...item} />;
       })}
     </Box>
   );

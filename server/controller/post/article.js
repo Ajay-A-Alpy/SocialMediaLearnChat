@@ -51,7 +51,8 @@ exports.getArticles = async (req, res) => {
 
     res.status(201).json(articles);
   } catch (error) {
-    res.status(404).json({ messsage: "something wernt wrong" });
+    console.log('no articles')
+    res.status(404).json({ messsage: "something went wrong" });
   }
 };
 

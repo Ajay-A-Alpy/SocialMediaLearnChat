@@ -5,7 +5,7 @@ import { updateProfile } from "../../redux/features/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function ProfileEdit() {
+export default function ProfileEdit(props) {
   const { user } = useSelector((state) => ({ ...state.auth }));
   const dispatch=useDispatch();
   const navigate=useNavigate();
@@ -48,6 +48,7 @@ export default function ProfileEdit() {
        if(name && email && mobile ){
               console.log('00000000000')
               dispatch(updateProfile({profileData,Id,toast,navigate}))
+              props.setEdit(false)
        }
 
        

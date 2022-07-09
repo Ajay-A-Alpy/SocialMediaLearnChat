@@ -1,38 +1,32 @@
-const router=require('express').Router()
-const controller=require('../controller/post/article')
+const router = require("express").Router();
+const controller = require("../controller/post/article");
 
-const path=require('path')
-// const image=require('../images')
+const path = require("path");
 
-const multer  = require('multer');
+const auth = require("../middleware/auth");
 
-const storage=multer.diskStorage({
-    destination:(req,file,cb)=>{
-        cb(null,'uploads')
-    },
-    filename:(req,file,cb)=>{
-       
-        cb(null,Date.now() + path.extname(file.originalname))
-    }
+const multer = require("multer");
 
-})
-const upload = multer({ storage:storage})
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage: storage });
 
 //new article posting
-router.post("/", upload.single('image'), controller.createArticle);
+router.post("/",auth, upload.single("image"), controller.createArticle);
 
-//article 
-router.get("/",controller.getArticles)
+//article
+router.get("/",auth, controller.getArticles);
 
 //update article posting
-router.put("/:id", upload.single('image'), controller.updateArticle);
+router.put("/:id",auth, upload.single("image"), controller.updateArticle);
 
 //delete article
-router.delete("/:id", controller.deleteArticle);
+router.delete("/:id",auth, controller.deleteArticle);
 
-
-
-
-
-
-module.exports=router;
+module.exports = router;
