@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,12 +32,7 @@ export default function StudentLogin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    // const token=localStorage.getItem("profile")
-    // if(token){
-    //   navigate('/')
-    // }
-  })
+ 
 
   const valid = () => {
     if (email == "") {

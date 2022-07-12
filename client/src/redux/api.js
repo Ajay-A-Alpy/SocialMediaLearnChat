@@ -24,45 +24,66 @@ API.interceptors.request.use((req) => {
 });
 
 //student login
-export const logIn = async (formData) =>
-  await API.post("/student/login", formData);
+export const logIn = async (formData) =>{
+ return await API.post("/student/login", formData)};
 
 // student signup
-export const SignUp = async (formData) =>
-  await API.post("/student/signup", formData);
+export const SignUp = async (formData) =>{ 
+  return await API.post("/student/signup", formData)};
 
 //student profile update
-export const UpdateProfile = async (formData, id) =>
-  await API.put(`/student/profile/${id}`, formData);
+export const UpdateProfile = async (formData, id) =>{
+   return await API.put(`/student/profile/${id}`, formData)};
 
 //follow one
-export const followOne = async (userid, id) =>
-  await API.post(`/student/follow/${id}`, userid);
+export const followOne = async (userid, id) =>{ 
+  return await API.post(`/student/follow/${id}`, userid)
+}
+
+//get  followers data
+export const getFollowers=async (id)=>{
+  return await API.get(`/student/getFollowers/${id}`)
+}
+
+//get  followings data
+export const getFollowings=async (id)=>{
+  return await API.get(`/student/getFollowings/${id}`)
+}
+
+//unfollow one
+export const unFollowsOne = async (userid, id) =>{ 
+  return await API.post(`/student/unfollow/${id}`, userid)
+}
+
+  //view  user profile
+  export const getStudentProfile= async (userid)=>{
+ return   await API.get(`/student/viewProfile/${userid}`)
+  }
 
 //expert login
 export const expertLogIn = async (formData) =>
-  await API.post("/expert/login", formData);
+ {return await API.post("/expert/login", formData);}
 
 // expert signup
 export const expertSignUp = async (formData) =>
-  await API.post("/expert/signup", formData);
+{ return await API.post("/expert/signup", formData);}
 
 //expert profile update
 export const expertUpdateProfile = async (formData, id) =>
-  await API.put(`/expert/profile/${id}`, formData);
+ { return await API.put(`/expert/profile/${id}`, formData);}
 
 //add new article
 export const AddArticle = async (articleData) =>
-  await API.post("/article", articleData);
+ {return await API.post("/article", articleData);}
 
 //get all article
-export const GetArticles = async () => await API.get("/article");
+export const GetArticles = async () => { return await API.get("/article");}
 
 //update article
 export const UpdateArticle = async (data, id) =>
-  await API.put(`/article/${id}`, data);
+{ return await API.put(`/article/${id}`, data);}
 
 //delete article
-export const DeleteArticle = async (id) => await API.delete(`/article/${id}`);
+export const DeleteArticle = async (id) => { return await API.delete(`/article/${id}`);}
 
-// export const  GetMyArticles= async (id)=>await API.get(`/article/${id}`)
+

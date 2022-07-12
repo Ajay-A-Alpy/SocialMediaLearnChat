@@ -106,7 +106,7 @@ export default function ProfileEdit(props) {
           onChange={onInputChange}
           placeholder="Place"
         />
-        <label>DOB {":"+dob.substring(0,10)}</label>
+        <label>DOB { dob ? ":"+dob.substring(0,10) : "" }</label>
         <input
           style={{ width: "13rem", height: "3rem", borderColor: "white" }}
           type="date"

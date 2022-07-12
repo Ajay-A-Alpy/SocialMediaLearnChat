@@ -56,7 +56,7 @@ export const updateArticle = createAsyncThunk(
         successfully deleted<strong>check it out!</strong>
       </Alert>
         
-        window.location.reload();
+        // window.location.reload();
         return response.data
 
     }

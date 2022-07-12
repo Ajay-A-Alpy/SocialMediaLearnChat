@@ -8,13 +8,13 @@ const articleSchema=mongoose.Schema({
     description:{type:String,required:true},
     subject:{type:String,required:true},
     images:String,
-    likes:{type:[Number],default:0},
-    verifiedBy:{type:[Number],default:0},
+    likes:{type:[mongoose.ObjectId]},
+    verifiedBy:{type:[mongoose.ObjectId]},
     public:Boolean,
     comments:[{
         commentorId:mongoose.ObjectId,
         comment:String,
-        time:{type:Date,dafault:Date.now}
+        commentedAt:{type:Date,dafault:Date.now}
     }],
 })
 

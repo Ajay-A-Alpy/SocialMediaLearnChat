@@ -103,7 +103,7 @@ export default function ProfileData(){
                    DOB 
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                        {user.result?.dob.substring(0,10)}
+                        {user.result?.dob ? user.result?.dob.substring(0,10) : ""}
                         </Typography>
                         </Stack>
 
@@ -112,7 +112,7 @@ export default function ProfileData(){
                Hobbies
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                        {user.result?.hobbies}
+                        {user.result?.hobbies ? user.result?.hobbies : ""}
                         </Typography>
                         </Stack>
                             </Stack>
@@ -130,7 +130,7 @@ export default function ProfileData(){
               Class
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                    {user.result.classNum}
+                    {user.result.classNum ? user.result.classNum : ""}
                         </Typography>
                         </Stack>
                         <Stack direction="row">
@@ -138,7 +138,7 @@ export default function ProfileData(){
                   School/college
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                        {user.result?.school}
+                        {user.result?.school ? user.result?.school : ""}
                         </Typography>
                         </Stack>
                         <Stack direction="row">
@@ -146,7 +146,7 @@ export default function ProfileData(){
                 Interested Topics
                         </Typography>
                         <Typography component="h6" variant="h6" fontWeight={300} sx={{width:"60%", backgroundColor:"", textAlign:"start",padding:"1rem 0 0 2rem"}}>
-                       {user.result?.subjects}
+                       {user.result?.subjects ? user.result?.subjects : ""}
                         </Typography>
                         </Stack>
                       

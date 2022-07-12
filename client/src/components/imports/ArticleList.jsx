@@ -12,11 +12,11 @@ function ArticleList() {
   });
   return (
     <Box flex={4} sx={{ backgroundColor: "#d4d4dc" }}>
-      <Stack
+  <Stack
         direction="column"
         spacing={2}
         sx={{
-          height: "auto",
+     minHeight:"100vh",
           width: "100%",
           alignItems: "center",
           paddingBottom: "2rem",
@@ -30,19 +30,34 @@ function ArticleList() {
                     return(
 
                         <UserBox>
-                           
                             <Posts key={item._id}   {...item}></Posts>
                         </UserBox>
                     )
-
-
-
                 }
+
+    //             {
+    //               <UserBox>
+    //                 <Stack
+    //     direction="column"
+    //     spacing={2}
+    //     sx={{
+    //  minHeight:"100vh",
+    //       width: "100%",
+    //       alignItems: "center",
+    //       paddingBottom: "2rem",
+    //     }}
+    //   ><Typography>You have no articles yet</Typography></Stack>
+                    
+    //               </UserBox>
+    //             }
+
             })
         }
       
        
-      </Stack>
+      </Stack> 
+
+      
     </Box>
   );
 }

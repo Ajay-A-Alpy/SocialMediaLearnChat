@@ -6,12 +6,12 @@ import { getArticles } from "../../redux/features/articleSlice";
 import { Typography } from "@mui/material";
 
 export default function Feed() {
-  const { articles, loading } = useSelector((state) => ({ ...state.article }));
+  const { articles, loading } = useSelector((state) => ({ ...state.article}));
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('articlessss callllllll')
+  
     dispatch(getArticles());
   }, []);
 

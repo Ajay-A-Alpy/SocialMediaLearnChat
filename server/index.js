@@ -12,7 +12,7 @@ const expertRoute = require("./router/expert");
 const ArticleRoute=require("../server/router/article")
 
 app.use(morgan("dev"));
-app.use(express.json());
+app.use(express.json({extended:true}));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 app.use(express.static('uploads'))

@@ -13,6 +13,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CommentIcon from '@mui/icons-material/Comment';
 
 
 
@@ -20,7 +21,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Checkbox, Tooltip } from "@mui/material";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+
+import GppGoodIcon from '@mui/icons-material/GppGood';
 
 
 import { Box, Button, Stack, Typography, styled } from "@mui/material";
@@ -35,7 +37,7 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteArticle, updateArticle } from "../../redux/features/articleSlice";
-import { followOne } from "../../redux/features/authSlice";
+import { followOne, getStudentProfile } from "../../redux/features/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -88,12 +90,11 @@ export default function Posts({
   const handleDelete=()=>{
 
     let id=_id;
-
-    dispatch(deleteArticle({id}))
     setOpen(false)
-
-    
-  
+    dispatch(deleteArticle({id}))
+    navigate('/student')
+    toast.success("Article deleted")
+ 
 
   }
 
@@ -115,17 +116,10 @@ export default function Posts({
     }
   };
 
-  const handleFollow=()=>{
-    let Id=user.result._id;
-    console.log('hhhhhhhh')
-    console.log(userId)
-    let userData={
-      userId:userId
-    }
-
-
-    dispatch(followOne({userData,Id,navigate,toast}))
-
+ 
+  const handleViewProfile=()=>{
+    dispatch(getStudentProfile({userId,navigate}))
+   
   }
 
 
@@ -157,7 +151,7 @@ export default function Posts({
           <Box>
           {user.result._id == userId ?  <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
           {username}
-        </Avatar> :<Tooltip title="follow" placement="top" onClick={handleFollow}>
+        </Avatar> :<Tooltip title="view Profile" placement="top" onClick={handleViewProfile}>
           <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
             {username}
           </Avatar>
@@ -205,16 +199,21 @@ export default function Posts({
           {description}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <ThumbUpIcon></ThumbUpIcon>
-        </IconButton>
+      <CardActions sx={{display:"flex", justifyContent:"space-between"}} >
+       
         <IconButton aria-label="add to favorites">
           <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
         </IconButton>
-        {/* <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton> */}
+
+        <IconButton aria-label="add to favorites">
+          <Checkbox icon={<GppGoodIcon></GppGoodIcon>} checkedIcon={<GppGoodIcon></GppGoodIcon>} />
+        </IconButton>
+
+        <IconButton aria-label="add to favorites">
+          <Checkbox icon={<CommentIcon></CommentIcon>}  />
+        </IconButton>
+       
+       
       </CardActions>
     </Card>
 

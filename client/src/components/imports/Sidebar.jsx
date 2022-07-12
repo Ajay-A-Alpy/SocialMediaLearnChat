@@ -18,14 +18,27 @@ import SchoolIcon from '@mui/icons-material/School';
 import BookIcon from '@mui/icons-material/Book';
 import SettingsIcon from '@mui/icons-material/Settings';
 import NightlightIcon from '@mui/icons-material/Nightlight';
-
+import { getFollowersData ,getFollowingsData} from '../../redux/features/authSlice';
+import { useDispatch } from 'react-redux';
 import { useSelector } from "react-redux";
 
 
 
 function Sidebar(){
     const {user}=useSelector((state)=>({...state.auth}))
-  const navigate=useNavigate()
+  const navigate=useNavigate();
+  const dispatch=useDispatch();
+
+  let handleShowFollowers=()=>{
+    let Id=user.result._id;
+    dispatch(getFollowersData({Id,navigate}))
+
+  }
+
+  let handleShowFollowings=()=>{
+    let Id=user.result._id;
+    dispatch(getFollowingsData({Id,navigate}))
+  }
 
 return (
     <Box flex={1}  bgcolor="#d4d4dc" p={2} sx={{display:{xs:"none", sm:"block"}}  } >
@@ -100,7 +113,7 @@ return (
               <ListItemIcon>
            <PeopleIcon></PeopleIcon>
               </ListItemIcon>
-              <ListItemText primary="Followers"  onClick={()=>navigate('/student/followers')} />
+              <ListItemText primary="Followers"  onClick={handleShowFollowers} />
             </ListItemButton>
           </ListItem>
 
@@ -109,7 +122,7 @@ return (
               <ListItemIcon>
            <DirectionsRunIcon></DirectionsRunIcon>
               </ListItemIcon>
-              <ListItemText primary="Followings" />
+              <ListItemText primary="Followings" onClick={handleShowFollowings} />
             </ListItemButton>
           </ListItem>
 

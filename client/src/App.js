@@ -21,6 +21,8 @@ import ExpertLogin from "./pages/Experts/ExpertLogin/ExpertLogin";
 import ExpertHome from "./pages/Experts/ExpertHome/ExpertHome";
 import ExpertProfile from "./pages/Experts/ExpertProfile/ExpertProfile";
 import MyFollowers from "./pages/Students/Followers/MyFollowers";
+import ViewStudents from "./pages/Students/ViewStudent/ViewStudents";
+import MyFollowings from "./pages/Students/followings/MyFollowings";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,6 +61,16 @@ function App() {
         ></Route>
 
         <Route
+          path="/student/followings"
+          element={<MyFollowings></MyFollowings>}
+        ></Route>
+
+        <Route
+          path="/student/viewProfile"
+          element={<ViewStudents></ViewStudents>}
+        ></Route>
+
+        <Route
           path="/expert/articles"
           element={<MyArticles></MyArticles>}
         ></Route>
@@ -69,6 +81,7 @@ function App() {
           path="/expert/signup"
           element={<ExpertRegister></ExpertRegister>}
         ></Route>
+
         <Route
           path="/expert/login"
           element={<ExpertLogin></ExpertLogin>}

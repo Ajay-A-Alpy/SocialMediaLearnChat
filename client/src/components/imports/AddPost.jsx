@@ -56,10 +56,12 @@ export default function AddPost() {
     fd.append('userId',user?.result?._id)
 
     if (title && subject && description) {
-      dispatch(createArticle({ fd, navigate, toast }));
       handleClear();
-
       setModal(false);
+      dispatch(createArticle({ fd, navigate, toast }));
+   
+      
+
     }
   };
 

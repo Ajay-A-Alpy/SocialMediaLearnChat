@@ -1,5 +1,5 @@
 import React from 'react'
-import FollowersList from '../../../components/imports/FollowersList'
+import FollowingsList from '../../../components/imports/FollowingsList'
 import { Box } from '@mui/system'
 import { Stack } from '@mui/material'
 import Sidebar from '../../../components/imports/Sidebar'
@@ -7,17 +7,17 @@ import Rightbar from '../../../components/imports/Rightbar'
 import Navbar from '../../../components/imports/Navbar'
 
 
-function MyFollowers() {
+function MyFollowings() {
   return (
  
     <Box>
          <Navbar></Navbar>
-         <h3 style={{margin:"auto",textAlign:"center",color:"blue"}}>MY FOLLOWERS</h3>
+         <h3 style={{margin:"auto",textAlign:"center",color:"blue"}}>MY FOLLOWINGS</h3>
       <Stack direction="row" spacing={4} justifyContent="space-between">
 
         <Sidebar></Sidebar>
       
-        <FollowersList></FollowersList>
+     <FollowingsList></FollowingsList>
         {/* <Rightbar></Rightbar> */}
       </Stack>
       
@@ -26,4 +26,4 @@ function MyFollowers() {
   )
 }
 
-export default MyFollowers
+export default MyFollowings

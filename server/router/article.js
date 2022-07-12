@@ -15,18 +15,30 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({storage: storage});
 
 //new article posting
-router.post("/",auth, upload.single("image"), controller.createArticle);
+router.post("/", auth, upload.single("image"), controller.createArticle);
 
 //article
-router.get("/",auth, controller.getArticles);
+router.get("/", auth, controller.getArticles);
 
 //update article posting
-router.put("/:id",auth, upload.single("image"), controller.updateArticle);
+router.put("/:id", auth, upload.single("image"), controller.updateArticle);
 
 //delete article
-router.delete("/:id",auth, controller.deleteArticle);
+router.delete("/:id", auth, controller.deleteArticle);
+
+//like an article
+router.post("/like", auth, controller.likeArticle);
+
+//unlike an article
+//router.post("/unlike",auth, controller.unikeArticle);
+
+//verify an article
+//router.post("/verify",auth, controller.verifyArticle);
+
+//unverify an article
+//router.post("/unverify",auth, controller.unverifyArticle);
 
 module.exports = router;

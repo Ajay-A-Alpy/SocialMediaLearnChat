@@ -14,7 +14,17 @@ const auth=require('../middleware/auth')
   //student follow
   router.post('/follow/:id',auth,controller.follow)
 
-//   //get followers
-//     router.get('/follow/:id',controller.getFollowers)
+    //student unfollow
+    router.post('/unfollow/:id',auth,controller.unfollow)
+
+    //student profile view
+    router.get('/viewProfile/:id',auth,controller.getProfile)
+
+
+//get followers data
+    router.get('/getFollowers/:id',controller.getFollowers)
+
+    //get followings data
+    router.get('/getFollowings/:id',controller.getFollowings)
 
  module.exports=router;
