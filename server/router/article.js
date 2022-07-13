@@ -33,12 +33,12 @@ router.delete("/:id", auth, controller.deleteArticle);
 router.post("/like", auth, controller.likeArticle);
 
 //unlike an article
-//router.post("/unlike",auth, controller.unikeArticle);
+router.post("/unlike", auth, controller.unlikeArticle);
 
 //verify an article
-//router.post("/verify",auth, controller.verifyArticle);
+router.post("/verify", auth, controller.verifyArticle);
 
 //unverify an article
-//router.post("/unverify",auth, controller.unverifyArticle);
+router.post("/unverify", auth, controller.unverifyArticle);
 
 module.exports = router;

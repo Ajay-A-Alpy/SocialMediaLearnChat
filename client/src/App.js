@@ -11,9 +11,9 @@ import StudentRegister from "./pages/Students/StudentRegister/StudentRegister";
 import StudentProfile from "./pages/Students/StudentProfile/StudentProfile";
 import MyArticles from "./pages/Students/Articles/MyArticles";
 
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { setUser } from "./redux/features/authSlice";
+import {useDispatch} from "react-redux";
+import {useEffect} from "react";
+import {setUser} from "./redux/features/authSlice";
 import ProfileEdit from "./components/imports/ProfileEdit";
 import Home from "./pages/common/Home";
 import ExpertRegister from "./pages/Experts/ExpertRegister/ExpertRegister";
@@ -23,14 +23,17 @@ import ExpertProfile from "./pages/Experts/ExpertProfile/ExpertProfile";
 import MyFollowers from "./pages/Students/Followers/MyFollowers";
 import ViewStudents from "./pages/Students/ViewStudent/ViewStudents";
 import MyFollowings from "./pages/Students/followings/MyFollowings";
+import {setExpert} from "./redux/features/expertAuthSlice";
 
 function App() {
   const dispatch = useDispatch();
 
   const user = JSON.parse(localStorage.getItem("profile"));
+  const expert = JSON.parse(localStorage.getItem("expertProfile"));
 
   useEffect(() => {
     dispatch(setUser(user));
+    dispatch(setExpert(expert));
   }, []);
 
   return (
@@ -70,10 +73,7 @@ function App() {
           element={<ViewStudents></ViewStudents>}
         ></Route>
 
-        <Route
-          path="/expert/articles"
-          element={<MyArticles></MyArticles>}
-        ></Route>
+        <Route path="/expert/articles"></Route>
 
         <Route path="/" element={<Home></Home>}></Route>
 

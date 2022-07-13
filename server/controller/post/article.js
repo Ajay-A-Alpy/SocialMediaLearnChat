@@ -1,4 +1,5 @@
 const articleModel = require("../../models/articles");
+const mongoose = require("mongoose");
 
 // post new article
 exports.createArticle = async (req, res) => {
@@ -48,7 +49,6 @@ exports.updateArticle = async (req, res) => {
 exports.getArticles = async (req, res) => {
   try {
     const articles = await articleModel.find();
-
     res.status(201).json(articles);
   } catch (error) {
     console.log("no articles");
@@ -71,27 +71,31 @@ exports.deleteArticle = async (req, res) => {
 //like articles
 
 exports.likeArticle = async (req, res) => {
+  console.log(req.body);
   let postId = req.body.post;
   let userId = req.body.user;
   console.log("like reached");
   let file = await articleModel.findOne({_id: postId});
 
-  if (file.likes.includes(mongoose.Types.ObjectId(userId)) == false) {
-    if (file.likes.length > 0) {
-      await studentModal.findOneAndUpdate(
-        {_id: postId},
-        {$push: {likes: mongoose.Types.ObjectId(userId)}},
-        {new: true}
-      );
-    } else {
-      await articleModel.findOneAndUpdate(
-        {_id: postId},
-        {likes: mongoose.Types.ObjectId(userId)},
-        {new: true}
-      );
+  try {
+    if (file.likes.includes(mongoose.Types.ObjectId(userId)) == false) {
+      if (file.likes.length > 0) {
+        await articleModel.findOneAndUpdate(
+          {_id: postId},
+          {$push: {likes: mongoose.Types.ObjectId(userId)}},
+          {new: true}
+        );
+      } else {
+        await articleModel.findOneAndUpdate(
+          {_id: postId},
+          {likes: mongoose.Types.ObjectId(userId)},
+          {new: true}
+        );
+      }
+      return res.status(201).json({message: "You have liked post"});
     }
-    return res.status(201).json({message: "You have liked post"});
-  } else {
+  } catch (err) {
+    console.log(err);
     res.status(500).json({message: "something went wrong"});
   }
 };
@@ -99,21 +103,68 @@ exports.likeArticle = async (req, res) => {
 exports.unlikeArticle = async (req, res) => {
   let postId = req.body.post;
   let userId = req.body.user;
-  console.log("like reached");
-  let file = await articleModel.findOne({_id: postId});
+  console.log("unlike reached");
 
   try {
-    await studentModal.findOneAndUpdate(
+    await articleModel.findOneAndUpdate(
       {_id: postId},
-      {$push: {likes: mongoose.Types.ObjectId(userId)}},
+      {$pull: {likes: mongoose.Types.ObjectId(userId)}},
       {new: true}
     );
 
-    return res.status(201).json({message: "You have liked post"});
+    return res.status(201).json({message: "You have unliked article"});
   } catch (err) {
     console.log(err);
     res.status(500).json({message: "something went wrong"});
   }
 };
 
-function adf() {}
+exports.verifyArticle = async (req, res) => {
+  let postId = req.body.post;
+  let expertId = req.body.user;
+  console.log("verify reached");
+  let file = await articleModel.findOne({_id: postId});
+
+  try {
+    if (
+      file.verifiedCount.includes(mongoose.Types.ObjectId(expertId)) == false
+    ) {
+      if (file.verifiedCount.length > 0) {
+        await articleModel.findOneAndUpdate(
+          {_id: postId},
+          {$push: {verifiedCount: mongoose.Types.ObjectId(expertId)}},
+          {new: true}
+        );
+      } else {
+        await articleModel.findOneAndUpdate(
+          {_id: postId},
+          {verifiedCount: mongoose.Types.ObjectId(expertId)},
+          {new: true}
+        );
+      }
+      return res.status(201).json({message: "You have verified article"});
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message: "something went wrong"});
+  }
+};
+
+exports.unverifyArticle = async (req, res) => {
+  let postId = req.body.post;
+  let expertId = req.body.user;
+  console.log("unverify reached");
+
+  try {
+    await articleModel.findOneAndUpdate(
+      {_id: postId},
+      {$pull: {verifiedCount: mongoose.Types.ObjectId(expertId)}},
+      {new: true}
+    );
+
+    return res.status(201).json({message: "You have unverify article"});
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message: "something went wrong"});
+  }
+};

@@ -1,16 +1,16 @@
-import { Box, Button, Grid, Stack, Typography, styled } from "@mui/material";
+import {Box, Button, Grid, Stack, Typography, styled} from "@mui/material";
 
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import SendIcon from "@mui/icons-material/Send";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Modal from "@mui/material/Modal";
-import { useState } from "react";
+import {useState} from "react";
 import TextField from "@mui/material/TextField";
-import { useDispatch, useSelector } from "react-redux";
-import { createArticle } from "../../redux/features/articleSlice";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import {useDispatch, useSelector} from "react-redux";
+import {createArticle} from "../../redux/features/articleSlice";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const initialState = {
   title: "",
@@ -21,30 +21,30 @@ const initialState = {
 export default function AddPost() {
   const [modal, setModal] = useState(false);
   const [articleData, setArticleData] = useState(initialState);
-  const { title, subject, description } = articleData;
+  const {title, subject, description} = articleData;
 
   const [imageField, setImageField] = useState();
 
-  const { error, loading } = useSelector((state) => ({ ...state.article }));
-  const { user } = useSelector((state) => ({ ...state.auth }));
+  const {error, loading} = useSelector(state => ({...state.article}));
+  const {user} = useSelector(state => ({...state.auth}));
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onInutChange = (e) => {
+  const onInutChange = e => {
     e.preventDefault();
-    const { name, value } = e.target;
-    setArticleData({ ...articleData, [name]: value });
+    const {name, value} = e.target;
+    setArticleData({...articleData, [name]: value});
   };
 
   const handleClear = () => {
     setArticleData(initialState);
   };
 
-  const imageHandler = (e) => {
+  const imageHandler = e => {
     setImageField(e.target.files[0]);
   };
 
-  const handlePost = async (e) => {
+  const handlePost = async e => {
     e.preventDefault();
 
     const fd = new FormData();
@@ -53,15 +53,12 @@ export default function AddPost() {
     fd.append("subject", subject);
     fd.append("description", description);
     fd.append("username", user?.result?.name);
-    fd.append('userId',user?.result?._id)
+    fd.append("userId", user?.result?._id);
 
     if (title && subject && description) {
+      dispatch(createArticle({fd, navigate, toast}));
       handleClear();
       setModal(false);
-      dispatch(createArticle({ fd, navigate, toast }));
-   
-      
-
     }
   };
 
@@ -90,7 +87,7 @@ export default function AddPost() {
           <Button
             variant="contained"
             component="span"
-            sx={{ backgroundColor: "#ffa8B6" }}
+            sx={{backgroundColor: "#ffa8B6"}}
             endIcon={<AddBoxIcon />}
             onClick={() => setModal(true)}
           >
@@ -100,7 +97,7 @@ export default function AddPost() {
             variant="contained"
             component="span"
             endIcon={<AddBoxIcon />}
-            sx={{ backgroundColor: "#a28089" }}
+            sx={{backgroundColor: "#a28089"}}
           >
             Add Question
           </Button>
@@ -114,15 +111,15 @@ export default function AddPost() {
           >
             <Box
               sx={{
-                width: { xs: "90%", sm: "40%" },
-                height: { xs: "90%", sm: "70%" },
+                width: {xs: "90%", sm: "40%"},
+                height: {xs: "90%", sm: "70%"},
                 backgroundColor: "white",
                 borderRadius: "",
                 padding: "auto",
               }}
             >
               <Typography
-                sx={{ padding: "3rem" }}
+                sx={{padding: "3rem"}}
                 fontWeight={400}
                 color="gray"
                 textAlign="center"
@@ -132,14 +129,14 @@ export default function AddPost() {
               </Typography>
 
               <UserBox>
-                <Stack direction="column" sx={{ width: "100%" }} gap={2}>
+                <Stack direction="column" sx={{width: "100%"}} gap={2}>
                   <TextField
                     placeholder="Title"
                     variant="standard"
                     name="title"
                     value={title}
                     onChange={onInutChange}
-                    sx={{ padding: "", width: "100%" }}
+                    sx={{padding: "", width: "100%"}}
                   />
                   <TextField
                     placeholder="Subject"
@@ -147,7 +144,7 @@ export default function AddPost() {
                     name="subject"
                     value={subject}
                     onChange={onInutChange}
-                    sx={{ padding: "", width: "100%" }}
+                    sx={{padding: "", width: "100%"}}
                   />
                   <TextField
                     placeholder="Description"
@@ -157,7 +154,7 @@ export default function AddPost() {
                     onChange={onInutChange}
                     multiline
                     rows={4}
-                    sx={{ padding: "", width: "100%" }}
+                    sx={{padding: "", width: "100%"}}
                   />
                 </Stack>
               </UserBox>
