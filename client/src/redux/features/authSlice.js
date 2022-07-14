@@ -138,7 +138,7 @@ const authSlice = createSlice({
 
     setLogout: (state, action) => {
       localStorage.removeItem("profile");
-      localStorage.removeItem("expertToken");
+      localStorage.removeItem("userToken");
       state.user = null;
     },
   },

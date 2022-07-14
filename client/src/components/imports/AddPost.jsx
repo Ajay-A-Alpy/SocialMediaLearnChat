@@ -8,7 +8,7 @@ import Modal from "@mui/material/Modal";
 import {useState} from "react";
 import TextField from "@mui/material/TextField";
 import {useDispatch, useSelector} from "react-redux";
-import {createArticle} from "../../redux/features/articleSlice";
+import {createArticle, getArticles} from "../../redux/features/articleSlice";
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 
@@ -45,8 +45,6 @@ export default function AddPost() {
   };
 
   const handlePost = async e => {
-    e.preventDefault();
-
     const fd = new FormData();
     fd.append("image", imageField);
     fd.append("title", title);
@@ -56,9 +54,10 @@ export default function AddPost() {
     fd.append("userId", user?.result?._id);
 
     if (title && subject && description) {
-      dispatch(createArticle({fd, navigate, toast}));
-      handleClear();
       setModal(false);
+      handleClear();
+      dispatch(createArticle({fd, toast}));
+      dispatch(getArticles());
     }
   };
 
@@ -130,14 +129,6 @@ export default function AddPost() {
 
               <UserBox>
                 <Stack direction="column" sx={{width: "100%"}} gap={2}>
-                  <TextField
-                    placeholder="Title"
-                    variant="standard"
-                    name="title"
-                    value={title}
-                    onChange={onInutChange}
-                    sx={{padding: "", width: "100%"}}
-                  />
                   <TextField
                     placeholder="Subject"
                     variant="standard"

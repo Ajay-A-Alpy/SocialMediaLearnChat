@@ -6,10 +6,11 @@ import AlertTitle from "@mui/material/AlertTitle";
 
 export const createArticle = createAsyncThunk(
   "article/create",
-  ({fd, navigate, toast}, {rejectWithValue}) => {
+  ({fd, toast}, {rejectWithValue}) => {
     try {
       const response = api.AddArticle(fd);
       toast.success("You have succefully posted ");
+      window.location.reload();
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

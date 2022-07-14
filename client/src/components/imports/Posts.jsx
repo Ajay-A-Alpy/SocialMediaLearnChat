@@ -109,8 +109,10 @@ export default function Posts({
 
     if (title1 && subject1 && description1) {
       dispatch(updateArticle({fd, id, navigate, toast}));
+      dispatch(getArticles());
       handleClear();
       setModal(false);
+      navigate("/student");
     }
   };
 

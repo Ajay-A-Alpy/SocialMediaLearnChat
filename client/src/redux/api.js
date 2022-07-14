@@ -115,3 +115,28 @@ export const verifyArticle = async (data) => {
 export const unverifyArticle = async (data) => {
   return await API.post("/article/unverify", data);
 };
+
+//get conversation
+export const getConversation = async (id) => {
+  return await API.get(`/conversation/${id}`);
+};
+
+//create conversation
+export const createConversation = async (data) => {
+  return await API.post(`/conversation`, data);
+};
+
+//get message
+export const getMessage = async (id) => {
+  return await API.get(`/message/${id}`);
+};
+
+//create message
+export const createMessage = async (data) => {
+  return await API.post(`/message`, data);
+};
+
+//view  chat friend profile
+export const getChatFriends = async (userid) => {
+  return await API.get(`/student/viewProfile/${userid}`);
+};

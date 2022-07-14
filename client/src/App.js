@@ -10,7 +10,7 @@ import StudentHome from "./pages/Students/StudentHome/StudentHome";
 import StudentRegister from "./pages/Students/StudentRegister/StudentRegister";
 import StudentProfile from "./pages/Students/StudentProfile/StudentProfile";
 import MyArticles from "./pages/Students/Articles/MyArticles";
-
+import Messenger from "./pages/messenger/Messenger";
 import {useDispatch} from "react-redux";
 import {useEffect} from "react";
 import {setUser} from "./redux/features/authSlice";
@@ -40,7 +40,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/student" element={<StudentHome></StudentHome>}></Route>
-
         <Route path="/student/login" element={<StudentLogin />}></Route>
         <Route
           path="/student/signup"
@@ -72,6 +71,8 @@ function App() {
           path="/student/viewProfile"
           element={<ViewStudents></ViewStudents>}
         ></Route>
+
+        <Route path="/messenger" element={<Messenger></Messenger>}></Route>
 
         <Route path="/expert/articles"></Route>
 
