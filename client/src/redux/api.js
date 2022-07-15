@@ -36,6 +36,11 @@ export const UpdateProfile = async (formData, id) => {
   return await API.put(`/student/profile/${id}`, formData);
 };
 
+//student profile update
+export const UpdateProfilePic = async (formData) => {
+  return await API.post(`/student/profilePic`, formData);
+};
+
 //follow one
 export const followOne = async (userid, id) => {
   return await API.post(`/student/follow/${id}`, userid);

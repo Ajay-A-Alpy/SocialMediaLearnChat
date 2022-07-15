@@ -43,6 +43,19 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
+export const updateProfilePic = createAsyncThunk(
+  "auth/updateProfilePic",
+  async (fd, {rejectWithValue}) => {
+    try {
+      console.log("update pic thunk");
+      const response = await api.UpdateProfilePic(fd);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const followOne = createAsyncThunk(
   "auth/follow",
   async ({userData, Id, navigate, toast}, {rejectWithValue}) => {
@@ -190,6 +203,19 @@ const authSlice = createSlice({
     [updateProfile.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
+    },
+
+    [updateProfilePic.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [updateProfilePic.fulfilled]: (state, action) => {
+      state.loading = false;
+      localStorage.setItem("profile", JSON.stringify({...action.payload}));
+      state.user.result = action.payload;
+    },
+    [updateProfilePic.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload?.message;
     },
 
     [followOne.pending]: (state, action) => {

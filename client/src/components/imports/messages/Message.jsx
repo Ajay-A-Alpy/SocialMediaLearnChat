@@ -23,7 +23,9 @@ function Message({message, own}) {
         </Box>
 
         <Box className={own ? "message_bottom own" : "message_bottom"}>
-          <Typography>{ format(message.createdAt)}</Typography>
+          <Typography sx={{fontSize: "0.8rem", color: "gray"}}>
+            {format(message.createdAt)}
+          </Typography>
         </Box>
       </Stack>
     </Box>

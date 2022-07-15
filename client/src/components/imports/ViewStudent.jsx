@@ -1,20 +1,29 @@
-import { Box, Button } from "@mui/material";
+import {Box, Button} from "@mui/material";
 import React from "react";
 import Stack from "@mui/material/Stack";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { Typography } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { followOne ,unFollowOne} from "../../redux/features/authSlice";
-import { useNavigate } from "react-router-dom";
-
-
+import {Typography} from "@mui/material";
+import {useSelector, useDispatch} from "react-redux";
+import {
+  followOne,
+  getStudentProfile,
+  unFollowOne,
+} from "../../redux/features/authSlice";
+import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 function ViewStudent() {
-  const { profile } = useSelector((state) => ({ ...state.auth }));
-  const { user } = useSelector((state) => ({ ...state.auth }));
+  const {profile} = useSelector((state) => ({...state.auth}));
+  const {user} = useSelector((state) => ({...state.auth}));
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [change, setChange] = useState(false);
+
+  useEffect(() => {
+    let userId = profile.user._id;
+    dispatch(getStudentProfile({userId, navigate}));
+  }, [change]);
 
   const handleFollow = () => {
     let Id = user.result._id;
@@ -23,10 +32,10 @@ function ViewStudent() {
     let userData = {
       followId: profile.user._id,
     };
-    dispatch(followOne({ userData, Id, navigate }));
+    dispatch(followOne({userData, Id, navigate}));
+    setChange(!change);
   };
 
-  
   const handleUnfollow = () => {
     let Id = user.result._id;
     console.log("unfollow");
@@ -34,18 +43,19 @@ function ViewStudent() {
     let userData = {
       followId: profile.user._id,
     };
-    dispatch(unFollowOne({ userData, Id, navigate }));
+    dispatch(unFollowOne({userData, Id, navigate}));
+    setChange(!change);
   };
 
   return (
-    <Box flex={4}>
-      <Stack direction={{ xs: "column", sm: "row" }} spacing={4}>
+    <Box flex={4} sx={{minHeight: "100vh"}}>
+      <Stack direction={{xs: "column", sm: "row"}} spacing={4}>
         <Box
           flex={2}
           sx={{
             backgroundColor: "white",
             height: "100%",
-            display: { xs: "block", sm: "block" },
+            display: {xs: "block", sm: "block"},
           }}
         >
           <Box
@@ -53,33 +63,39 @@ function ViewStudent() {
               height: "",
               width: "90%",
               alignItems: "center",
-              paddingTop: { xs: "10%", sm: "25%" },
+              paddingTop: {xs: "10%", sm: "25%"},
               justifyContent: "center",
               display: "flex",
             }}
           >
             <img
-              style={{ width: "90%" }}  alt="profile pic"
+              style={{width: "90%"}}
+              alt="profile pic"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZRW8MprfJzvyxKiP8t7o1E-LKC9NkPEVClQ&usqp=CAU"
             />
           </Box>
-          <Box sx={{
+          <Box
+            sx={{
               height: "50%",
               width: "90%",
               alignItems: "center",
               justifyContent: "center",
-              display: "flex"}}>
-
-            {profile.user.followers.includes(user.result._id) ? 
+              display: "flex",
+            }}
+          >
+            {profile.user.followers.includes(user.result._id) ? (
               <ListItem>
-                <Button onClick={handleUnfollow}>Unfollow</Button>
-                
+                <Button variant="outlined" onClick={handleUnfollow}>
+                  Unfollow
+                </Button>
               </ListItem>
-             : 
+            ) : (
               <ListItem>
-                <Button onClick={handleFollow}>Follow</Button>
+                <Button variant="outlined" onClick={handleFollow}>
+                  Follow
+                </Button>
               </ListItem>
-            }
+            )}
 
             <Stack
               direction="column"
@@ -116,15 +132,13 @@ function ViewStudent() {
           </Box>
         </Box>
 
-        <Box flex={4} sx={{ backgroundColor: "", height: "100%" }}>
-          <Box
-            sx={{ backgroundColor: "", height: "auto", textAlign: "center" }}
-          >
+        <Box flex={4} sx={{backgroundColor: "", height: "100%"}}>
+          <Box sx={{backgroundColor: "", height: "auto", textAlign: "center"}}>
             <Typography
               component="h5"
               variant="h5"
               color="white"
-              sx={{ width: "100%", backgroundColor: "#34568B" }}
+              sx={{width: "100%", backgroundColor: "#34568B"}}
             >
               Personal Info
             </Typography>
@@ -280,7 +294,7 @@ function ViewStudent() {
               component="h5"
               variant="h5"
               color="white"
-              sx={{ width: "100%", backgroundColor: "#34568B" }}
+              sx={{width: "100%", backgroundColor: "#34568B"}}
             >
               Educational Info
             </Typography>

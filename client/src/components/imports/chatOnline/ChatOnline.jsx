@@ -4,7 +4,7 @@ import {Box, Stack} from "@mui/material";
 import {Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 
-function ChatOnline() {
+function ChatOnline({onlineUsers, currentUser, setCurrentChat}) {
   return (
     <Box className="chatOnline">
       <Box className="chatOnlineFriend">

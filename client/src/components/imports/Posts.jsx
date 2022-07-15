@@ -62,7 +62,7 @@ export default function Posts({
   const [articleData, setArticleData] = useState(initials);
   const {title1, subject1, description1, id} = articleData;
   const [likeChange, setLikeChange] = useState(false);
-  const {error, loading} = useSelector(state => ({...state.article}));
+  const {error, loading} = useSelector((state) => ({...state.article}));
 
   useEffect(() => {
     dispatch(getArticles());
@@ -70,12 +70,12 @@ export default function Posts({
 
   const [imageField, setImageField] = useState();
 
-  const {user} = useSelector(state => ({...state.auth}));
+  const {user} = useSelector((state) => ({...state.auth}));
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onInutChange = e => {
+  const onInutChange = (e) => {
     const {name, value} = e.target;
     setArticleData({...articleData, [name]: value});
   };
@@ -84,7 +84,7 @@ export default function Posts({
     setArticleData({});
   };
 
-  const imageHandler = e => {
+  const imageHandler = (e) => {
     setImageField(e.target.files[0]);
   };
 
@@ -97,7 +97,7 @@ export default function Posts({
     toast.success("Article deleted");
   };
 
-  const handlePost = async e => {
+  const handlePost = async (e) => {
     e.preventDefault();
     const fd = new FormData();
     fd.append("image", imageField);
@@ -165,16 +165,30 @@ export default function Posts({
           avatar={
             <Box>
               {user.result._id == userId ? (
-                <Avatar sx={{bgcolor: "red"}} aria-label="recipe">
-                  {username}
-                </Avatar>
+                <Avatar
+                  sx={{bgcolor: "red"}}
+                  aria-label="recipe"
+                  src={
+                    user?.result.profilePic
+                      ? "http://localhost:5000/" + user?.result.profilePic
+                      : "http://localhost:5000/profile.jpg"
+                  }
+                ></Avatar>
               ) : (
                 <Tooltip
                   title="view Profile"
                   placement="top"
                   onClick={handleViewProfile}
                 >
-                  <Avatar sx={{bgcolor: "red"}} aria-label="recipe">
+                  <Avatar
+                    sx={{bgcolor: "red"}}
+                    aria-label="recipe"
+                    src={
+                      user?.result.profilePic
+                        ? "http://localhost:5000/" + user?.result.profilePic
+                        : "http://localhost:5000/profile.jpg"
+                    }
+                  >
                     {username}
                   </Avatar>
                 </Tooltip>
@@ -203,7 +217,7 @@ export default function Posts({
               )}
             </IconButton>
           }
-          title={title}
+          title={username}
           subheader={createdAt.substring(0, 10)}
         />
         {images ? (
@@ -219,7 +233,8 @@ export default function Posts({
           ""
         )}
         <CardContent>
-          <Typography font>{"Sub: " + subject}</Typography>
+          <Typography>{"Sub: " + subject}</Typography>
+          <Typography variant="h6">{title}</Typography>
           <Typography variant="body2" color="text.primary">
             {description}
           </Typography>
@@ -257,7 +272,7 @@ export default function Posts({
               placement="left"
               sx={{marginLeft: "1rem"}}
             >
-              <Checkbox icon={<GppGoodIcon></GppGoodIcon>} />
+              {<GppGoodIcon></GppGoodIcon>}
             </Tooltip>
             {verifiedCount.length}
           </IconButton>

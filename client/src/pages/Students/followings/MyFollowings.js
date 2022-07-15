@@ -1,29 +1,29 @@
-import React from 'react'
-import FollowingsList from '../../../components/imports/FollowingsList'
-import { Box } from '@mui/system'
-import { Stack } from '@mui/material'
-import Sidebar from '../../../components/imports/Sidebar'
-import Rightbar from '../../../components/imports/Rightbar'
-import Navbar from '../../../components/imports/Navbar'
-
+import React from "react";
+import FollowingsList from "../../../components/imports/FollowingsList";
+import {Box} from "@mui/system";
+import {Stack, Typography} from "@mui/material";
+import Sidebar from "../../../components/imports/Sidebar";
+import Rightbar from "../../../components/imports/Rightbar";
+import Navbar from "../../../components/imports/Navbar";
 
 function MyFollowings() {
   return (
- 
-    <Box>
-         <Navbar></Navbar>
-         <h3 style={{margin:"auto",textAlign:"center",color:"blue"}}>MY FOLLOWINGS</h3>
+    <Box sx={{height: ""}}>
+      <Navbar></Navbar>
+      <Typography
+        variant="h5"
+        style={{margin: "auto", textAlign: "center", color: "blue"}}
+      >
+        MY FOLLOWINGS
+      </Typography>
       <Stack direction="row" spacing={4} justifyContent="space-between">
-
         <Sidebar></Sidebar>
-      
-     <FollowingsList></FollowingsList>
+
+        <FollowingsList></FollowingsList>
         {/* <Rightbar></Rightbar> */}
       </Stack>
-      
-
     </Box>
-  )
+  );
 }
 
-export default MyFollowings
+export default MyFollowings;

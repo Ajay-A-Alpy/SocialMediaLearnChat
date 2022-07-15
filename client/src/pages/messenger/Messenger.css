@@ -11,6 +11,7 @@ body {
 }
 .chatBox {
   flex: 5;
+  max-height: calc(100vh-70px);
 }
 .chatOnline {
   flex: 3;

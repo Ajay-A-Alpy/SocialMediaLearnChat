@@ -24,11 +24,15 @@ function Conversation({conversation}) {
   }
 
   useEffect(() => {
-    const getfriend = async function () {
-      let response = await api.getChatFriends(friendId);
-      setFriend(response.data);
-    };
-    getfriend();
+    try {
+      const getfriend = async function () {
+        let response = await api.getChatFriends(friendId);
+        setFriend(response.data);
+      };
+      getfriend();
+    } catch (err) {
+      console.log(err);
+    }
   }, [conversation, user.result_id]);
 
   return (
