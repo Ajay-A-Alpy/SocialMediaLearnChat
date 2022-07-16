@@ -5,8 +5,13 @@ const mongoose = require("mongoose");
 //new conversation
 exports.createConversation = async (req, res) => {
   console.log("create conversation reached");
+  console.log(req.body);
+  console.log("create conversation got");
   const newConversation = new ConversationModel({
-    members: [req.body.senderId, req.body.recieverId],
+    members: [
+      mongoose.Types.ObjectId(req.body.senderId),
+      mongoose.Types.ObjectId(req.body.recieverId),
+    ],
   });
 
   try {
@@ -27,6 +32,35 @@ exports.getConversation = async (req, res) => {
       members: {$in: [req.params.id]},
     });
     res.status(200).json(myConversations);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message: err});
+  }
+};
+
+//get chat status
+exports.getChatStatus = async (req, res) => {
+  let firstUser = req.body.first;
+  let secondUser = req.body.second;
+  console.log("hello get chat status reached");
+  try {
+    console.log("get chat status reached");
+    const Conversation = await ConversationModel.find({
+      members: {
+        $and: [
+          mongoose.Types.ObjectId(firstUser),
+          mongoose.Types.ObjectId(secondUser),
+        ],
+      },
+    });
+
+    if (Conversation) {
+      console.log("got a  chat");
+      res.status(200).json({chat: true});
+    } else {
+      console.log(" no chats");
+      res.status(200).json({chat: false});
+    }
   } catch (err) {
     console.log(err);
     res.status(500).json({message: err});

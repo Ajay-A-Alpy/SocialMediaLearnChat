@@ -71,7 +71,11 @@ function ViewStudent() {
             <img
               style={{width: "90%"}}
               alt="profile pic"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZRW8MprfJzvyxKiP8t7o1E-LKC9NkPEVClQ&usqp=CAU"
+              src={
+                profile?.user?.profilePic
+                  ? "http://localhost:5000/" + profile?.user?.profilePic
+                  : "http://localhost:5000/profile.jpg"
+              }
             />
           </Box>
           <Box
@@ -83,7 +87,7 @@ function ViewStudent() {
               display: "flex",
             }}
           >
-            {profile.user.followers.includes(user.result._id) ? (
+            {profile.user.followers.includes(user?.result._id) ? (
               <ListItem>
                 <Button variant="outlined" onClick={handleUnfollow}>
                   Unfollow
@@ -109,8 +113,9 @@ function ViewStudent() {
                 <ListItemText
                   primary="Followers"
                   secondary={
-                    profile.user.followers ? profile.user.followers.length : 0
+                    profile.user?.followers ? profile.user.followers.length : 0
                   }
+                  sx={{color: "black"}}
                 />
               </ListItem>
 
@@ -119,20 +124,27 @@ function ViewStudent() {
                   <ListItemText
                     primary="Followings"
                     secondary={
-                      profile.user.following ? profile.user.following.length : 0
+                      profile.user?.following
+                        ? profile.user.following.length
+                        : 0
                     }
                   />
                 }
               </ListItem>
 
               <ListItem>
-                <ListItemText primary="Friends" secondary="10" />
+                <ListItemText
+                  primary="Friends"
+                  secondary={
+                    profile.user?.friends ? profile.user.friends.length : 0
+                  }
+                />
               </ListItem>
             </Stack>
           </Box>
         </Box>
 
-        <Box flex={4} sx={{backgroundColor: "", height: "100%"}}>
+        <Box flex={4} sx={{backgroundColor: "", height: "100vh"}}>
           <Box sx={{backgroundColor: "", height: "auto", textAlign: "center"}}>
             <Typography
               component="h5"

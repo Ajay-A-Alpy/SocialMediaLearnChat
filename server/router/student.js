@@ -41,4 +41,7 @@ router.get("/getFollowers/:id", auth, controller.getFollowers);
 //get followings data
 router.get("/getFollowings/:id", auth, controller.getFollowings);
 
+//get friends data
+router.get("/getFriends/:id", auth, controller.getFriends);
+
 module.exports = router;

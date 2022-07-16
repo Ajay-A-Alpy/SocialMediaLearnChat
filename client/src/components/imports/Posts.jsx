@@ -37,6 +37,7 @@ import {toast} from "react-toastify";
 import {useEffect} from "react";
 import {likeArticle, unlikeArticle} from "../../redux/features/articleSlice";
 import {getArticles} from "../../redux/features/articleSlice";
+import {useRef} from "react";
 export default function Posts({
   title,
   subject,
@@ -57,6 +58,8 @@ export default function Posts({
   };
 
   const [modal, setModal] = useState(false);
+  const [comment, setComment] = useState(false);
+  const commentText = useRef();
 
   const [open, setOpen] = useState(false);
   const [articleData, setArticleData] = useState(initials);
@@ -74,6 +77,10 @@ export default function Posts({
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleSubmitComment = () => {
+    console.log(commentText.current.value);
+  };
 
   const onInutChange = (e) => {
     const {name, value} = e.target;
@@ -123,7 +130,7 @@ export default function Posts({
   const handleLike = () => {
     let data = {
       post: _id,
-      user: user.result._id,
+      user: user?.result?._id,
     };
     console.log("like button pressed");
     dispatch(likeArticle(data));
@@ -133,7 +140,7 @@ export default function Posts({
   const handleUnlike = () => {
     let data = {
       post: _id,
-      user: user.result._id,
+      user: user?.result._id,
     };
     console.log("unlike button pressed");
     dispatch(unlikeArticle(data));
@@ -164,13 +171,13 @@ export default function Posts({
         <CardHeader
           avatar={
             <Box>
-              {user.result._id == userId ? (
+              {user.result?._id == userId ? (
                 <Avatar
                   sx={{bgcolor: "red"}}
                   aria-label="recipe"
                   src={
                     user?.result.profilePic
-                      ? "http://localhost:5000/" + user?.result.profilePic
+                      ? "http://localhost:5000/" + user?.result?.profilePic
                       : "http://localhost:5000/profile.jpg"
                   }
                 ></Avatar>
@@ -184,8 +191,8 @@ export default function Posts({
                     sx={{bgcolor: "red"}}
                     aria-label="recipe"
                     src={
-                      user?.result.profilePic
-                        ? "http://localhost:5000/" + user?.result.profilePic
+                      user?.result?.profilePic
+                        ? "http://localhost:5000/" + user?.result?.profilePic
                         : "http://localhost:5000/profile.jpg"
                     }
                   >
@@ -197,14 +204,14 @@ export default function Posts({
           }
           action={
             <IconButton aria-label="settings">
-              {user.result?._id == userId ? (
+              {user?.result?._id == userId ? (
                 <Tooltip title="Edit" placement="left">
                   <MoreVertIcon onClick={() => setModal(true)} />
                 </Tooltip>
               ) : (
                 ""
               )}
-              {user.result._id == userId ? (
+              {user?.result?._id == userId ? (
                 <Tooltip
                   title="Delete"
                   placement="left"
@@ -260,7 +267,7 @@ export default function Posts({
                 sx={{marginLeft: "1rem"}}
                 onClick={handleLike}
               >
-                {loading ? <CircularProgress /> : <FavoriteBorder />}
+                {<FavoriteBorder />}
               </Tooltip>
               {likes.length}
             </IconButton>
@@ -276,9 +283,12 @@ export default function Posts({
             </Tooltip>
             {verifiedCount.length}
           </IconButton>
-
           <IconButton aria-label="comment">
-            <Checkbox icon={<CommentIcon></CommentIcon>} />
+            <CommentIcon
+              onClick={() => {
+                setComment(true);
+              }}
+            />
           </IconButton>
         </CardActions>
       </Card>
@@ -400,6 +410,29 @@ export default function Posts({
           <Button onClick={handleDelete} autoFocus>
             Yes
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={comment}>
+        <DialogTitle>Add comment</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Follow the rules while comment</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="comment"
+            name="comment"
+            label="comment"
+            type="text"
+            fullWidth
+            variant="standard"
+            ref={commentText}
+            defaultValue=""
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setComment(false)}>close</Button>
+          <Button onClick={handleSubmitComment}>Send</Button>
         </DialogActions>
       </Dialog>
     </>

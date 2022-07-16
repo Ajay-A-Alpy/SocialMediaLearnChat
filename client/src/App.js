@@ -24,22 +24,29 @@ import MyFollowers from "./pages/Students/Followers/MyFollowers";
 import ViewStudents from "./pages/Students/ViewStudent/ViewStudents";
 import MyFollowings from "./pages/Students/followings/MyFollowings";
 import {setExpert} from "./redux/features/expertAuthSlice";
+import Myfriends from "./pages/Students/friends/Myfriends";
+import PrivateRouter from "./components/imports/PrivateRouter";
 
 function App() {
   const dispatch = useDispatch();
 
   const user = JSON.parse(localStorage.getItem("profile"));
+
   const expert = JSON.parse(localStorage.getItem("expertProfile"));
 
   useEffect(() => {
+    console.log("hello user is dispatched");
+    console.log(user);
     dispatch(setUser(user));
-    dispatch(setExpert(expert));
+    if (expert) {
+      dispatch(setExpert(expert));
+    }
   }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/student" element={<StudentHome></StudentHome>}></Route>
+        <Route path="/student" element={<StudentHome />}></Route>
         <Route path="/student/login" element={<StudentLogin />}></Route>
         <Route
           path="/student/signup"
@@ -47,30 +54,45 @@ function App() {
         ></Route>
         <Route
           path="/student/profile"
-          element={<StudentProfile></StudentProfile>}
+          element={
+            <PrivateRouter>
+              <StudentProfile />
+            </PrivateRouter>
+          }
         ></Route>
 
-        <Route path="/editProfie" element={<ProfileEdit></ProfileEdit>}></Route>
+        <Route path="/editProfie" element={<ProfileEdit />}></Route>
 
-        <Route
-          path="/student/articles"
-          element={<MyArticles></MyArticles>}
-        ></Route>
+        <Route path="/student/articles" element={<MyArticles />}></Route>
 
         <Route
           path="/student/followers"
-          element={<MyFollowers></MyFollowers>}
+          element={
+            <PrivateRouter>
+              <MyFollowers />
+            </PrivateRouter>
+          }
         ></Route>
 
         <Route
           path="/student/followings"
-          element={<MyFollowings></MyFollowings>}
+          element={
+            <PrivateRouter>
+              <MyFollowings />
+            </PrivateRouter>
+          }
         ></Route>
 
         <Route
-          path="/student/viewProfile"
-          element={<ViewStudents></ViewStudents>}
+          path="/student/friends"
+          element={
+            <PrivateRouter>
+              <Myfriends />
+            </PrivateRouter>
+          }
         ></Route>
+
+        <Route path="/student/viewProfile" element={<ViewStudents />}></Route>
 
         <Route path="/messenger" element={<Messenger></Messenger>}></Route>
 

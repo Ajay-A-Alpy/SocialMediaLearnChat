@@ -16,6 +16,7 @@ const studentSchema = mongoose.Schema({
   createdAt: {type: Date},
   followers: [mongoose.ObjectId],
   following: [mongoose.ObjectId],
+  friends: [mongoose.ObjectId],
   experts: [mongoose.ObjectId],
   public: Boolean,
 });

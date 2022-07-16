@@ -102,6 +102,21 @@ export const getFollowingsData = createAsyncThunk(
   }
 );
 
+export const getFriendsData = createAsyncThunk(
+  "auth/getfriends",
+  async ({Id, navigate}, {rejectWithValue}) => {
+    try {
+      console.log("hello get friends data reached");
+      const response = await api.getFriends(Id);
+      navigate("/student/friends");
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const unFollowOne = createAsyncThunk(
   "auth/unfollow",
   async ({userData, Id, navigate, toast}, {rejectWithValue}) => {
@@ -139,6 +154,7 @@ const authSlice = createSlice({
     profile: null,
     followers: null,
     followings: null,
+    friends: null,
     error: "",
     loading: false,
   },
@@ -147,6 +163,7 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
       console.log("user setting");
+      console.log(action.payload);
     },
 
     setLogout: (state, action) => {
@@ -266,6 +283,21 @@ const authSlice = createSlice({
     [getFollowersData.rejected]: (state, action) => {
       state.loading = false;
       console.log("get followers rejected");
+      state.error = action.payload.message;
+    },
+
+    [getFriendsData.pending]: (state, action) => {
+      console.log("get friends pending");
+      state.loading = true;
+    },
+    [getFriendsData.fulfilled]: (state, action) => {
+      state.loading = false;
+      console.log("get friends fulfilled");
+      state.friends = action.payload;
+    },
+    [getFriendsData.rejected]: (state, action) => {
+      state.loading = false;
+      console.log("get friends rejected");
       state.error = action.payload.message;
     },
 

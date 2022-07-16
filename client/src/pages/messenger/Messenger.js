@@ -110,7 +110,7 @@ function Messenger() {
     <Box>
       <Navbar></Navbar>
       <Stack direction="row" className="messenger">
-        <Box className="chatMenu">
+        <Box className="chatMenu" sx={{display: {xs: "none", sm: "block"}}}>
           <Box className="chatMenu_wrapper">
             <Typography>Menu</Typography>
 
@@ -137,7 +137,8 @@ function Messenger() {
             })}
           </Box>
         </Box>
-        <Box className="chatBox">
+
+        <Stack className="chatBox" direction="column">
           <Box className="chatBox_wrapper">
             <Typography> Chat Box</Typography>
             {currentChat ? (
@@ -159,31 +160,32 @@ function Messenger() {
                 Open a conversation
               </Typography>
             )}
-
-            <Box className="chatBox_bottom">
-              <TextField
-                placeholder="Search message"
-                variant="outlined"
-                name="subject"
-                sx={{padding: "", width: "100%"}}
-                onChange={(e) => {
-                  setNewMessage(e.target.value);
-                }}
-                value={newMessage}
-              />
-
-              <Button
-                variant="contained"
-                endIcon={<SendIcon />}
-                className="chatBox_bottom_submit"
-                onClick={handleSubmit}
-              >
-                Send
-              </Button>
-            </Box>
           </Box>
-        </Box>
-        <Box className="chatOnline">
+
+          <Box className="chatBox_bottom">
+            <TextField
+              placeholder="Send message"
+              variant="outlined"
+              name="subject"
+              sx={{padding: "", width: "100%"}}
+              onChange={(e) => {
+                setNewMessage(e.target.value);
+              }}
+              value={newMessage}
+            />
+
+            <Button
+              variant="contained"
+              endIcon={<SendIcon />}
+              className="chatBox_bottom_submit"
+              onClick={handleSubmit}
+            >
+              Send
+            </Button>
+          </Box>
+        </Stack>
+
+        <Box className="chatOnline" sx={{display: {xs: "none", sm: "block"}}}>
           <Box className="chatOnline_wrapper">
             <Typography>Menu</Typography>
             <ChatOnline

@@ -21,6 +21,7 @@ import NightlightIcon from "@mui/icons-material/Nightlight";
 import {
   getFollowersData,
   getFollowingsData,
+  getFriendsData,
 } from "../../redux/features/authSlice";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
@@ -39,11 +40,15 @@ function Sidebar() {
     let Id = user.result._id;
     dispatch(getFollowingsData({Id, navigate}));
   };
+  let handleShowFriends = () => {
+    let Id = user.result._id;
+    dispatch(getFriendsData({Id, navigate}));
+  };
 
   return (
     <Box
       flex={1}
-      bgcolor="#d4d4dc"
+      bgcolor="#F0F8FF"
       p={2}
       sx={{display: {xs: "none", sm: "block"}}}
     >
@@ -152,7 +157,7 @@ function Sidebar() {
               <ListItemIcon>
                 <PeopleOutlineIcon></PeopleOutlineIcon>
               </ListItemIcon>
-              <ListItemText primary="Friends" />
+              <ListItemText primary="Friends" onClick={handleShowFriends} />
             </ListItemButton>
           </ListItem>
 
@@ -161,10 +166,7 @@ function Sidebar() {
               <ListItemIcon>
                 <SettingsIcon></SettingsIcon>
               </ListItemIcon>
-              <ListItemText
-                primary="Messenger"
-                onClick={() => navigate("/messenger")}
-              />
+              <ListItemText primary="Settings" />
             </ListItemButton>
           </ListItem>
 

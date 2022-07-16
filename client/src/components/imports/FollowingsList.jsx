@@ -7,23 +7,28 @@ import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
+import {useNavigate} from "react-router-dom";
 import {Button} from "@mui/material";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
+import {getFollowingsData} from "../../redux/features/authSlice";
 
 function FollowingsList() {
   const [followingList, setFollowings] = useState([]);
+  const navigate = useNavigate();
 
   const {followings} = useSelector((state) => ({...state.auth}));
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    let Id = JSON.parse(localStorage.getItem("profile")).result._id;
+    dispatch(getFollowingsData({Id, navigate}));
     setFollowings(followings);
     console.log(followingList);
   }, []);
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
-      {followingList.map((item, index) => {
+      {followingList?.map((item, index) => {
         return (
           <List
             sx={{width: "80%", bgcolor: "background.paper", height: "auto"}}

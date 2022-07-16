@@ -3,10 +3,10 @@ import {useEffect} from "react";
 import Posts from "./Posts";
 import {useDispatch, useSelector} from "react-redux";
 import {getArticles} from "../../redux/features/articleSlice";
-import {Typography} from "@mui/material";
+import {CircularProgress, Typography} from "@mui/material";
 
 export default function Feed() {
-  const {articles, loading} = useSelector(state => ({...state.article}));
+  const {articles, loading} = useSelector((state) => ({...state.article}));
 
   const dispatch = useDispatch();
 
@@ -15,7 +15,7 @@ export default function Feed() {
   }, []);
 
   return (
-    <Box flex={4} sx={{backgroundColor: "#393f4d"}}>
+    <Box flex={4} sx={{backgroundColor: "#0071c5"}}>
       <Typography
         fontSize="2rem"
         sx={{
@@ -26,7 +26,7 @@ export default function Feed() {
           color: "white",
         }}
       >
-        {articles.length} Articles
+        {/* {loading ? <CircularProgress /> : articles.length + " Articles"} */}
       </Typography>
 
       {articles.map((item, index) => {

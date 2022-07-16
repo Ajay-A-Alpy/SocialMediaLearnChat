@@ -18,10 +18,11 @@ export const getConversation = createAsyncThunk(
 
 export const createConversation = createAsyncThunk(
   "chat/createConversation",
-  async ({data}, {rejectWithValue}) => {
+  async ({conversation, navigate}, {rejectWithValue}) => {
     try {
       console.log("create conversation async reached");
-      const response = await api.createConversation(data);
+      const response = await api.createConversation(conversation);
+      navigate("/messenger");
       return response.data;
     } catch (err) {
       console.log(err);

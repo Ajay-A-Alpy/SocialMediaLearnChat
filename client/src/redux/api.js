@@ -56,6 +56,11 @@ export const getFollowings = async (id) => {
   return await API.get(`/student/getFollowings/${id}`);
 };
 
+//get  friends data
+export const getFriends = async (id) => {
+  return await API.get(`/student/getFriends/${id}`);
+};
+
 //unfollow one
 export const unFollowsOne = async (userid, id) => {
   return await API.post(`/student/unfollow/${id}`, userid);
@@ -126,9 +131,14 @@ export const getConversation = async (id) => {
   return await API.get(`/conversation/${id}`);
 };
 
+//get chat status
+export const getChatStatus = async (data) => {
+  return await API.get("/conversation/chat", data);
+};
+
 //create conversation
 export const createConversation = async (data) => {
-  return await API.post(`/conversation`, data);
+  return await API.post("/conversation", data);
 };
 
 //get message

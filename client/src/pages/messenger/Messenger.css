@@ -12,6 +12,8 @@ body {
 .chatBox {
   flex: 5;
   max-height: calc(100vh-70px);
+  background-color: burlywood;
+  min-height: 80vh;
 }
 .chatOnline {
   flex: 3;
@@ -23,10 +25,13 @@ body {
 .chatBox_wrapper {
   padding: 2rem;
   overflow-y: auto;
+  position: relative;
+  max-height: 80vh;
 }
 .chatOnline_wrapper {
   padding: 2rem;
   position: fixed;
+  margin: 1rem;
 }
 .chatBox_bottom {
   display: flex;
@@ -34,7 +39,6 @@ body {
 
 .chatBox_bottom_submit {
   border-radius: 2rem;
-  background-color: burlywood;
 }
 .chatBox_conversationText {
   display: block;

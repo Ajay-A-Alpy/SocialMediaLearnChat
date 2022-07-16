@@ -1,63 +1,42 @@
 import React from "react";
-import { Box, Stack, styled, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import {useEffect} from "react";
+import {Box, Stack, styled, Typography} from "@mui/material";
+import {useSelector, useDispatch} from "react-redux";
 import Posts from "./Posts";
-
+import {getArticles} from "../../redux/features/articleSlice";
 function ArticleList() {
-  const { articles, loading } = useSelector((state) => ({ ...state.article }))
-  const {user}=useSelector((state)=>({...state.auth}))
+  const {articles, loading} = useSelector((state) => ({...state.article}));
+  const {user} = useSelector((state) => ({...state.auth}));
+  const dispatch = useDispatch();
 
-  const UserBox = styled(Box)({backgroundColor:"#d4d4dc"
+  useEffect(() => {
+    dispatch(getArticles());
+  }, []);
 
-  });
+  const UserBox = styled(Box)({backgroundColor: "#d4d4dc"});
   return (
-    <Box flex={4} sx={{ backgroundColor: "#d4d4dc" }}>
-  <Stack
+    <Box flex={4} sx={{backgroundColor: "#d4d4dc"}}>
+      <Stack
         direction="column"
         spacing={2}
         sx={{
-     minHeight:"100vh",
+          minHeight: "100vh",
           width: "100%",
           alignItems: "center",
           paddingBottom: "2rem",
         }}
       >
-         <Typography variant="h5" color="blue" sx={{display:"block", textAlign:"center"}}>My Articles</Typography>
-
-        {
-            user && articles.map((item,index)=>{
-                if(user?.result?._id==item.userId){
-                    return(
-
-                        <UserBox>
-                            <Posts key={item._id}   {...item}></Posts>
-                        </UserBox>
-                    )
-                }
-
-    //             {
-    //               <UserBox>
-    //                 <Stack
-    //     direction="column"
-    //     spacing={2}
-    //     sx={{
-    //  minHeight:"100vh",
-    //       width: "100%",
-    //       alignItems: "center",
-    //       paddingBottom: "2rem",
-    //     }}
-    //   ><Typography>You have no articles yet</Typography></Stack>
-                    
-    //               </UserBox>
-    //             }
-
-            })
-        }
-      
-       
-      </Stack> 
-
-      
+        {user &&
+          articles.map((item, index) => {
+            if (user?.result?._id == item.userId) {
+              return (
+                <UserBox>
+                  <Posts key={item._id} {...item}></Posts>
+                </UserBox>
+              );
+            }
+          })}
+      </Stack>
     </Box>
   );
 }

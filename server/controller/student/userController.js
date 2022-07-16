@@ -75,6 +75,8 @@ exports.follow = async (req, res) => {
   finderId = req.body.followId;
   let user;
   let following;
+  let followed;
+  let currentUser;
 
   try {
     console.log("follow reached");
@@ -82,33 +84,43 @@ exports.follow = async (req, res) => {
 
     if (file.followers.includes(mongoose.Types.ObjectId(userId)) == false) {
       if (file.followers.length > 0) {
-        following = await studentModal.findOneAndUpdate(
+        followed = await studentModal.findOneAndUpdate(
           {_id: finderId},
           {$push: {followers: mongoose.Types.ObjectId(userId)}},
           {new: true}
         );
-        user = await studentModal.findOneAndUpdate(
+        currentUser = await studentModal.findOneAndUpdate(
           {_id: userId},
           {$push: {following: mongoose.Types.ObjectId(finderId)}},
           {new: true}
         );
       } else {
-        following = await studentModal.findOneAndUpdate(
+        followed = await studentModal.findOneAndUpdate(
           {_id: finderId},
           {followers: mongoose.Types.ObjectId(userId)},
           {new: true}
         );
 
-        user = await studentModal.findOneAndUpdate(
+        currentUser = await studentModal.findOneAndUpdate(
           {_id: userId},
           {$push: {following: mongoose.Types.ObjectId(finderId)}},
           {new: true}
         );
       }
 
-      console.log("hello followings");
-      console.log(following);
-      console.log(user);
+      if (followed.following.includes(mongoose.Types.ObjectId(userId))) {
+        console.log("friends reached");
+        following = await studentModal.findOneAndUpdate(
+          {_id: finderId},
+          {$push: {friends: mongoose.Types.ObjectId(userId)}},
+          {new: true}
+        );
+        user = await studentModal.findOneAndUpdate(
+          {_id: userId},
+          {$push: {friends: mongoose.Types.ObjectId(finderId)}},
+          {new: true}
+        );
+      }
 
       return res.status(201).json({user, following});
     } else {
@@ -124,23 +136,37 @@ exports.unfollow = async (req, res) => {
   finderId = req.body.followId;
   let user;
   let unfollowing;
+  let unfollowed;
+  let currentUser;
 
   try {
     console.log("unfollow reached");
 
-    unfollowing = await studentModal.findOneAndUpdate(
+    unfollowed = await studentModal.findOneAndUpdate(
       {_id: finderId},
       {$pull: {followers: mongoose.Types.ObjectId(userId)}},
       {new: true}
     );
-    user = await studentModal.findOneAndUpdate(
+    currentUser = await studentModal.findOneAndUpdate(
       {_id: userId},
       {$pull: {following: mongoose.Types.ObjectId(finderId)}},
       {new: true}
     );
-    console.log("hello unfollowings");
-    console.log(unfollowing);
-    console.log(user);
+
+    if (unfollowed.friends.includes(mongoose.Types.ObjectId(userId))) {
+      console.log("unfriend done");
+      unfollowing = await studentModal.findOneAndUpdate(
+        {_id: finderId},
+        {$pull: {friends: mongoose.Types.ObjectId(userId)}},
+        {new: true}
+      );
+      user = await studentModal.findOneAndUpdate(
+        {_id: userId},
+        {$pull: {friends: mongoose.Types.ObjectId(finderId)}},
+        {new: true}
+      );
+    }
+
     return res.status(201).json({user, unfollowing});
   } catch (err) {
     res.status(500).json({message: "something went wrong"});
@@ -160,9 +186,6 @@ exports.getProfile = async (req, res) => {
     let articleList = await ArticleModal.find({
       userId: userId,
     });
-    console.log(user);
-    console.log(articleList);
-    console.log("hello");
 
     res.status(201).json({user, articleList});
   } catch (err) {
@@ -201,11 +224,10 @@ exports.getFollowers = async (req, res) => {
         },
       },
     ]);
-    console.log("aggregation done");
+
     res.status(201).json(myfollowers);
-    console.log(myfollowers);
   } catch (error) {
-    res.status(404).json({messsage: "something wernt wrong"});
+    res.status(404).json({messsage: "something went wrong"});
   }
 };
 
@@ -239,9 +261,44 @@ exports.getFollowings = async (req, res) => {
         },
       },
     ]);
-    console.log("aggregation done");
     res.status(201).json(myfollowings);
-    console.log(myfollowings);
+  } catch (error) {
+    res.status(404).json({messsage: "something went wrong"});
+  }
+};
+
+exports.getFriends = async (req, res) => {
+  let userId = mongoose.Types.ObjectId(req.params.id);
+  console.log(userId);
+
+  try {
+    const Myfriends = await StudentModal.aggregate([
+      {
+        $match: {_id: userId},
+      },
+      {
+        $unwind: "$friends",
+      },
+      {
+        $project: {myfriends: "$friends"},
+      },
+
+      {
+        $lookup: {
+          from: "students",
+          localField: "myfriends",
+          foreignField: "_id",
+          as: "people",
+        },
+      },
+      {
+        $project: {
+          person: {$arrayElemAt: ["$people", 0]},
+        },
+      },
+    ]);
+
+    res.status(201).json(Myfriends);
   } catch (error) {
     res.status(404).json({messsage: "something wernt wrong"});
   }
@@ -249,8 +306,6 @@ exports.getFollowings = async (req, res) => {
 
 exports.profilePic = async (req, res) => {
   let userId = req.body.userId;
-  console.log("profile pic upload reached");
-  console.log("hello", req.file);
   let picName = req.file ? req.file.filename : "profile.jpg";
 
   try {
