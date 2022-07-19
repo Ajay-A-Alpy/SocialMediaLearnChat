@@ -7,7 +7,7 @@ router.post("/", controller.createConversation);
 //get my conversation
 router.get("/:id", controller.getConversation);
 
-//get my conversation
-router.get("/chat", controller.getChatStatus);
+//get my chat status
+router.post("/chat", controller.getChatStatus);
 
 module.exports = router;

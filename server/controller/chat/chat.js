@@ -45,14 +45,18 @@ exports.getChatStatus = async (req, res) => {
   console.log("hello get chat status reached");
   try {
     console.log("get chat status reached");
-    const Conversation = await ConversationModel.find({
-      members: {
-        $and: [
-          mongoose.Types.ObjectId(firstUser),
-          mongoose.Types.ObjectId(secondUser),
-        ],
-      },
+    const Conversation = await ConversationModel.findOne({
+      $and: [
+        {
+          members: mongoose.Types.ObjectId(firstUser),
+        },
+        {
+          members: mongoose.Types.ObjectId(secondUser),
+        },
+      ],
     });
+
+    console.log(Conversation);
 
     if (Conversation) {
       console.log("got a  chat");

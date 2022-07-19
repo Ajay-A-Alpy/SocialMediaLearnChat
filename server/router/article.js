@@ -41,4 +41,10 @@ router.post("/verify", auth, controller.verifyArticle);
 //unverify an article
 router.post("/unverify", auth, controller.unverifyArticle);
 
+//like an article
+router.post("/like", auth, controller.likeArticle);
+
+// add new comment
+router.post("/comment", controller.addComment);
+
 module.exports = router;

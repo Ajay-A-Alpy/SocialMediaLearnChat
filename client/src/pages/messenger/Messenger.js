@@ -50,9 +50,11 @@ function Messenger() {
       setMessage((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, currentChat]);
 
+  //adding user to socket
   useEffect(() => {
     socket.current.emit("addUser", currentUser?.result._id);
     socket.current.on("getUsers", (users) => {
+      console.log(users);
       setOnlineUsers(users);
     });
   }, [user]);
@@ -127,6 +129,7 @@ function Messenger() {
                   onClick={() => {
                     setCurrentChat(item);
                   }}
+                  sx={{cursor: "pointer"}}
                 >
                   <Conversation
                     key={item._id}

@@ -126,6 +126,11 @@ export const unverifyArticle = async (data) => {
   return await API.post("/article/unverify", data);
 };
 
+//add new comment
+export const commentArticle = async (data) => {
+  return await API.post("/article/comment", data);
+};
+
 //get conversation
 export const getConversation = async (id) => {
   return await API.get(`/conversation/${id}`);
@@ -133,7 +138,7 @@ export const getConversation = async (id) => {
 
 //get chat status
 export const getChatStatus = async (data) => {
-  return await API.get("/conversation/chat", data);
+  return await API.post("/conversation/chat", data);
 };
 
 //create conversation

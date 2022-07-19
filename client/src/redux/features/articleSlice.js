@@ -96,6 +96,18 @@ export const unVerifyArticle = createAsyncThunk(
   }
 );
 
+export const commentArticle = createAsyncThunk(
+  "article/comment",
+  (data, {rejectWithValue}) => {
+    try {
+      const response = api.commentArticle(data);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const deleteArticle = createAsyncThunk(
   "article/delete",
   ({id}, {rejectWithValue}) => {
@@ -203,6 +215,17 @@ const articleSlice = createSlice({
       state.article = action.payload;
     },
     [unVerifyArticle.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    },
+
+    [commentArticle.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [commentArticle.fulfilled]: (state, action) => {
+      state.loading = false;
+    },
+    [commentArticle.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     },

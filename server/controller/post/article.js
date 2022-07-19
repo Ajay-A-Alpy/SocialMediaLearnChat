@@ -168,3 +168,22 @@ exports.unverifyArticle = async (req, res) => {
     res.status(500).json({message: "something went wrong"});
   }
 };
+
+exports.addComment = async (req, res) => {
+  let postId = req.body.postId;
+  let {commentorId, text, commentedAt, commentedBy} = req.body;
+  let newComment = {commentorId, commentedAt, text, commentedBy};
+  try {
+    await articleModel.findOneAndUpdate(
+      {
+        _id: mongoose.Types.ObjectId(postId),
+      },
+      {$push: {comments: newComment}}
+    );
+    console.log("new message added");
+    res.status(201).json({message: "you have successfully commented"});
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message: "something went wrong"});
+  }
+};

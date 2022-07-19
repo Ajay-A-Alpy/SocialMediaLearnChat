@@ -25,12 +25,10 @@ export default function AddPost() {
 
   const [imageField, setImageField] = useState();
 
-  const {error, loading} = useSelector(state => ({...state.article}));
-  const {user} = useSelector(state => ({...state.auth}));
+  const {user} = useSelector((state) => ({...state.auth}));
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const onInutChange = e => {
+  const onInutChange = (e) => {
     e.preventDefault();
     const {name, value} = e.target;
     setArticleData({...articleData, [name]: value});
@@ -40,11 +38,11 @@ export default function AddPost() {
     setArticleData(initialState);
   };
 
-  const imageHandler = e => {
+  const imageHandler = (e) => {
     setImageField(e.target.files[0]);
   };
 
-  const handlePost = async e => {
+  const handlePost = async (e) => {
     const fd = new FormData();
     fd.append("image", imageField);
     fd.append("title", title);

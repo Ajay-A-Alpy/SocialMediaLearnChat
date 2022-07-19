@@ -13,8 +13,10 @@ const articleSchema = mongoose.Schema({
   comments: [
     {
       commentorId: mongoose.ObjectId,
-      comment: String,
-      commentedAt: {type: Date, dafault: Date.now},
+      commentedBy: {type: String, required: true},
+      text: String,
+      commentedAt: {type: Date, dafault: new Date()},
+      isExpert: {type: Boolean, default: false},
     },
   ],
 });

@@ -26,6 +26,7 @@ import MyFollowings from "./pages/Students/followings/MyFollowings";
 import {setExpert} from "./redux/features/expertAuthSlice";
 import Myfriends from "./pages/Students/friends/Myfriends";
 import PrivateRouter from "./components/imports/PrivateRouter";
+import VideoChat from "./pages/VideoChat/VideoChat";
 
 function App() {
   const dispatch = useDispatch();
@@ -95,6 +96,7 @@ function App() {
         <Route path="/student/viewProfile" element={<ViewStudents />}></Route>
 
         <Route path="/messenger" element={<Messenger></Messenger>}></Route>
+        <Route path="/videocall" element={<VideoChat />}></Route>
 
         <Route path="/expert/articles"></Route>
 

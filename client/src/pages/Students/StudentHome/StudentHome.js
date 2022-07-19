@@ -5,11 +5,25 @@ import Rightbar from "../../../components/imports/Rightbar";
 import Sidebar from "../../../components/imports/Sidebar";
 import Stack from "@mui/material/Stack";
 import Navbar from "../../../components/imports/Navbar";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ThemeProvider} from "@mui/system";
+import {useNavigate} from "react-router-dom";
 
 export default function StudentHome() {
   const [mode, setMode] = useState("dark");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let profile = JSON.parse(localStorage.getItem("profile"));
+    if (!profile) {
+      navigate("/");
+    }
+  });
+
+  // useEffect(() => {
+  //   let Id = currentUser;
+  //   dispatch(getFriendsData({Id, navigate}));
+  // }, [currentUser]);
 
   const darkTheme = createTheme({
     palette: mode,

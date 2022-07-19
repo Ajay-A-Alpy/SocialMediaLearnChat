@@ -13,12 +13,14 @@ import {useSelector, useDispatch} from "react-redux";
 import {getStudentProfile, setUser} from "../../redux/features/authSlice";
 import {useNavigate} from "react-router-dom";
 import {getFollowersData} from "../../redux/features/authSlice";
+import * as api from "../../redux/api";
+import {createConversation} from "../../redux/features/chatSlice";
 
 function FollowersList() {
   // const [followersList, setFollowers] = useState([]);
 
   const {followers} = useSelector((state) => ({...state.auth}));
-
+  const {user} = useSelector((state) => ({...state.auth}));
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,6 +28,33 @@ function FollowersList() {
     let userId = id;
     console.log("view reached", id);
     dispatch(getStudentProfile({userId, navigate}));
+  };
+
+  const handleMessage = (friendId) => {
+    let data = {
+      first: user.result._id,
+      second: friendId,
+    };
+    const checkChat = async () => {
+      try {
+        console.log("check chat now");
+        let check = await api.getChatStatus(data);
+        console.log(check);
+        if (check.data.chat) {
+          navigate("/messenger");
+        } else {
+          let conversation = {
+            senderId: user.result._id,
+            recieverId: friendId,
+          };
+          console.log("dispatch new conversation");
+          dispatch(createConversation({conversation, navigate}));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    checkChat();
   };
 
   return (
@@ -49,6 +78,12 @@ function FollowersList() {
                 onClick={handleViewProfile.bind(this, item.person._id)}
               >
                 view
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={handleMessage.bind(this, item.person._id)}
+              >
+                Message
               </Button>
             </ListItem>
             <Divider variant="inset" component="li" />

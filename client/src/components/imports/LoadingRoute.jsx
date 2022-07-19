@@ -11,7 +11,7 @@ function LoadingRoute() {
     const interval = setInterval(() => {
       setCount((currentCount) => --currentCount);
     }, 1000);
-    count === 0 && navigate("/student/login");
+    count === 0 && navigate("/");
     return () => {
       clearInterval(interval);
     };

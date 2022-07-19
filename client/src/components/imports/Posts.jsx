@@ -30,7 +30,11 @@ import Modal from "@mui/material/Modal";
 import {useState} from "react";
 import TextField from "@mui/material/TextField";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteArticle, updateArticle} from "../../redux/features/articleSlice";
+import {
+  commentArticle,
+  deleteArticle,
+  updateArticle,
+} from "../../redux/features/articleSlice";
 import {followOne, getStudentProfile} from "../../redux/features/authSlice";
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
@@ -49,6 +53,7 @@ export default function Posts({
   _id,
   verifiedCount,
   likes,
+  comments,
 }) {
   const initials = {
     title1: title,
@@ -59,7 +64,8 @@ export default function Posts({
 
   const [modal, setModal] = useState(false);
   const [comment, setComment] = useState(false);
-  const commentText = useRef();
+  const [showComment, setShowComment] = useState(false);
+  const [commentText, setCommentText] = useState("");
 
   const [open, setOpen] = useState(false);
   const [articleData, setArticleData] = useState(initials);
@@ -79,7 +85,21 @@ export default function Posts({
   const navigate = useNavigate();
 
   const handleSubmitComment = () => {
-    console.log(commentText.current.value);
+    console.log(commentText);
+
+    let newComment = {
+      commentorId: user?.result._id,
+      text: commentText,
+      commentedAt: Date.now(),
+      postId: _id,
+      commentedBy: user?.result.name,
+    };
+
+    if (commentText !== "") {
+      dispatch(commentArticle(newComment));
+      setComment(false);
+      setLikeChange(!likeChange);
+    }
   };
 
   const onInutChange = (e) => {
@@ -245,6 +265,22 @@ export default function Posts({
           <Typography variant="body2" color="text.primary">
             {description}
           </Typography>
+          <Box
+            sx={{
+              dispay: "block",
+              width: "100%",
+              textAlign: "end",
+            }}
+          >
+            <Typography
+              sx={{cursor: "pointer"}}
+              onClick={() => {
+                setShowComment(true);
+              }}
+            >
+              Comments
+            </Typography>
+          </Box>
         </CardContent>
         <CardActions sx={{display: "flex", justifyContent: "space-between"}}>
           {likes.includes(user.result._id) && loading == false ? (
@@ -273,7 +309,7 @@ export default function Posts({
             </IconButton>
           )}
 
-          <IconButton aria-label="verify">
+          <IconButton aria-label="verify" sx={{cursor: "default"}}>
             <Tooltip
               title="verification by experts"
               placement="left"
@@ -283,12 +319,19 @@ export default function Posts({
             </Tooltip>
             {verifiedCount.length}
           </IconButton>
+
           <IconButton aria-label="comment">
-            <CommentIcon
+            <Tooltip
+              title="comment"
+              placement="left"
+              sx={{marginLeft: "1rem"}}
               onClick={() => {
                 setComment(true);
               }}
-            />
+            >
+              <CommentIcon />
+            </Tooltip>
+            {comments.length}
           </IconButton>
         </CardActions>
       </Card>
@@ -426,13 +469,60 @@ export default function Posts({
             type="text"
             fullWidth
             variant="standard"
-            ref={commentText}
-            defaultValue=""
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setComment(false)}>close</Button>
           <Button onClick={handleSubmitComment}>Send</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={showComment}>
+        <DialogTitle> {comments.length + " comment"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {comments?.map((c) => {
+              return (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "400px",
+                    height: "auto",
+                  }}
+                >
+                  {" "}
+                  <Box
+                    sx={{
+                      border: "beige",
+                      boxSizing: "border-box",
+                      minWidth: "300px",
+                      border: "1px solid black",
+                      margin: "1rem",
+                      borderRadius: "8px",
+                      padding: "5px",
+                    }}
+                  >
+                    <Avatar sx={{backgroundColor: "orange"}}>
+                      {c.commentedBy}
+                    </Avatar>
+                    <Typography>{c.commentedBy}</Typography>
+                    <Typography variant="h6" color="black">
+                      {c.text}
+                    </Typography>
+
+                    <Typography>{c.createdAt}</Typography>
+                  </Box>
+                </Box>
+              );
+            })}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowComment(false)}>close</Button>
+          {/* <Button onClick={handleSubmitComment}>Send</Button> */}
         </DialogActions>
       </Dialog>
     </>
