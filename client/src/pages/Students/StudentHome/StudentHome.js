@@ -20,11 +20,6 @@ export default function StudentHome() {
     }
   });
 
-  // useEffect(() => {
-  //   let Id = currentUser;
-  //   dispatch(getFriendsData({Id, navigate}));
-  // }, [currentUser]);
-
   const darkTheme = createTheme({
     palette: mode,
   });

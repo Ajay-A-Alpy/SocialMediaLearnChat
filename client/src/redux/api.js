@@ -16,6 +16,12 @@ API.interceptors.request.use((req) => {
     )}`;
   }
 
+  if (localStorage.getItem("adminToken")) {
+    req.headers.Authorization = `Bearer ${JSON.parse(
+      localStorage.getItem("adminToken")
+    )}`;
+  }
+
   console.log("returnnnnn");
 
   return req;
@@ -46,6 +52,16 @@ export const followOne = async (userid, id) => {
   return await API.post(`/student/follow/${id}`, userid);
 };
 
+//follow experts
+export const followExpert = async (userid, id) => {
+  return await API.post(`/student/followExpert/${id}`, userid);
+};
+
+//unfollow experts
+export const unfollowExpert = async (userid, id) => {
+  return await API.post(`/student/unfollowExpert/${id}`, userid);
+};
+
 //get  followers data
 export const getFollowers = async (id) => {
   return await API.get(`/student/getFollowers/${id}`);
@@ -69,6 +85,11 @@ export const unFollowsOne = async (userid, id) => {
 //view  user profile
 export const getStudentProfile = async (userid) => {
   return await API.get(`/student/viewProfile/${userid}`);
+};
+
+//view expert profile
+export const getExpertProfile = async (expertId) => {
+  return await API.get(`/expert/viewProfile/${expertId}`);
 };
 
 //expert login
@@ -133,7 +154,12 @@ export const commentArticle = async (data) => {
 
 //get conversation
 export const getConversation = async (id) => {
-  return await API.get(`/conversation/${id}`);
+  return await API.get(`/conversation/student/${id}`);
+};
+
+//get expert conversation
+export const getExpertConversation = async (id) => {
+  return await API.get(`/conversation/expert/${id}`);
 };
 
 //get chat status
@@ -159,4 +185,39 @@ export const createMessage = async (data) => {
 //view  chat friend profile
 export const getChatFriends = async (userid) => {
   return await API.get(`/student/viewProfile/${userid}`);
+};
+
+//view  chat expert profile
+export const getChatExpert = async (expertid) => {
+  return await API.get(`/expert/viewProfile/${expertid}`);
+};
+
+//admin login
+export const adminLogIn = async (formData) => {
+  return await API.post("/admin/login", formData);
+};
+
+//admin get all students data
+export const getAllStudents = async () => {
+  return await API.get("/admin/getStudents");
+};
+
+//admin get all experts data
+export const getAllExperts = async () => {
+  return await API.get("/admin/getExperts");
+};
+
+//admin get all Articles data
+export const getAllArticles = async () => {
+  return await API.get("/admin/getArticles");
+};
+
+//block students and experts
+export const blockUser = async (data) => {
+  return await API.post("/admin/block", data);
+};
+
+//unblock students and experts
+export const unblockUser = async (data) => {
+  return await API.post("/admin/unblock", data);
 };

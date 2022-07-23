@@ -27,6 +27,15 @@ import {setExpert} from "./redux/features/expertAuthSlice";
 import Myfriends from "./pages/Students/friends/Myfriends";
 import PrivateRouter from "./components/imports/PrivateRouter";
 import VideoChat from "./pages/VideoChat/VideoChat";
+import {ContextProvider} from "./components/videoPlayer/SocketContext";
+import AdminLogin from "./pages/Admin/adminLogin/AdminLogin";
+import AdminHome from "./pages/Admin/AdminHome/AdminHome";
+import AllStudents from "./pages/Admin/AllStudents/AllStudents";
+import AllExperts from "./pages/Admin/AllExperts/AllExperts";
+import AllArticles from "./pages/Admin/AllArticles/AllArticles";
+import Experts from "./pages/Students/Experts/Experts";
+import ViewExpert from "./pages/Students/ViewExpert/ViewExpert";
+import ExpertMessenger from "./pages/messenger/ExpertMessenger";
 
 function App() {
   const dispatch = useDispatch();
@@ -93,10 +102,27 @@ function App() {
           }
         ></Route>
 
+        <Route path="/student/experts" element={<Experts></Experts>}></Route>
         <Route path="/student/viewProfile" element={<ViewStudents />}></Route>
-
+        <Route
+          path="/student/viewExpertProfile"
+          element={<ViewExpert></ViewExpert>}
+        ></Route>
         <Route path="/messenger" element={<Messenger></Messenger>}></Route>
-        <Route path="/videocall" element={<VideoChat />}></Route>
+
+        <Route
+          path="/Expertmessenger"
+          element={<ExpertMessenger></ExpertMessenger>}
+        ></Route>
+
+        <Route
+          path="/videocall"
+          element={
+            // <ContextProvider>
+            <VideoChat />
+            // </ContextProvider>
+          }
+        ></Route>
 
         <Route path="/expert/articles"></Route>
 
@@ -115,6 +141,23 @@ function App() {
         <Route
           path="/expert/profile"
           element={<ExpertProfile></ExpertProfile>}
+        ></Route>
+        <Route path="/admin/login" element={<AdminLogin></AdminLogin>}></Route>
+
+        <Route path="/admin" element={<AdminHome></AdminHome>}></Route>
+        <Route
+          path="/admin/students"
+          element={<AllStudents></AllStudents>}
+        ></Route>
+
+        <Route
+          path="/admin/articles"
+          element={<AllArticles></AllArticles>}
+        ></Route>
+
+        <Route
+          path="/admin/experts"
+          element={<AllExperts></AllExperts>}
         ></Route>
       </Routes>
     </BrowserRouter>

@@ -128,6 +128,14 @@ export default function AddPost() {
               <UserBox>
                 <Stack direction="column" sx={{width: "100%"}} gap={2}>
                   <TextField
+                    placeholder="Title"
+                    variant="standard"
+                    name="title"
+                    value={title}
+                    onChange={onInutChange}
+                    sx={{padding: "", width: "100%"}}
+                  />
+                  <TextField
                     placeholder="Subject"
                     variant="standard"
                     name="subject"

@@ -29,6 +29,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const token = JSON.parse(localStorage.getItem("userToken"));
+
   if (token) {
     let decodeToken = decode(token);
     if (decodeToken.exp * 1000 < new Date().getTime()) {
@@ -64,7 +65,9 @@ export default function Navbar() {
           {" "}
           Learn-Chat
         </Typography>
-        <HomeIcon sx={{display: {xs: "block", sm: "none"}}}></HomeIcon>
+        <HomeIcon
+          sx={{display: {xs: "block", sm: "block", md: "none"}}}
+        ></HomeIcon>
         <Search>
           <InputBase placeholder="search..."></InputBase>
         </Search>

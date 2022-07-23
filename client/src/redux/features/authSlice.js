@@ -72,6 +72,38 @@ export const followOne = createAsyncThunk(
   }
 );
 
+export const followExpert = createAsyncThunk(
+  "auth/followExpert",
+  async ({userData, Id, navigate, toast}, {rejectWithValue}) => {
+    try {
+      console.log("1111111followwwwww");
+      console.log(userData);
+      const response = await api.followExpert(userData, Id);
+      toast.success("started following");
+      navigate("/student/ViewExpertProfile");
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const unfollowExpert = createAsyncThunk(
+  "auth/unfollowExpert",
+  async ({userData, Id, navigate, toast}, {rejectWithValue}) => {
+    try {
+      console.log("1111111  unfollowwwwww");
+      console.log(userData);
+      const response = await api.unfollowExpert(userData, Id);
+      toast.success(" unfollowing");
+      navigate("/student/ViewExpertProfile");
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const getFollowersData = createAsyncThunk(
   "auth/getfollowers",
   async ({Id, navigate}, {rejectWithValue}) => {
@@ -108,7 +140,7 @@ export const getFriendsData = createAsyncThunk(
     try {
       console.log("hello get friends data reached");
       const response = await api.getFriends(Id);
-      navigate("/student/friends");
+
       return response.data;
     } catch (err) {
       console.log(err);
@@ -147,11 +179,26 @@ export const getStudentProfile = createAsyncThunk(
   }
 );
 
+export const getExpertProfile = createAsyncThunk(
+  "auth/getExpertProfile",
+  async ({userId, navigate}, {rejectWithValue}) => {
+    try {
+      const response = await api.getExpertProfile(userId);
+      console.log(response);
+      navigate("/student/viewExpertProfile");
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth", // the name used in the useSelector,also in store
   initialState: {
     user: null,
     profile: null,
+    expert: null,
     followers: null,
     followings: null,
     friends: null,
@@ -253,6 +300,24 @@ const authSlice = createSlice({
       state.error = action.payload.message;
     },
 
+    [followExpert.pending]: (state, action) => {
+      state.loading = true;
+      console.log("follow pending");
+    },
+    [followExpert.fulfilled]: (state, action) => {
+      state.loading = false;
+      console.log("follow fulfiling");
+      localStorage.setItem("profile", JSON.stringify({...action.payload}));
+      console.log(action.payload);
+      state.user.result = action.payload.currentUser;
+      state.expert = action.payload.followed;
+    },
+    [followExpert.rejected]: (state, action) => {
+      console.log("follow rejected");
+      state.loading = false;
+      state.error = action.payload.message;
+    },
+
     [unFollowOne.pending]: (state, action) => {
       state.loading = true;
       console.log("follow pending");
@@ -262,10 +327,28 @@ const authSlice = createSlice({
       console.log("unfollow fulfiling");
       localStorage.setItem("profile", JSON.stringify({...action.payload}));
       console.log(action.payload);
+      state.user.result = action.payload.currentUser;
+      state.expert = action.payload.unfollowed;
+    },
+    [unFollowOne.rejected]: (state, action) => {
+      console.log("unfollow rejected");
+      state.loading = false;
+      state.error = action.payload.message;
+    },
+
+    [unfollowExpert.pending]: (state, action) => {
+      state.loading = true;
+      console.log("follow pending");
+    },
+    [unfollowExpert.fulfilled]: (state, action) => {
+      state.loading = false;
+      console.log("unfollow fulfiling");
+      localStorage.setItem("profile", JSON.stringify({...action.payload}));
+      console.log(action.payload);
       state.user.result = action.payload.user;
       state.profile.user = action.payload.unfollowing;
     },
-    [unFollowOne.rejected]: (state, action) => {
+    [unfollowExpert.rejected]: (state, action) => {
       console.log("unfollow rejected");
       state.loading = false;
       state.error = action.payload.message;
@@ -326,6 +409,22 @@ const authSlice = createSlice({
       state.profile = action.payload;
     },
     [getStudentProfile.rejected]: (state, action) => {
+      state.loading = false;
+      console.log("hello");
+      console.log(action);
+      state.error = action.payload.message;
+    },
+
+    [getExpertProfile.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getExpertProfile.fulfilled]: (state, action) => {
+      state.loading = false;
+      console.log("expert profile");
+      console.log(action.payload);
+      state.expert = action.payload;
+    },
+    [getExpertProfile.rejected]: (state, action) => {
       state.loading = false;
       console.log("hello");
       console.log(action);

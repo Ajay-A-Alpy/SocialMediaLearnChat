@@ -24,11 +24,12 @@ function Messenger() {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const dispatch = useDispatch();
   const {conversations} = useSelector((state) => ({...state.chat}));
+  const {friends} = useSelector((state) => ({...state.auth}));
   const scrollRef = useRef();
 
   const socket = useRef();
 
-  const currentUser = JSON.parse(localStorage.getItem("profile"));
+  let currentUser = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
     console.log("new message reached ");
@@ -54,8 +55,13 @@ function Messenger() {
   useEffect(() => {
     socket.current.emit("addUser", currentUser?.result._id);
     socket.current.on("getUsers", (users) => {
-      console.log(users);
-      setOnlineUsers(users);
+      console.log(users, "iiiiiiiiiii");
+      console.log(currentUser, "mmmmm");
+      setOnlineUsers(
+        currentUser?.result.friends.filter((f) =>
+          users.some((u) => u.userId === f)
+        )
+      );
     });
   }, [user]);
 
@@ -96,6 +102,7 @@ function Messenger() {
     const getMessage = async () => {
       try {
         let response = await api.getMessage(currentChat?._id);
+        console.log(response);
         setMessage(response.data);
       } catch (err) {
         console.log(err);
@@ -146,13 +153,14 @@ function Messenger() {
             <Typography> Chat Box</Typography>
             {currentChat ? (
               <>
-                {message.map((m) => {
+                {message?.map((m) => {
                   return (
                     <Box ref={scrollRef}>
                       <Message
                         message={m}
                         own={m.senderId === user?.result._id}
                         key={m._id}
+                        name={currentUser?.result.name}
                       />
                     </Box>
                   );
@@ -195,6 +203,7 @@ function Messenger() {
               onlineUsers={onlineUsers}
               currentUser={currentUser?.result._id}
               setCurrentChat={setCurrentChat}
+              myfriends={friends}
             />
           </Box>
         </Box>

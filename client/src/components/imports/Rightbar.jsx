@@ -9,7 +9,7 @@ function Rightbar() {
     <Box
       flex={2}
       bgcolor="#F0F8FF"
-      sx={{display: {xs: "none", sm: "block"}}}
+      sx={{display: {xs: "none", sm: "none", md: "block"}}}
       p={2}
     >
       <Box sx={{position: "fixed"}}>

@@ -1,6 +1,7 @@
 const io = require("socket.io")(8900, {
   cors: {
     origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
   },
 });
 
@@ -58,7 +59,7 @@ io.on("connection", (socket) => {
   });
 
   //AMSWER CALL
-  socket.io("answercall", (data) => {
+  socket.on("answercall", (data) => {
     io.to(data.to).emit("callaccepted", data.signal);
   });
 });

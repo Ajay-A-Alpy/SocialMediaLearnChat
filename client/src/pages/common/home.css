@@ -1,14 +1,15 @@
+.home {
+  height: 100vh;
+  width: 100%;
 
+  background-image: url(http://localhost:5000/scale.webp);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
-.home{
-  
-    height: 100vh;
-    width: 100%;
- 
-    background-image:url(http://localhost:5000/scale.webp);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-
+@media (max-width: 280px) {
+  .title {
+    font-size: 3px;
+  }
 }

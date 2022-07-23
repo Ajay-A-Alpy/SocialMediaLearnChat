@@ -1,14 +1,14 @@
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { expertUpdateProfile } from "../../redux/features/expertAuthSlice";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import {Box, Button, Stack, TextField, Typography} from "@mui/material";
+import {useState} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {expertUpdateProfile} from "../../redux/features/expertAuthSlice";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 export default function ExpertProfileEdit() {
-  const { expert } = useSelector((state) => ({ ...state.expertAuth}));
-  const dispatch=useDispatch();
-  const navigate=useNavigate();
+  const {expert} = useSelector((state) => ({...state.expertAuth}));
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const initials = {
     name: expert.result.name,
     email: expert.result.email,
@@ -19,8 +19,8 @@ export default function ExpertProfileEdit() {
     institute: expert.result?.institute,
     subjects: expert.result?.subjects,
     hobbies: expert.result?.hobbies,
-    experience:expert.result?.experience,
-    about:expert.result?.about
+    experience: expert.result?.experience,
+    about: expert.result?.about,
   };
 
   const [profileData, setProfileData] = useState(initials);
@@ -39,27 +39,23 @@ export default function ExpertProfileEdit() {
   } = profileData;
 
   const onInputChange = (e) => {
-       e.preventDefault()
-    const { name, value } = e.target;
-    setProfileData({ ...profileData, [name]: value });
+    e.preventDefault();
+    const {name, value} = e.target;
+    setProfileData({...profileData, [name]: value});
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let Id = expert.result._id;
 
-  const handleSubmit=(e)=>{
-       e.preventDefault()
-       let Id=expert.result._id;
-
-       if(name && email && mobile ){
-              console.log('expert 00000000000')
-              dispatch(expertUpdateProfile({profileData,Id,toast,navigate}))
-       }
-
-       
-
-  }
+    if (name && email && mobile) {
+      console.log("expert 00000000000");
+      dispatch(expertUpdateProfile({profileData, Id, toast, navigate}));
+    }
+  };
 
   return (
-    <Box flex={4} sx={{ backgroundColor: "#F8F8FF" }}>
+    <Box flex={4} sx={{backgroundColor: "#F8F8FF"}}>
       <Stack
         direction="column"
         spacing={2}
@@ -71,11 +67,11 @@ export default function ExpertProfileEdit() {
         }}
       >
         <Typography variant="h5" component="h5">
-         EDIT PROFILE
+          EDIT PROFILE
         </Typography>
-        <Box bgcolor="powderblue" sx={{ width: "100%", textAlign: "center" }}>
+        <Box bgcolor="powderblue" sx={{width: "100%", textAlign: "center"}}>
           <Typography variant="h6" component="h6">
-          Expert  Personal Info
+            Expert Personal Info
           </Typography>
         </Box>
         <TextField
@@ -109,16 +105,16 @@ export default function ExpertProfileEdit() {
           onChange={onInputChange}
           placeholder="Place"
         />
-        <label>DOB {":"+dob.substring(0,10)}</label>
+        {/* <label>DOB {":" + dob.substring(0, 10)}</label> */}
         <input
-          style={{ width: "13rem", height: "3rem", borderColor: "white" }}
+          style={{width: "13rem", height: "3rem", borderColor: "white"}}
           type="date"
           placeholder="DOB"
           name="dob"
           onChange={onInputChange}
           value={dob}
         ></input>
-        <Box bgcolor="powderblue" sx={{ width: "100%", textAlign: "center" }}>
+        <Box bgcolor="powderblue" sx={{width: "100%", textAlign: "center"}}>
           <Typography variant="h6" component="h6">
             Educational Info
           </Typography>{" "}
@@ -131,7 +127,6 @@ export default function ExpertProfileEdit() {
           onChange={onInputChange}
           placeholder="Experience if any"
         />
-
 
         <TextField
           id="outlined-required"
@@ -165,7 +160,7 @@ export default function ExpertProfileEdit() {
           placeholder="Hobbies"
         />
 
-<TextField
+        <TextField
           id="outlined-required"
           value={about}
           name="about"
@@ -173,8 +168,13 @@ export default function ExpertProfileEdit() {
           placeholder="About you"
         />
 
-        <Button variant="contained" type="submit" color="primary" onClick={handleSubmit}>
-         Save Changes
+        <Button
+          variant="contained"
+          type="submit"
+          color="primary"
+          onClick={handleSubmit}
+        >
+          Save Changes
         </Button>
       </Stack>
     </Box>

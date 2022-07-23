@@ -32,6 +32,12 @@ router.post("/follow/:id", auth, controller.follow);
 //student unfollow
 router.post("/unfollow/:id", auth, controller.unfollow);
 
+// follow an expert
+router.post("/followExpert/:id", auth, controller.followExpert);
+
+// unfollow an expert
+router.post("/unfollowExpert/:id", auth, controller.unfollowExpert);
+
 //student profile view
 router.get("/viewProfile/:id", auth, controller.getProfile);
 

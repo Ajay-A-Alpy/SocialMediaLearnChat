@@ -5,7 +5,7 @@ const StudentModal = require("../../models/user");
 const secret = process.env.SECRET;
 const mongoose = require("mongoose");
 const ArticleModal = require("../../models/articles");
-
+const ExpertModel = require("../../models/expert");
 exports.login = async (req, res) => {
   console.log(req.body);
   const {email, password} = req.body;
@@ -13,6 +13,9 @@ exports.login = async (req, res) => {
     const olduser = await studentModal.findOne({email});
     if (!olduser) {
       return res.status(400).json({message: "User doesn't exist"});
+    }
+    if (olduser.blockStatus) {
+      return res.status(400).json({message: "User Account is Blocked"});
     }
     isPasswordCorrect = await bcrypt.compare(password, olduser.password);
     if (!isPasswordCorrect) {
@@ -131,6 +134,53 @@ exports.follow = async (req, res) => {
   }
 };
 
+exports.followExpert = async (req, res) => {
+  let userId = req.params.id;
+  finderId = req.body.followId;
+  let user;
+  let following;
+  let followed;
+  let currentUser;
+
+  try {
+    console.log("follow  expert reached");
+    let file = await ExpertModel.findOne({_id: finderId});
+
+    if (file.students.includes(mongoose.Types.ObjectId(userId)) == false) {
+      if (file.students.length > 0) {
+        followed = await ExpertModel.findOneAndUpdate(
+          {_id: finderId},
+          {$push: {students: mongoose.Types.ObjectId(userId)}},
+          {new: true}
+        );
+        currentUser = await studentModal.findOneAndUpdate(
+          {_id: userId},
+          {$push: {experts: mongoose.Types.ObjectId(finderId)}},
+          {new: true}
+        );
+      } else {
+        followed = await ExpertModel.findOneAndUpdate(
+          {_id: finderId},
+          {students: mongoose.Types.ObjectId(userId)},
+          {new: true}
+        );
+
+        currentUser = await studentModal.findOneAndUpdate(
+          {_id: userId},
+          {$push: {experts: mongoose.Types.ObjectId(finderId)}},
+          {new: true}
+        );
+      }
+
+      return res.status(201).json({currentUser, followed});
+    } else {
+      res.status(500).json({message: "something went wrong"});
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 exports.unfollow = async (req, res) => {
   let userId = req.params.id;
   finderId = req.body.followId;
@@ -168,6 +218,54 @@ exports.unfollow = async (req, res) => {
     }
 
     return res.status(201).json({user, unfollowing});
+  } catch (err) {
+    res.status(500).json({message: "something went wrong"});
+    console.log(err);
+  }
+};
+
+exports.getProfile = async (req, res) => {
+  let userId = req.params.id;
+  console.log("view profile reached");
+  console.log(userId);
+
+  try {
+    let user = await studentModal.findOne({
+      _id: userId,
+    });
+    let articleList = await ArticleModal.find({
+      userId: userId,
+    });
+
+    res.status(201).json({user, articleList});
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message: "something went wrong"});
+  }
+};
+
+exports.unfollowExpert = async (req, res) => {
+  let userId = req.params.id;
+  finderId = req.body.followId;
+
+  let unfollowed;
+  let currentUser;
+
+  try {
+    console.log("unfollow  expert reached");
+
+    unfollowed = await ExpertModel.findOneAndUpdate(
+      {_id: finderId},
+      {$pull: {students: mongoose.Types.ObjectId(userId)}},
+      {new: true}
+    );
+    currentUser = await studentModal.findOneAndUpdate(
+      {_id: userId},
+      {$pull: {experts: mongoose.Types.ObjectId(finderId)}},
+      {new: true}
+    );
+
+    return res.status(201).json({currentUser, unfollowed});
   } catch (err) {
     res.status(500).json({message: "something went wrong"});
     console.log(err);

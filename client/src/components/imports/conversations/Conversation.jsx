@@ -42,7 +42,7 @@ function Conversation({conversation}) {
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
           </ListItemAvatar>
-          <ListItemText primary={friend?.user.name} secondary="hai" />
+          <ListItemText primary={friend?.user?.name} secondary="hai" />
         </ListItem>
         <Divider variant="inset" component="li" />
       </List>

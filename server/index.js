@@ -12,6 +12,7 @@ const expertRoute = require("./router/expert");
 const ArticleRoute = require("../server/router/article");
 const ConversationRoute = require("../server/router/conversation");
 const messageRoute = require("../server/router/message");
+const adminRoute = require("../server/router/admin");
 
 app.use(morgan("dev"));
 app.use(express.json({extended: true}));
@@ -43,6 +44,8 @@ app.use("/article", ArticleRoute); //http://localhost:5000/article;
 
 //expert route
 app.use("/expert", expertRoute);
+//admin route
+app.use("/admin", adminRoute);
 //conversation route
 app.use("/conversation", ConversationRoute);
 //message route

@@ -19,6 +19,7 @@ const studentSchema = mongoose.Schema({
   friends: [mongoose.ObjectId],
   experts: [mongoose.ObjectId],
   public: Boolean,
+  blockStatus: Boolean,
 });
 
 module.exports = mongoose.model("students", studentSchema);

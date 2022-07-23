@@ -1,8 +1,8 @@
 import React from "react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Container from "@mui/material/Container";
@@ -11,10 +11,10 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import "../StudentLogin/StudentLog.css";
 import Typography from "@mui/material/Typography";
-import { FormControl, Input, InputLabel } from "@mui/material";
+import {FormControl, Input, InputLabel} from "@mui/material";
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { login } from "../../../redux/features/authSlice";
+import {login} from "../../../redux/features/authSlice";
 
 const initialState = {
   email: "",
@@ -23,16 +23,14 @@ const initialState = {
 
 export default function StudentLogin() {
   const [formValue, setFormValue] = useState(initialState);
-  const { email, password } = formValue;
-  const { loading, error } = useSelector((state) => ({ ...state.auth }));
+  const {email, password} = formValue;
+  const {loading, error} = useSelector((state) => ({...state.auth}));
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
- 
 
   const valid = () => {
     if (email == "") {
@@ -81,18 +79,18 @@ export default function StudentLogin() {
       toast.error(error);
     }
     if (isValid) {
-      dispatch(login({ formValue, navigate, toast }));
+      dispatch(login({formValue, navigate, toast}));
     }
   };
 
   const onInputChange = (e) => {
-    let { name, value } = e.target;
-    setFormValue({ ...formValue, [name]: value });
+    let {name, value} = e.target;
+    setFormValue({...formValue, [name]: value});
   };
 
   return (
-        <section className="background">
-    <Container className="">
+    <section className="background">
+      <Container className="">
         <Grid
           container
           sx={{
@@ -107,10 +105,10 @@ export default function StudentLogin() {
             item
             xs={12}
             sm={12}
-            md={4}
-            sx={{ alignItems: "center", margin: "auto", height: "100%" }}
+            md={6}
+            sx={{alignItems: "center", margin: "auto", height: "100%"}}
           >
-            <Box sx={{ textAlign: "center" }}>
+            <Box sx={{textAlign: "center"}}>
               <Paper
                 elevation={10}
                 sx={{
@@ -121,17 +119,15 @@ export default function StudentLogin() {
                 }}
                 className="form"
               >
-                <AccountCircleIcon
-                  sx={{ fontSize: "4rem" }}
-                ></AccountCircleIcon>
+                <AccountCircleIcon sx={{fontSize: "4rem"}}></AccountCircleIcon>
                 <Typography variant="h6" component="h6">
                   STUDENT
                 </Typography>
-                <Typography variant="h2" component="h2">
+                <Typography variant="h2" component="h2" className="titleName">
                   LOGIN
                 </Typography>
                 <form onSubmit={handleSubmit}>
-                  <Box sx={{ padding: "1rem" }}>
+                  <Box sx={{padding: "1rem"}}>
                     <FormControl>
                       <InputLabel htmlFor="my-input">Email address</InputLabel>
                       <Input
@@ -143,8 +139,8 @@ export default function StudentLogin() {
                     </FormControl>
                   </Box>
 
-                  <span style={{ color: "red" }}>{emailError}</span>
-                  <Box sx={{ padding: "1rem" }}>
+                  <span style={{color: "red"}}>{emailError}</span>
+                  <Box sx={{padding: "1rem"}}>
                     <FormControl>
                       <InputLabel htmlFor="my-input">password</InputLabel>
                       <Input
@@ -156,7 +152,7 @@ export default function StudentLogin() {
                       />
                     </FormControl>
                   </Box>
-                  <span style={{ color: "red" }}>{passwordError}</span>
+                  <span style={{color: "red"}}>{passwordError}</span>
                   <Box>
                     {loading ? (
                       <Button
@@ -173,7 +169,7 @@ export default function StudentLogin() {
                       </Button>
                     )}
                   </Box>
-                  <Box sx={{ padding: "1rem" }}>
+                  <Box sx={{padding: "1rem"}}>
                     <Typography
                       variant="subtitle1"
                       component="h6"
@@ -191,6 +187,6 @@ export default function StudentLogin() {
           </Grid>
         </Grid>
       </Container>
-      </section>
+    </section>
   );
 }

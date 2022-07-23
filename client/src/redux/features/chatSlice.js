@@ -16,6 +16,20 @@ export const getConversation = createAsyncThunk(
   }
 );
 
+export const getExpertConversation = createAsyncThunk(
+  "chat/getExpertConversation",
+  async (Id, {rejectWithValue}) => {
+    try {
+      console.log("get conversation async reached");
+      const response = await api.getExpertConversation(Id);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const createConversation = createAsyncThunk(
   "chat/createConversation",
   async ({conversation, navigate}, {rejectWithValue}) => {
@@ -23,6 +37,21 @@ export const createConversation = createAsyncThunk(
       console.log("create conversation async reached");
       const response = await api.createConversation(conversation);
       navigate("/messenger");
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const createExpertConversation = createAsyncThunk(
+  "chat/createConversation",
+  async ({conversation, navigate}, {rejectWithValue}) => {
+    try {
+      console.log("create conversation async reached");
+      const response = await api.createConversation(conversation);
+      navigate("/Expertmessenger");
       return response.data;
     } catch (err) {
       console.log(err);
@@ -82,6 +111,19 @@ const chatSlice = createSlice({
       state.error = action.payload.message;
     },
 
+    [getExpertConversation.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getExpertConversation.fulfilled]: (state, action) => {
+      state.loading = false;
+      console.log("hello got expert conversation", action.payload);
+      state.conversations = action.payload;
+    },
+    [getExpertConversation.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    },
+
     [createConversation.pending]: (state, action) => {
       state.loading = true;
     },
@@ -90,6 +132,18 @@ const chatSlice = createSlice({
       state.conversation = action.payload;
     },
     [createConversation.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    },
+
+    [createExpertConversation.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [createExpertConversation.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.conversation = action.payload;
+    },
+    [createExpertConversation.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     },

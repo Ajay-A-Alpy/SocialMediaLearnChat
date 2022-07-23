@@ -25,9 +25,17 @@ import {
 } from "../../redux/features/authSlice";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
+import {useEffect} from "react";
 
 function Sidebar() {
   const {user} = useSelector((state) => ({...state.auth}));
+
+  useEffect(() => {
+    const currentUser = JSON.parse(localStorage.getItem("profile"));
+    let Id = currentUser.result._id;
+    dispatch(getFriendsData({Id, navigate}));
+  }, []);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -41,8 +49,11 @@ function Sidebar() {
     dispatch(getFollowingsData({Id, navigate}));
   };
   let handleShowFriends = () => {
-    let Id = user.result._id;
-    dispatch(getFriendsData({Id, navigate}));
+    navigate("/student/friends");
+  };
+
+  let handleShowExperts = () => {
+    navigate("/student/experts");
   };
 
   return (
@@ -50,7 +61,7 @@ function Sidebar() {
       flex={1}
       bgcolor="#F0F8FF"
       p={2}
-      sx={{display: {xs: "none", sm: "block"}}}
+      sx={{display: {xs: "none", sm: "none", md: "block"}}}
     >
       <Box sx={{position: "fixed"}}>
         <List>
@@ -59,8 +70,7 @@ function Sidebar() {
               <ListItemButton>
                 <ListItemIcon></ListItemIcon>
                 <ListItemText
-                  sx={{fontSize: "2rem"}}
-                  primary={"Hello " + user?.result?.name}
+                  sx={{fontSize: "2rem", display: {md: "none", lg: "block"}}}
                 />
               </ListItemButton>
             </ListItem>
@@ -70,7 +80,7 @@ function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <HomeIcon></HomeIcon>
               </ListItemIcon>
               <ListItemText
@@ -82,7 +92,7 @@ function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <AccountBoxIcon></AccountBoxIcon>
               </ListItemIcon>
               <ListItemText
@@ -94,7 +104,7 @@ function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <FeedIcon></FeedIcon>
               </ListItemIcon>
               <ListItemText
@@ -106,7 +116,7 @@ function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <QuizIcon></QuizIcon>
               </ListItemIcon>
               <ListItemText primary="Questions" />
@@ -115,7 +125,7 @@ function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <BookIcon></BookIcon>
               </ListItemIcon>
               <ListItemText primary="Subjects" />
@@ -124,16 +134,16 @@ function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <SchoolIcon></SchoolIcon>
               </ListItemIcon>
-              <ListItemText primary="Tutors" />
+              <ListItemText primary="Experts" onClick={handleShowExperts} />
             </ListItemButton>
           </ListItem>
 
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <PeopleIcon></PeopleIcon>
               </ListItemIcon>
               <ListItemText primary="Followers" onClick={handleShowFollowers} />
@@ -142,7 +152,7 @@ function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <DirectionsRunIcon></DirectionsRunIcon>
               </ListItemIcon>
               <ListItemText
@@ -154,7 +164,7 @@ function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <PeopleOutlineIcon></PeopleOutlineIcon>
               </ListItemIcon>
               <ListItemText primary="Friends" onClick={handleShowFriends} />
@@ -163,7 +173,7 @@ function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <SettingsIcon></SettingsIcon>
               </ListItemIcon>
               <ListItemText primary="Settings" />

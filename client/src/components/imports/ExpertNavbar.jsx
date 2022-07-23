@@ -19,7 +19,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setExpertLogout} from "../../redux/features/expertAuthSlice";
-
+import decode from "jwt-decode";
 export default function ExpertNavbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,6 +44,14 @@ export default function ExpertNavbar() {
     dispatch(setExpertLogout());
     navigate("/");
   };
+  const token = JSON.parse(localStorage.getItem("expertToken"));
+  if (token) {
+    let decodeToken = decode(token);
+    if (decodeToken.exp * 1000 < new Date().getTime()) {
+      dispatch(setExpertLogout());
+      navigate("/");
+    }
+  }
 
   return (
     <AppBar position="sticky">
@@ -73,7 +81,7 @@ export default function ExpertNavbar() {
           >
             <NotificationsIcon color="white"></NotificationsIcon>
           </Badge>
-          <Box onClick={e => setOpen(true)}>
+          <Box onClick={(e) => setOpen(true)}>
             <Avatar
               sx={{width: "3rem", height: "3rem"}}
               padding="0 0 2rem 0"
@@ -86,7 +94,7 @@ export default function ExpertNavbar() {
               id="demo-positioned-menu"
               aria-labelledby="demo-positioned-button"
               open={open}
-              onClose={e => {
+              onClose={(e) => {
                 setOpen(false);
               }}
               anchorOrigin={{

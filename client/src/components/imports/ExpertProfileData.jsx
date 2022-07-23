@@ -1,33 +1,32 @@
-import { Box, styled } from "@mui/system";
+import {Box, styled} from "@mui/system";
 import Stack from "@mui/material/Stack";
 
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 
-import { Tooltip, Typography } from "@mui/material";
+import {Tooltip, Typography} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ExpertProfileEdit from "./ExpertProfileEdit";
 
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import {useState} from "react";
+import {useSelector} from "react-redux";
 
 export default function ExpertProfileData() {
   const [edit, setEdit] = useState(false);
-  const { expert } = useSelector((state) => ({ ...state.expertAuth }));
- 
+  const {expert} = useSelector((state) => ({...state.expertAuth}));
 
   return (
-    <Box flex={4} sx={{ backgroundColor: "white", height: "100%" }}>
-      <Stack direction={{ xs: "column", sm: "row" }} spacing={4}>
+    <Box flex={4} sx={{backgroundColor: "white", height: "100%"}}>
+      <Stack direction={{xs: "column", sm: "row"}} spacing={4}>
         <Box
           flex={2}
           sx={{
             backgroundColor: "white",
             height: "100%",
-            display: { xs: "block", sm: "block" },
+            display: {xs: "block", sm: "block"},
           }}
         >
-          <Box sx={{ dispaly: "block", textAlign: "end" }}>
+          <Box sx={{dispaly: "block", textAlign: "end"}}>
             <Tooltip title="Edit Profile" placement="left">
               <EditIcon
                 color="white"
@@ -43,7 +42,7 @@ export default function ExpertProfileData() {
               height: "",
               width: "90%",
               alignItems: "center",
-              paddingTop: { xs: "10%", sm: "25%" },
+              paddingTop: {xs: "10%", sm: "25%"},
               justifyContent: "center",
               display: "flex",
             }}
@@ -52,7 +51,7 @@ export default function ExpertProfileData() {
               onClick={() => {
                 setEdit(true);
               }}
-              style={{ width: "90%" }}
+              style={{width: "90%"}}
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZRW8MprfJzvyxKiP8t7o1E-LKC9NkPEVClQ&usqp=CAU"
             />
           </Box>
@@ -73,43 +72,41 @@ export default function ExpertProfileData() {
                 position: "relative",
               }}
             >
-
-<ListItem>
-                <ListItemText primary={expert.result.about} secondary={expert.result.name} />
+              <ListItem>
+                <ListItemText
+                  primary={expert?.result.about}
+                  secondary={expert?.result.name}
+                />
               </ListItem>
               <Stack direction="row">
+                <ListItem>
+                  <ListItemText primary="Followers" secondary="10" />
+                </ListItem>
 
-              <ListItem>
-                <ListItemText primary="Followers" secondary="10" />
-              </ListItem>
+                <ListItem>
+                  <ListItemText primary="Followings" secondary="20" />
+                </ListItem>
 
-              <ListItem>
-                <ListItemText primary="Followings" secondary="20" />
-              </ListItem>
-
-              <ListItem>
-                <ListItemText primary="Friends" secondary="10" />
-              </ListItem>
-
+                <ListItem>
+                  <ListItemText primary="Friends" secondary="10" />
+                </ListItem>
               </Stack>
-
-              
             </Stack>
           </Box>
         </Box>
 
-        {edit ? <ExpertProfileEdit></ExpertProfileEdit>
-       
-         : 
-          <Box flex={4} sx={{ backgroundColor: "", height: "100%" }}>
+        {edit ? (
+          <ExpertProfileEdit></ExpertProfileEdit>
+        ) : (
+          <Box flex={4} sx={{backgroundColor: "", height: "100%"}}>
             <Box
-              sx={{ backgroundColor: "", height: "auto", textAlign: "center" }}
+              sx={{backgroundColor: "", height: "auto", textAlign: "center"}}
             >
               <Typography
                 component="h5"
                 variant="h5"
                 color="white"
-                sx={{ width: "100%", backgroundColor: "#34568B" }}
+                sx={{width: "100%", backgroundColor: "#34568B"}}
               >
                 Personal Info
               </Typography>
@@ -259,7 +256,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result?.dob.substring(0,10)}
+                    {expert.result?.dob.substring(0, 10)}
                   </Typography>
                 </Stack>
 
@@ -305,7 +302,7 @@ export default function ExpertProfileData() {
                 component="h5"
                 variant="h5"
                 color="white"
-                sx={{ width: "100%", backgroundColor: "#34568B" }}
+                sx={{width: "100%", backgroundColor: "#34568B"}}
               >
                 Educational Info
               </Typography>
@@ -379,7 +376,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                   Experience
+                    Experience
                   </Typography>
                   <Typography
                     component="h6"
@@ -408,7 +405,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                  Expertise in
+                    Expertise in
                   </Typography>
                   <Typography
                     component="h6"
@@ -427,7 +424,7 @@ export default function ExpertProfileData() {
               </Stack>
             </Box>
           </Box>
-        }
+        )}
       </Stack>
     </Box>
   );

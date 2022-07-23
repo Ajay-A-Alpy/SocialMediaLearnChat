@@ -26,7 +26,7 @@ export default function ExpertFeed() {
           color: "white",
         }}
       >
-        {articles.length} Articles by Students
+        {loading ? " " : articles.length + "Articles by Students"}
       </Typography>
       {articles.map((item, index) => {
         return <ViewPosts key={index} {...item} />;
