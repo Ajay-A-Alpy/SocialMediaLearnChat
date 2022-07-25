@@ -11,12 +11,7 @@ function Myfriends() {
   return (
     <Box>
       <Navbar></Navbar>
-      <Typography
-        variant="h5"
-        style={{margin: "auto", textAlign: "center", color: "blue"}}
-      >
-        MY FRIENDS
-      </Typography>
+
       <Stack direction="row" spacing={4} justifyContent="space-between">
         <Sidebar></Sidebar>
 

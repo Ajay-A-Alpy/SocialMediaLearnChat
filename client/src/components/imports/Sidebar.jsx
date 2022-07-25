@@ -31,9 +31,7 @@ function Sidebar() {
   const {user} = useSelector((state) => ({...state.auth}));
 
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("profile"));
-    let Id = currentUser.result._id;
-    dispatch(getFriendsData({Id, navigate}));
+    dispatch(getFriendsData(navigate));
   }, []);
 
   const navigate = useNavigate();
@@ -123,14 +121,14 @@ function Sidebar() {
             </ListItemButton>
           </ListItem>
 
-          <ListItem disablePadding>
+          {/* <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <BookIcon></BookIcon>
               </ListItemIcon>
               <ListItemText primary="Subjects" />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
 
           <ListItem disablePadding>
             <ListItemButton>

@@ -26,6 +26,20 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.getExpertData = async (req, res) => {
+  let Id = req.userId;
+  console.log("get expert reached", req.userId);
+  try {
+    let oldUser = await expertModal.findById(Id);
+    if (oldUser) {
+      res.status(200).json({result: oldUser});
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({message: "something went wrong"});
+  }
+};
+
 exports.signup = async (req, res) => {
   const {name, email, password, mobile} = req.body;
   try {

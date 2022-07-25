@@ -13,7 +13,7 @@ import MyArticles from "./pages/Students/Articles/MyArticles";
 import Messenger from "./pages/messenger/Messenger";
 import {useDispatch} from "react-redux";
 import {useEffect} from "react";
-import {setUser} from "./redux/features/authSlice";
+import {getCurrentUser, setUser} from "./redux/features/authSlice";
 import ProfileEdit from "./components/imports/ProfileEdit";
 import Home from "./pages/common/Home";
 import ExpertRegister from "./pages/Experts/ExpertRegister/ExpertRegister";
@@ -23,7 +23,10 @@ import ExpertProfile from "./pages/Experts/ExpertProfile/ExpertProfile";
 import MyFollowers from "./pages/Students/Followers/MyFollowers";
 import ViewStudents from "./pages/Students/ViewStudent/ViewStudents";
 import MyFollowings from "./pages/Students/followings/MyFollowings";
-import {setExpert} from "./redux/features/expertAuthSlice";
+import {
+  getCurrentExpertData,
+  setExpert,
+} from "./redux/features/expertAuthSlice";
 import Myfriends from "./pages/Students/friends/Myfriends";
 import PrivateRouter from "./components/imports/PrivateRouter";
 import VideoChat from "./pages/VideoChat/VideoChat";
@@ -36,20 +39,24 @@ import AllArticles from "./pages/Admin/AllArticles/AllArticles";
 import Experts from "./pages/Students/Experts/Experts";
 import ViewExpert from "./pages/Students/ViewExpert/ViewExpert";
 import ExpertMessenger from "./pages/messenger/ExpertMessenger";
+import {useSelector} from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
 
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const userValid = JSON.parse(localStorage.getItem("userToken"));
 
-  const expert = JSON.parse(localStorage.getItem("expertProfile"));
+  const expertValid = JSON.parse(localStorage.getItem("expertToken"));
 
   useEffect(() => {
     console.log("hello user is dispatched");
-    console.log(user);
-    dispatch(setUser(user));
-    if (expert) {
-      dispatch(setExpert(expert));
+    console.log(userValid);
+    if (userValid) {
+      dispatch(getCurrentUser());
+    }
+
+    if (expertValid) {
+      dispatch(getCurrentExpertData());
     }
   }, []);
 

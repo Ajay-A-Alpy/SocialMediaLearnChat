@@ -6,6 +6,7 @@ const secret = process.env.SECRET;
 const mongoose = require("mongoose");
 const ArticleModal = require("../../models/articles");
 const ExpertModel = require("../../models/expert");
+
 exports.login = async (req, res) => {
   console.log(req.body);
   const {email, password} = req.body;
@@ -25,6 +26,21 @@ exports.login = async (req, res) => {
     return res.status(200).json({result: olduser, token});
   } catch (err) {
     console.log(err);
+  }
+};
+
+exports.getUserData = async (req, res) => {
+  let Id = req.userId;
+  console.log("get user data", Id);
+  try {
+    const olduser = await studentModal.findById(Id);
+    if (olduser) {
+      console.log("olduser", olduser);
+      return res.status(200).json({result: olduser});
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({message: "something went wrong"});
   }
 };
 
@@ -293,7 +309,7 @@ exports.getProfile = async (req, res) => {
 };
 
 exports.getFollowers = async (req, res) => {
-  let userId = mongoose.Types.ObjectId(req.params.id);
+  let userId = mongoose.Types.ObjectId(req.userId);
   console.log(userId);
 
   try {
@@ -330,7 +346,7 @@ exports.getFollowers = async (req, res) => {
 };
 
 exports.getFollowings = async (req, res) => {
-  let userId = mongoose.Types.ObjectId(req.params.id);
+  let userId = mongoose.Types.ObjectId(req.userId);
   console.log(userId);
 
   try {
@@ -366,7 +382,8 @@ exports.getFollowings = async (req, res) => {
 };
 
 exports.getFriends = async (req, res) => {
-  let userId = mongoose.Types.ObjectId(req.params.id);
+  console.log("hello", req.userId);
+  let userId = mongoose.Types.ObjectId(req.userId);
   console.log(userId);
 
   try {

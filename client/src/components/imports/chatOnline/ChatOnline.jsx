@@ -12,10 +12,8 @@ function ChatOnline({onlineUsers, currentUser, setCurrentChat}) {
   const [Friends, setFriends] = useState([]);
 
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("profile"));
-    let Id = currentUser.result._id;
     const getmyfriends = async () => {
-      let resp = await api.getFriends(Id);
+      let resp = await api.getFriends();
       setFriends(resp.data);
     };
     getmyfriends();

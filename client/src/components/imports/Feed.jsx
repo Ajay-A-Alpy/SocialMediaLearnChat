@@ -29,7 +29,7 @@ export default function Feed() {
         {/* {loading ? <CircularProgress /> : articles.length + " Articles"} */}
       </Typography>
 
-      {articles.map((item, index) => {
+      {articles?.map((item) => {
         return <Posts key={item._id} {...item} />;
       })}
     </Box>

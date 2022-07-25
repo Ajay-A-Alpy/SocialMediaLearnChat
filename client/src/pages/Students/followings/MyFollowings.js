@@ -10,12 +10,7 @@ function MyFollowings() {
   return (
     <Box sx={{height: ""}}>
       <Navbar></Navbar>
-      <Typography
-        variant="h5"
-        style={{margin: "auto", textAlign: "center", color: "blue"}}
-      >
-        MY FOLLOWINGS
-      </Typography>
+
       <Stack direction="row" spacing={4} justifyContent="space-between">
         <Sidebar></Sidebar>
 

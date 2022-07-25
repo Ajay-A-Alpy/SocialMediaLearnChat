@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import {useNavigate} from "react-router-dom";
-import {Button} from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import {useSelector, useDispatch} from "react-redux";
 import {getFollowingsData} from "../../redux/features/authSlice";
 import * as api from "../../redux/api";
@@ -50,14 +50,19 @@ function FollowingsList() {
   };
 
   useEffect(() => {
-    let Id = JSON.parse(localStorage.getItem("profile")).result._id;
-    dispatch(getFollowingsData({Id, navigate}));
+    dispatch(getFollowingsData({navigate}));
     setFollowings(followings);
     console.log(followingList);
   }, []);
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
+      <Typography
+        variant="h5"
+        style={{margin: "auto", textAlign: "center", color: "blue"}}
+      >
+        MY FOLLOWINGS
+      </Typography>
       {followingList?.map((item, index) => {
         return (
           <List

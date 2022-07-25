@@ -32,6 +32,11 @@ export const logIn = async (formData) => {
   return await API.post("/student/login", formData);
 };
 
+//set  User
+export const getUserData = async () => {
+  return await API.post("/student/getUserData");
+};
+
 // student signup
 export const SignUp = async (formData) => {
   return await API.post("/student/signup", formData);
@@ -63,18 +68,18 @@ export const unfollowExpert = async (userid, id) => {
 };
 
 //get  followers data
-export const getFollowers = async (id) => {
-  return await API.get(`/student/getFollowers/${id}`);
+export const getFollowers = async () => {
+  return await API.get(`/student/getFollowers`);
 };
 
 //get  followings data
-export const getFollowings = async (id) => {
-  return await API.get(`/student/getFollowings/${id}`);
+export const getFollowings = async () => {
+  return await API.get(`/student/getFollowings`);
 };
 
 //get  friends data
-export const getFriends = async (id) => {
-  return await API.get(`/student/getFriends/${id}`);
+export const getFriends = async () => {
+  return await API.get(`/student/getFriends`);
 };
 
 //unfollow one
@@ -87,11 +92,7 @@ export const getStudentProfile = async (userid) => {
   return await API.get(`/student/viewProfile/${userid}`);
 };
 
-//view expert profile
-export const getExpertProfile = async (expertId) => {
-  return await API.get(`/expert/viewProfile/${expertId}`);
-};
-
+//************Expert section***************
 //expert login
 export const expertLogIn = async (formData) => {
   return await API.post("/expert/login", formData);
@@ -102,9 +103,19 @@ export const expertSignUp = async (formData) => {
   return await API.post("/expert/signup", formData);
 };
 
+//view expert profile
+export const getExpertProfile = async (expertId) => {
+  return await API.get(`/expert/viewProfile/${expertId}`);
+};
+
 //expert profile update
 export const expertUpdateProfile = async (formData, id) => {
   return await API.put(`/expert/profile/${id}`, formData);
+};
+
+//expert Data get
+export const getExpertDetails = async () => {
+  return await API.post("/expert/getExpertData");
 };
 
 //add new article

@@ -5,37 +5,40 @@ import SendIcon from "@mui/icons-material/Send";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Modal from "@mui/material/Modal";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import TextField from "@mui/material/TextField";
 import {useDispatch, useSelector} from "react-redux";
 import {createArticle, getArticles} from "../../redux/features/articleSlice";
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 
-const initialState = {
-  title: "",
-  subject: "",
-  description: "",
-};
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export default function AddPost() {
   const [modal, setModal] = useState(false);
-  const [articleData, setArticleData] = useState(initialState);
-  const {title, subject, description} = articleData;
 
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [subject, setSubject] = useState("");
+  const [open, setOpen] = useState(false);
+  const [change, setChange] = useState(false);
   const [imageField, setImageField] = useState();
 
   const {user} = useSelector((state) => ({...state.auth}));
   const dispatch = useDispatch();
-
-  const onInutChange = (e) => {
-    e.preventDefault();
-    const {name, value} = e.target;
-    setArticleData({...articleData, [name]: value});
-  };
+  const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(getArticles());
+  }, [change]);
 
   const handleClear = () => {
-    setArticleData(initialState);
+    setTitle("");
+    setSubject("");
+    setDescription("");
   };
 
   const imageHandler = (e) => {
@@ -52,29 +55,15 @@ export default function AddPost() {
     fd.append("userId", user?.result?._id);
 
     if (title && subject && description) {
-      setModal(false);
+      setOpen(false);
+      dispatch(createArticle({fd, navigate, toast}));
+      setChange(!change);
       handleClear();
-      dispatch(createArticle({fd, toast}));
-      dispatch(getArticles());
     }
   };
 
-  const ModalStyled = styled(Modal)({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  });
-
   const Input = styled("input")({
     display: "none",
-  });
-
-  const UserBox = styled(Box)({
-    display: "flex",
-
-    alignItems: "center",
-    paddingInline: "3rem",
-    marginTop: "0",
   });
 
   return (
@@ -84,9 +73,9 @@ export default function AddPost() {
           <Button
             variant="contained"
             component="span"
-            sx={{backgroundColor: "#ffa8B6"}}
+            sx={{backgroundColor: "#f9d423", color: "black"}}
             endIcon={<AddBoxIcon />}
-            onClick={() => setModal(true)}
+            onClick={() => setOpen(true)}
           >
             Add Article
           </Button>
@@ -99,104 +88,103 @@ export default function AddPost() {
             Add Question
           </Button>
         </Stack>
-        <Box>
-          <ModalStyled
-            open={modal}
-            onClose={() => setModal(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box
-              sx={{
-                width: {xs: "90%", sm: "40%"},
-                height: {xs: "90%", sm: "70%"},
-                backgroundColor: "white",
-                borderRadius: "",
-                padding: "auto",
-              }}
-            >
-              <Typography
-                sx={{padding: "3rem"}}
-                fontWeight={400}
-                color="gray"
-                textAlign="center"
-                variant="h5"
-              >
-                Create an Article
-              </Typography>
-
-              <UserBox>
-                <Stack direction="column" sx={{width: "100%"}} gap={2}>
-                  <TextField
-                    placeholder="Title"
-                    variant="standard"
-                    name="title"
-                    value={title}
-                    onChange={onInutChange}
-                    sx={{padding: "", width: "100%"}}
-                  />
-                  <TextField
-                    placeholder="Subject"
-                    variant="standard"
-                    name="subject"
-                    value={subject}
-                    onChange={onInutChange}
-                    sx={{padding: "", width: "100%"}}
-                  />
-                  <TextField
-                    placeholder="Description"
-                    variant="standard"
-                    name="description"
-                    value={description}
-                    onChange={onInutChange}
-                    multiline
-                    rows={4}
-                    sx={{padding: "", width: "100%"}}
-                  />
-                </Stack>
-              </UserBox>
-              <Stack
-                direction="row"
-                sx={{
-                  position: "relative",
-                  display: "flex",
-                  justifyContent: "space-around",
-                }}
-                gap={1}
-                mb={0}
-                p={3}
-              >
-                <label htmlFor="contained-button-file">
-                  <Input
-                    accept="image/*"
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    name="image"
-                    onChange={imageHandler}
-                  />
-                  <Button
-                    variant="contained"
-                    component="span"
-                    endIcon={<AddPhotoAlternateIcon></AddPhotoAlternateIcon>}
-                  >
-                    Upload
-                  </Button>
-                </label>
-
-                <Button
-                  variant="contained"
-                  color="success"
-                  endIcon={<SendIcon />}
-                  onClick={handlePost}
-                >
-                  Post
-                </Button>
-              </Stack>
-            </Box>
-          </ModalStyled>
-        </Box>
       </Grid>
+
+      <Dialog open={open}>
+        <DialogTitle sx={{width: "100%", textAlign: "center"}}>
+          New Article
+        </DialogTitle>
+        <DialogContent>
+          <Box className="Article_form">
+            <TextField
+              autoFocus
+              margin="dense"
+              name="title"
+              label="Title"
+              fullWidth
+              variant="standard"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                console.log(e.target.value);
+              }}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              variant="standard"
+              label="Subject"
+              name="subject"
+              value={subject}
+              onChange={(e) => {
+                setSubject(e.target.value);
+              }}
+              sx={{padding: "", width: "100%"}}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              variant="standard"
+              label="Description"
+              name="description"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+              multiline
+              rows={4}
+              sx={{padding: "", width: "100%"}}
+            />
+          </Box>
+          <Stack
+            direction="row"
+            sx={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+            gap={1}
+            mb={0}
+            p={3}
+          >
+            <label htmlFor="contained-button-file">
+              <Input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+                name="image"
+                onChange={imageHandler}
+              />
+              <Button
+                variant="contained"
+                component="span"
+                endIcon={<AddPhotoAlternateIcon></AddPhotoAlternateIcon>}
+              >
+                Upload
+              </Button>
+            </label>
+
+            <Button
+              variant="contained"
+              color="success"
+              endIcon={<SendIcon />}
+              onClick={handlePost}
+            >
+              Post
+            </Button>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

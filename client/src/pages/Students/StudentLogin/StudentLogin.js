@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -31,6 +31,13 @@ export default function StudentLogin() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let token = localStorage.getItem("userToken");
+    if (token) {
+      navigate("/student");
+    }
+  });
 
   const valid = () => {
     if (email == "") {
@@ -105,7 +112,7 @@ export default function StudentLogin() {
             item
             xs={12}
             sm={12}
-            md={6}
+            md={4}
             sx={{alignItems: "center", margin: "auto", height: "100%"}}
           >
             <Box sx={{textAlign: "center"}}>
@@ -115,7 +122,7 @@ export default function StudentLogin() {
                   height: "auto",
                   boxSizing: "border-box",
                   borderRadius: "2rem",
-                  padding: "5rem",
+                  padding: "2rem",
                 }}
                 className="form"
               >

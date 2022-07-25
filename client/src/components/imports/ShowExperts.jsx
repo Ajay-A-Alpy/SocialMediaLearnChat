@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 
-import {Button} from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import {useSelector, useDispatch} from "react-redux";
 import {
   getExpertProfile,
@@ -81,6 +81,12 @@ function ShowExperts() {
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
+      <Typography
+        variant="h5"
+        style={{margin: "auto", textAlign: "center", color: "blue"}}
+      >
+        Experts
+      </Typography>
       {allExperts?.map((item) => {
         return (
           <List

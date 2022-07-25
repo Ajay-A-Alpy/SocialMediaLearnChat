@@ -20,6 +20,9 @@ router.post("/signup", controller.signup);
 //student login
 router.post("/login", controller.login);
 
+//current user data
+router.post("/getUserData", auth, controller.getUserData);
+
 //student profile update
 router.put("/profile/:id", auth, controller.profile);
 
@@ -42,12 +45,12 @@ router.post("/unfollowExpert/:id", auth, controller.unfollowExpert);
 router.get("/viewProfile/:id", auth, controller.getProfile);
 
 //get followers data
-router.get("/getFollowers/:id", auth, controller.getFollowers);
+router.get("/getFollowers", auth, controller.getFollowers);
 
 //get followings data
-router.get("/getFollowings/:id", auth, controller.getFollowings);
+router.get("/getFollowings", auth, controller.getFollowings);
 
 //get friends data
-router.get("/getFriends/:id", auth, controller.getFriends);
+router.get("/getFriends", auth, controller.getFriends);
 
 module.exports = router;

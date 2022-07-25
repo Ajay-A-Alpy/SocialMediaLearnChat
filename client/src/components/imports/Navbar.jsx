@@ -17,10 +17,11 @@ import MapsUgcIcon from "@mui/icons-material/MapsUgc";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+
 import {setLogout} from "../../redux/features/authSlice";
 
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 import decode from "jwt-decode";
 
 export default function Navbar() {
@@ -28,7 +29,9 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  const token = JSON.parse(localStorage.getItem("userToken"));
+  const token =
+    JSON.parse(localStorage.getItem("userToken")) ||
+    JSON.parse(localStorage.getItem("expertToken"));
 
   if (token) {
     let decodeToken = decode(token);
@@ -62,7 +65,6 @@ export default function Navbar() {
     <AppBar position="sticky">
       <SyledToolbar>
         <Typography variant="h6" sx={{display: {xs: "none", sm: "block"}}}>
-          {" "}
           Learn-Chat
         </Typography>
         <HomeIcon

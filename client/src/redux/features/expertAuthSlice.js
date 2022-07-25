@@ -14,6 +14,19 @@ export const expertLogin = createAsyncThunk(
     }
   }
 );
+
+export const getCurrentExpertData = createAsyncThunk(
+  "expert/getExpertData",
+  async (_, {rejectWithValue}) => {
+    try {
+      const response = await api.getExpertDetails();
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const expertRegister = createAsyncThunk(
   "expert/register",
   async ({formValue, navigate, toast}, {rejectWithValue}) => {
@@ -70,11 +83,6 @@ const expertSlice = createSlice({
     },
     [expertLogin.fulfilled]: (state, action) => {
       state.loading = false;
-
-      localStorage.setItem(
-        "expertProfile",
-        JSON.stringify({...action.payload})
-      );
       let {token} = action.payload;
       console.log("expert login");
       localStorage.setItem("expertToken", JSON.stringify(token));
@@ -85,20 +93,26 @@ const expertSlice = createSlice({
       state.error = action.payload.message;
     },
 
+    [getCurrentExpertData.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getCurrentExpertData.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.expert = action.payload;
+    },
+    [getCurrentExpertData.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    },
+
     [expertRegister.pending]: (state, action) => {
       state.loading = true;
     },
     [expertRegister.fulfilled]: (state, action) => {
       state.loading = false;
-
-      localStorage.setItem(
-        "expertProfile",
-        JSON.stringify({...action.payload})
-      );
       let {token} = action.payload;
       console.log("expert login");
       localStorage.setItem("expertToken", JSON.stringify(token));
-
       state.expert = action.payload;
     },
     [expertRegister.rejected]: (state, action) => {

@@ -11,7 +11,7 @@ function Message({message, own, name}) {
       <Stack direction="column">
         <Box className="message_top">
           <Avatar className="message_img">
-            {own ? name.substr(0, 2) : ""}{" "}
+            {own ? name?.substr(0, 2) : ""}
           </Avatar>
           <Typography
             className={own ? "message_text ownText" : "message_text "}

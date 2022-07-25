@@ -1,14 +1,43 @@
 import {Grid, Typography} from "@mui/material";
 import {Box} from "@mui/system";
-import React from "react";
+import React, {useEffect} from "react";
 import "../common/home.css";
 import Fab from "@mui/material/Fab";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import SendIcon from "@mui/icons-material/Send";
 import {useNavigate} from "react-router-dom";
+import {setExpertLogout} from "../../redux/features/expertAuthSlice";
+
+import {useDispatch} from "react-redux";
+import decode from "jwt-decode";
+import {setLogout} from "../../redux/features/authSlice";
 
 function Home() {
+  const student = JSON.parse(localStorage.getItem("userToken"));
+  const expert = JSON.parse(localStorage.getItem("expertToken"));
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  if (student) {
+    let decodeToken = decode(student);
+    if (decodeToken.exp * 1000 < new Date().getTime()) {
+      dispatch(setLogout());
+      navigate("/");
+    }
+  }
+  if (expert) {
+    let decodeExpert = decode(expert);
+    if (decodeExpert.exp * 1000 < new Date().getTime()) {
+      dispatch(setExpertLogout());
+      navigate("/");
+    }
+  }
+
+  useEffect(() => {
+    let token = localStorage.getItem("userToken");
+    if (token) {
+      navigate("/student");
+    }
+  });
 
   return (
     <Grid container className="home">
@@ -48,9 +77,10 @@ function Home() {
             onClick={() => {
               navigate("/student/login");
             }}
+            className="button"
           >
-            <NavigationIcon sx={{mr: 1}} />
-            Students Login
+            <NavigationIcon sx={({mr: 1}, {fontSize: {xs: "0.8px"}})} />
+            Student Login
           </Fab>
         </Box>
       </Grid>
@@ -68,9 +98,10 @@ function Home() {
             onClick={() => {
               navigate("/expert/login");
             }}
+            className="button"
           >
-            <NavigationIcon sx={{mr: 1}} />
-            Experts Login
+            <NavigationIcon sx={({mr: 1}, {fontSize: {xs: "1px"}})} />
+            Expert Login
           </Fab>
         </Box>
       </Grid>

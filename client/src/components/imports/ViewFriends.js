@@ -27,8 +27,7 @@ function ViewFriends() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let Id = JSON.parse(localStorage.getItem("profile")).result._id;
-    dispatch(getFriendsData({Id, navigate}));
+    dispatch(getFriendsData(navigate));
     setFriendsList(friends);
     console.log(friendsList);
   }, []);
@@ -69,7 +68,13 @@ function ViewFriends() {
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
-      {friendsList.length == 0 ? (
+      <Typography
+        variant="h4"
+        style={{margin: "auto", textAlign: "center", color: "blue"}}
+      >
+        My friends
+      </Typography>
+      {friendsList?.length == 0 ? (
         <Typography
           variant="h5"
           sx={{

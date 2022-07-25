@@ -55,21 +55,16 @@ export default function Posts({
   likes,
   comments,
 }) {
-  const initials = {
-    title1: title,
-    subject1: subject,
-    description1: description,
-    id: _id,
-  };
-
   const [modal, setModal] = useState(false);
   const [comment, setComment] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const [commentText, setCommentText] = useState("");
 
   const [open, setOpen] = useState(false);
-  const [articleData, setArticleData] = useState(initials);
-  const {title1, subject1, description1, id} = articleData;
+  const [title1, setTitle] = useState(title);
+  const [subject1, setSubject] = useState(subject);
+  const [description1, setDescription] = useState(description);
+
   const [likeChange, setLikeChange] = useState(false);
   const {error, loading} = useSelector((state) => ({...state.article}));
 
@@ -102,13 +97,10 @@ export default function Posts({
     }
   };
 
-  const onInutChange = (e) => {
-    const {name, value} = e.target;
-    setArticleData({...articleData, [name]: value});
-  };
-
   const handleClear = () => {
-    setArticleData({});
+    setTitle("");
+    setSubject("");
+    setDescription("");
   };
 
   const imageHandler = (e) => {
@@ -121,7 +113,7 @@ export default function Posts({
     dispatch(deleteArticle({id}));
     navigate("/student");
     setLikeChange(!likeChange);
-    toast.success("Article deleted");
+    toast.success("Article deleted", {autoClose: 1000});
   };
 
   const handlePost = async (e) => {
@@ -135,6 +127,7 @@ export default function Posts({
     fd.append("userId", user?.result?._id);
 
     if (title1 && subject1 && description1) {
+      let id = _id;
       dispatch(updateArticle({fd, id, navigate, toast}));
       dispatch(getArticles());
       handleClear();
@@ -191,7 +184,7 @@ export default function Posts({
         <CardHeader
           avatar={
             <Box>
-              {user.result?._id == userId ? (
+              {user?.result._id == userId ? (
                 <Avatar
                   sx={{bgcolor: "red"}}
                   aria-label="recipe"
@@ -283,7 +276,7 @@ export default function Posts({
           </Box>
         </CardContent>
         <CardActions sx={{display: "flex", justifyContent: "space-between"}}>
-          {likes.includes(user.result._id) && loading == false ? (
+          {likes.includes(user?.result._id) && loading == false ? (
             <IconButton aria-label="unlike">
               <Tooltip
                 title="unlike"
@@ -336,103 +329,101 @@ export default function Posts({
         </CardActions>
       </Card>
 
-      <Box>
-        <ModalStyled
-          open={modal}
-          onClose={() => setModal(false)}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box
-            sx={{
-              width: {xs: "90%", sm: "40%"},
-              height: {xs: "90%", sm: "70%"},
-              backgroundColor: "white",
-              borderRadius: "",
-              padding: "auto",
-            }}
-          >
-            <Typography
-              sx={{padding: "3rem"}}
-              fontWeight={400}
-              color="gray"
-              textAlign="center"
-              variant="h5"
-            >
-              Edit Article
-            </Typography>
-
-            <UserBox>
-              <Stack direction="column" sx={{width: "100%"}} gap={2}>
-                <TextField
-                  placeholder="Title"
-                  variant="standard"
-                  name="title1"
-                  value={title1}
-                  onChange={onInutChange}
-                  sx={{padding: "", width: "100%"}}
-                />
-                <TextField
-                  placeholder="Subject"
-                  variant="standard"
-                  name="subject1"
-                  value={subject1}
-                  onChange={onInutChange}
-                  sx={{padding: "", width: "100%"}}
-                />
-                <TextField
-                  placeholder="Description"
-                  variant="standard"
-                  name="description1"
-                  value={description1}
-                  onChange={onInutChange}
-                  multiline
-                  rows={4}
-                  sx={{padding: "", width: "100%"}}
-                />
-              </Stack>
-            </UserBox>
-            <Stack
-              direction="row"
-              sx={{
-                position: "relative",
-                display: "flex",
-                justifyContent: "space-around",
+      <Dialog open={modal}>
+        <DialogTitle sx={{width: "100%", textAlign: "center"}}>
+          Edit Article
+        </DialogTitle>
+        <DialogContent>
+          <Box className="Article_form">
+            <TextField
+              autoFocus
+              margin="dense"
+              name="title1"
+              label="Title"
+              fullWidth
+              variant="standard"
+              value={title1}
+              onChange={(e) => {
+                setTitle(e.target.value);
               }}
-              gap={1}
-              mb={0}
-              p={3}
-            >
-              <label htmlFor="contained-button-file">
-                <Input
-                  accept="image/*"
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                  name="image"
-                  onChange={imageHandler}
-                />
-                <Button
-                  variant="contained"
-                  component="span"
-                  endIcon={<AddPhotoAlternateIcon></AddPhotoAlternateIcon>}
-                >
-                  Upload
-                </Button>
-              </label>
-
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              variant="standard"
+              label="Subject"
+              name="subject1"
+              value={subject1}
+              onChange={(e) => {
+                setSubject(e.target.value);
+              }}
+              sx={{padding: "", width: "100%"}}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              variant="standard"
+              label="Description"
+              name="description1"
+              value={description1}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+              multiline
+              rows={4}
+              sx={{padding: "", width: "100%"}}
+            />
+          </Box>
+          <Stack
+            direction="row"
+            sx={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+            gap={1}
+            mb={0}
+            p={3}
+          >
+            <label htmlFor="contained-button-file">
+              <Input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+                name="image"
+                onChange={imageHandler}
+              />
               <Button
                 variant="contained"
-                color="success"
-                endIcon={<SendIcon />}
-                onClick={handlePost}
+                component="span"
+                endIcon={<AddPhotoAlternateIcon></AddPhotoAlternateIcon>}
               >
-                Update
+                Upload
               </Button>
-            </Stack>
-          </Box>
-        </ModalStyled>
-      </Box>
+            </label>
+
+            <Button
+              variant="contained"
+              color="success"
+              endIcon={<SendIcon />}
+              onClick={handlePost}
+            >
+              Post
+            </Button>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setModal(false);
+            }}
+          >
+            Cancel
+          </Button>
+          {/* <Button onClick={handleClose}>Subscribe</Button> */}
+        </DialogActions>
+      </Dialog>
 
       <Dialog
         open={open}

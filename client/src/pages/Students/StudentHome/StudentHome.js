@@ -14,7 +14,7 @@ export default function StudentHome() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let profile = JSON.parse(localStorage.getItem("profile"));
+    let profile = JSON.parse(localStorage.getItem("userToken"));
     if (!profile) {
       navigate("/");
     }

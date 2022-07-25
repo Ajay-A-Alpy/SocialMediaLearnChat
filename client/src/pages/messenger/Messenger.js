@@ -29,7 +29,7 @@ function Messenger() {
 
   const socket = useRef();
 
-  let currentUser = JSON.parse(localStorage.getItem("profile"));
+  let currentUser = user;
 
   useEffect(() => {
     console.log("new message reached ");

@@ -138,7 +138,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result.name}
+                    {expert?.result.name}
                   </Typography>
                 </Stack>
 

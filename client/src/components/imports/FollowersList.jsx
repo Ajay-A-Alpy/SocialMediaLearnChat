@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 
-import {Button} from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import {useSelector, useDispatch} from "react-redux";
 import {getStudentProfile, setUser} from "../../redux/features/authSlice";
 import {useNavigate} from "react-router-dom";
@@ -59,7 +59,13 @@ function FollowersList() {
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
-      {followers.map((item) => {
+      <Typography
+        variant="h5"
+        style={{margin: "auto", textAlign: "center", color: "blue"}}
+      >
+        MY FOLLOWERS
+      </Typography>
+      {followers?.map((item) => {
         return (
           <List
             sx={{width: "80%", bgcolor: "background.paper", height: "auto"}}

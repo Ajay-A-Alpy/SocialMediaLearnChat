@@ -14,6 +14,21 @@ export const login = createAsyncThunk(
     }
   }
 );
+
+export const getCurrentUser = createAsyncThunk(
+  "auth/getCurrentUser",
+  async (_, {rejectWithValue}) => {
+    try {
+      console.log("hello get current user aync reached");
+      const response = await api.getUserData();
+      console.log("user data got,", response);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const register = createAsyncThunk(
   "auth/register",
   async ({formValue, navigate, toast}, {rejectWithValue}) => {
@@ -106,10 +121,11 @@ export const unfollowExpert = createAsyncThunk(
 
 export const getFollowersData = createAsyncThunk(
   "auth/getfollowers",
-  async ({Id, navigate}, {rejectWithValue}) => {
+  async ({navigate}, {rejectWithValue}) => {
     try {
       console.log("hello get folowers data reached");
-      const response = await api.getFollowers(Id);
+      const response = await api.getFollowers();
+      console.log("got folowers data reached", response);
       navigate("/student/followers");
       return response.data;
     } catch (err) {
@@ -121,10 +137,10 @@ export const getFollowersData = createAsyncThunk(
 
 export const getFollowingsData = createAsyncThunk(
   "auth/getfollowings",
-  async ({Id, navigate}, {rejectWithValue}) => {
+  async ({navigate}, {rejectWithValue}) => {
     try {
       console.log("hello get followings data reached");
-      const response = await api.getFollowings(Id);
+      const response = await api.getFollowings();
       navigate("/student/followings");
       return response.data;
     } catch (err) {
@@ -136,11 +152,10 @@ export const getFollowingsData = createAsyncThunk(
 
 export const getFriendsData = createAsyncThunk(
   "auth/getfriends",
-  async ({Id, navigate}, {rejectWithValue}) => {
+  async (navigate, {rejectWithValue}) => {
     try {
       console.log("hello get friends data reached");
-      const response = await api.getFriends(Id);
-
+      const response = await api.getFriends();
       return response.data;
     } catch (err) {
       console.log(err);
@@ -207,14 +222,7 @@ const authSlice = createSlice({
   },
 
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
-      console.log("user setting");
-      console.log(action.payload);
-    },
-
     setLogout: (state, action) => {
-      localStorage.removeItem("profile");
       localStorage.removeItem("userToken");
       state.user = null;
     },
@@ -227,13 +235,25 @@ const authSlice = createSlice({
     [login.fulfilled]: (state, action) => {
       state.loading = false;
 
-      localStorage.setItem("profile", JSON.stringify({...action.payload}));
       let {token} = action.payload;
       console.log("student login");
       localStorage.setItem("userToken", JSON.stringify(token));
       state.user = action.payload;
     },
     [login.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    },
+
+    [getCurrentUser.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getCurrentUser.fulfilled]: (state, action) => {
+      state.loading = false;
+      console.log("student data  fulfilled");
+      state.user = action.payload;
+    },
+    [getCurrentUser.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     },
@@ -432,6 +452,6 @@ const authSlice = createSlice({
     },
   },
 });
-export const {setUser, setLogout} = authSlice.actions;
+export const {setLogout} = authSlice.actions;
 
 export default authSlice.reducer;
