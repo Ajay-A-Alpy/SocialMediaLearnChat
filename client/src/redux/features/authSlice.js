@@ -6,7 +6,7 @@ export const login = createAsyncThunk(
   async ({formValue, navigate, toast}, {rejectWithValue}) => {
     try {
       const response = await api.logIn(formValue);
-      toast.success("Login successfully");
+      toast.success("Login successfully", {autoClose: 1000});
       navigate("/student");
       return response.data;
     } catch (err) {
@@ -34,7 +34,7 @@ export const register = createAsyncThunk(
   async ({formValue, navigate, toast}, {rejectWithValue}) => {
     try {
       const response = await api.SignUp(formValue);
-      toast.success("Account created successfully");
+      toast.success("Account created successfully", {autoClose: 1000});
       navigate("/student");
       return response.data;
     } catch (err) {
@@ -49,7 +49,7 @@ export const updateProfile = createAsyncThunk(
     try {
       console.log("111111111111");
       const response = await api.UpdateProfile(profileData, Id);
-      toast.success("Profile updated successfully");
+      toast.success("Profile updated successfully", {autoClose: 1000});
       navigate("/student/profile");
       return response.data;
     } catch (err) {

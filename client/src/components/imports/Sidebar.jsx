@@ -15,9 +15,9 @@ import PeopleIcon from "@mui/icons-material/People";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import SchoolIcon from "@mui/icons-material/School";
-import BookIcon from "@mui/icons-material/Book";
 import SettingsIcon from "@mui/icons-material/Settings";
 import NightlightIcon from "@mui/icons-material/Nightlight";
+import BookIcon from "@mui/icons-material/Book";
 import {
   getFollowersData,
   getFollowingsData,
@@ -57,17 +57,27 @@ function Sidebar() {
   return (
     <Box
       flex={1}
-      bgcolor="#F0F8FF"
+      bgcolor="#F2F2F2"
       p={2}
       sx={{display: {xs: "none", sm: "none", md: "block"}}}
     >
-      <Box sx={{position: "fixed"}}>
+      <Box sx={{height: "1rem"}}></Box>
+      <Box
+        sx={{
+          position: "fixed",
+          width: "auto",
+          paddingRight: "3rem",
+          borderRight: "1px solid #d3cedb",
+          height: "100vh",
+        }}
+      >
         <List>
           {user ? (
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon></ListItemIcon>
                 <ListItemText
+                  primary={user?.result.name.toUpperCase()}
                   sx={{fontSize: "2rem", display: {md: "none", lg: "block"}}}
                 />
               </ListItemButton>
@@ -117,7 +127,10 @@ function Sidebar() {
               <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
                 <QuizIcon></QuizIcon>
               </ListItemIcon>
-              <ListItemText primary="Questions" />
+              <ListItemText
+                primary="Questions"
+                onClick={() => navigate("/student/questions")}
+              />
             </ListItemButton>
           </ListItem>
 

@@ -69,6 +69,7 @@ export default function Posts({
   const {error, loading} = useSelector((state) => ({...state.article}));
 
   useEffect(() => {
+    console.log("posttttttt");
     dispatch(getArticles());
   }, [likeChange]);
 
@@ -180,7 +181,7 @@ export default function Posts({
 
   return (
     <>
-      <Card sx={{margin: 5}}>
+      <Card sx={{margin: 2}}>
         <CardHeader
           avatar={
             <Box>

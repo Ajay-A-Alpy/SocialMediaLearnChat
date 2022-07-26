@@ -13,6 +13,7 @@ const ArticleRoute = require("../server/router/article");
 const ConversationRoute = require("../server/router/conversation");
 const messageRoute = require("../server/router/message");
 const adminRoute = require("../server/router/admin");
+const questionRoute = require("../server/router/question");
 
 app.use(morgan("dev"));
 app.use(express.json({extended: true}));
@@ -20,28 +21,13 @@ app.use(express.urlencoded({extended: true}));
 app.use(cors());
 app.use(express.static("uploads"));
 
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-
-//   res.header(
-//     "Access-Control-Allow-Methods",
-//     "GET,POST,PUT,DELETE,OPTIONS,PATCH,HEAD"
-//   );
-
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin,X-Requested-With,Content-Type,Accept"
-//   );
-//   next();
-// });
-
 //mongodb connection
 connect();
 
 //student route
 app.use("/student", studentRoute); //http://localhost:5000/student;
 app.use("/article", ArticleRoute); //http://localhost:5000/article;
-
+app.use("/question", questionRoute); //http://localhost:5000/question;
 //expert route
 app.use("/expert", expertRoute);
 //admin route

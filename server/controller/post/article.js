@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 // post new article
 exports.createArticle = async (req, res) => {
   const article = req.body;
+
   if (req.file) {
     article.images = req.file.filename;
   }
@@ -26,8 +27,6 @@ exports.updateArticle = async (req, res) => {
   }
 
   try {
-    console.log(article);
-    console.log(postId);
     let doc = await articleModel.findOneAndUpdate(
       {_id: postId},
       {

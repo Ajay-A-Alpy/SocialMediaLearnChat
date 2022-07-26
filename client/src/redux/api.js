@@ -120,6 +120,7 @@ export const getExpertDetails = async () => {
 
 //add new article
 export const AddArticle = async (articleData) => {
+  console.log(articleData);
   return await API.post("/article", articleData);
 };
 
@@ -156,6 +157,21 @@ export const verifyArticle = async (data) => {
 //unverify an article
 export const unverifyArticle = async (data) => {
   return await API.post("/article/unverify", data);
+};
+
+//******Questions *******//
+//add
+export const AddQuestions = async (Data) => {
+  return await API.post("/question", Data);
+};
+
+//get all article
+export const GetQuestions = async () => {
+  return await API.get("/question");
+};
+
+export const UpdateQuestion = async (Data) => {
+  return await API.put("/question", Data);
 };
 
 //add new comment

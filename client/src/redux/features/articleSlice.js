@@ -9,7 +9,7 @@ export const createArticle = createAsyncThunk(
   ({fd, navigate, toast}, {rejectWithValue}) => {
     try {
       const response = api.AddArticle(fd);
-      toast.success("You have succefully posted ", {autoClose: 2000});
+      toast.success("You have succefully posted ", {autoClose: 1000});
       navigate("/student");
       return response.data;
     } catch (err) {

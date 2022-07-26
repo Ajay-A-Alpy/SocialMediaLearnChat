@@ -10,6 +10,7 @@ function ArticleList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("hello my articles");
     dispatch(getArticles());
   }, []);
 

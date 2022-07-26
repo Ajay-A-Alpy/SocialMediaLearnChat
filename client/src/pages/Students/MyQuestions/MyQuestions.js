@@ -9,7 +9,7 @@ import {useEffect, useState} from "react";
 import {ThemeProvider} from "@mui/system";
 import {useNavigate} from "react-router-dom";
 
-export default function StudentHome() {
+export default function MyQuestions() {
   const [mode, setMode] = useState("dark");
   const navigate = useNavigate();
 
@@ -26,11 +26,11 @@ export default function StudentHome() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box bgcolor={"F2FA5A"} color="F2FA5A">
+      <Box bgcolor={"#B0C4DE"} color={"text.primary"}>
         <Navbar></Navbar>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" spacing={1} justifyContent="space-between">
           <Sidebar></Sidebar>
-          <Feed></Feed>
+
           <Rightbar></Rightbar>
         </Stack>
       </Box>

@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import Posts from "./Posts";
 import {useDispatch, useSelector} from "react-redux";
 import {getArticles} from "../../redux/features/articleSlice";
-import {CircularProgress, Typography} from "@mui/material";
+import {CircularProgress, Stack, Typography} from "@mui/material";
 
 export default function Feed() {
   const {articles, loading} = useSelector((state) => ({...state.article}));
@@ -11,27 +11,30 @@ export default function Feed() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("feed articles");
     dispatch(getArticles());
   }, []);
 
   return (
-    <Box flex={4} sx={{backgroundColor: "#0071c5"}}>
-      <Typography
-        fontSize="2rem"
+    <>
+      <Stack
+        direction="column"
+        flex={4}
         sx={{
-          height: "3rem",
-          dispay: "block",
-          width: "100%",
-          textAlign: "center",
-          color: "white",
+          backgroundColor: "#F2F2F2",
         }}
       >
-        {/* {loading ? <CircularProgress /> : articles.length + " Articles"} */}
-      </Typography>
-
-      {articles?.map((item) => {
-        return <Posts key={item._id} {...item} />;
-      })}
-    </Box>
+        <Box sx={{height: "2rem", position: "sticky"}}></Box>
+        <Box
+          sx={{
+            backgroundColor: "#F2F2F2",
+          }}
+        >
+          {articles?.map((item) => {
+            return <Posts key={item._id} {...item} />;
+          })}
+        </Box>
+      </Stack>
+    </>
   );
 }

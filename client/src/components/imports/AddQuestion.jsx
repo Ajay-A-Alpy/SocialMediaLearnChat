@@ -17,8 +17,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import {createQuestion} from "../../redux/features/questionSlice";
 
-export default function AddPost() {
+export default function AddQuestion() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [subject, setSubject] = useState("");
@@ -35,7 +36,6 @@ export default function AddPost() {
   }, [change]);
 
   const handleClear = () => {
-    setTitle("");
     setSubject("");
     setDescription("");
   };
@@ -47,16 +47,16 @@ export default function AddPost() {
   const handlePost = async (e) => {
     const fd = new FormData();
     fd.append("image", imageField);
-    fd.append("title", title);
     fd.append("subject", subject);
     fd.append("description", description);
     fd.append("username", user?.result?.name);
     fd.append("userId", user?.result?._id);
 
-    if (title && subject && description) {
+    if (subject && description) {
       setOpen(false);
-
-      dispatch(createArticle({fd, navigate, toast}));
+      console.log(fd);
+      console.log(subject, description, user.result._id);
+      dispatch(createQuestion({fd, navigate, toast}));
       setChange(!change);
       handleClear();
     }
@@ -73,44 +73,30 @@ export default function AddPost() {
           <Button
             variant="contained"
             component="span"
+            endIcon={<AddBoxIcon />}
             sx={{
               backgroundColor: "#F1F1F1",
               color: "black",
-              width: "100%",
               boxShadow: "1px 2px 5px #764AF1",
             }}
-            endIcon={<AddBoxIcon />}
             onClick={() => setOpen(true)}
           >
-            Add Article
+            Add Question
           </Button>
         </Stack>
       </Grid>
 
       <Dialog open={open}>
         <DialogTitle sx={{width: "100%", textAlign: "center"}}>
-          New Article
+          Ask a question
         </DialogTitle>
         <DialogContent>
           <Box className="Article_form">
             <TextField
               autoFocus
               margin="dense"
-              name="title"
-              label="Title"
-              fullWidth
               variant="standard"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                console.log(e.target.value);
-              }}
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              variant="standard"
-              label="Subject"
+              label="Topic"
               name="subject"
               value={subject}
               onChange={(e) => {
@@ -122,7 +108,7 @@ export default function AddPost() {
               autoFocus
               margin="dense"
               variant="standard"
-              label="Description"
+              label="Question"
               name="description"
               value={description}
               onChange={(e) => {
@@ -168,7 +154,7 @@ export default function AddPost() {
               endIcon={<SendIcon />}
               onClick={handlePost}
             >
-              Post
+              Ask
             </Button>
           </Stack>
         </DialogContent>

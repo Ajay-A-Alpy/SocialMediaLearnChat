@@ -34,7 +34,7 @@ export default function ProfileData() {
   };
 
   return (
-    <Box flex={4} sx={{backgroundColor: "white", minHeight: "100vh"}}>
+    <Box flex={6.4} sx={{backgroundColor: "white", minHeight: "100vh"}}>
       <Stack direction={{xs: "column", sm: "row"}} spacing={4}>
         <Box
           flex={2}

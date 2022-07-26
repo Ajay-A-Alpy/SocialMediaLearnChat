@@ -40,6 +40,7 @@ import Experts from "./pages/Students/Experts/Experts";
 import ViewExpert from "./pages/Students/ViewExpert/ViewExpert";
 import ExpertMessenger from "./pages/messenger/ExpertMessenger";
 import {useSelector} from "react-redux";
+import MyQuestions from "./pages/Students/MyQuestions/MyQuestions";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,11 +78,12 @@ function App() {
             </PrivateRouter>
           }
         ></Route>
-
         <Route path="/editProfie" element={<ProfileEdit />}></Route>
-
         <Route path="/student/articles" element={<MyArticles />}></Route>
-
+        <Route
+          path="/student/questions"
+          element={<MyQuestions></MyQuestions>}
+        ></Route>
         <Route
           path="/student/followers"
           element={
@@ -90,7 +92,6 @@ function App() {
             </PrivateRouter>
           }
         ></Route>
-
         <Route
           path="/student/followings"
           element={
@@ -99,7 +100,6 @@ function App() {
             </PrivateRouter>
           }
         ></Route>
-
         <Route
           path="/student/friends"
           element={
@@ -108,7 +108,6 @@ function App() {
             </PrivateRouter>
           }
         ></Route>
-
         <Route path="/student/experts" element={<Experts></Experts>}></Route>
         <Route path="/student/viewProfile" element={<ViewStudents />}></Route>
         <Route
@@ -116,12 +115,10 @@ function App() {
           element={<ViewExpert></ViewExpert>}
         ></Route>
         <Route path="/messenger" element={<Messenger></Messenger>}></Route>
-
         <Route
           path="/Expertmessenger"
           element={<ExpertMessenger></ExpertMessenger>}
         ></Route>
-
         <Route
           path="/videocall"
           element={
@@ -130,16 +127,12 @@ function App() {
             // </ContextProvider>
           }
         ></Route>
-
         <Route path="/expert/articles"></Route>
-
         <Route path="/" element={<Home></Home>}></Route>
-
         <Route
           path="/expert/signup"
           element={<ExpertRegister></ExpertRegister>}
         ></Route>
-
         <Route
           path="/expert/login"
           element={<ExpertLogin></ExpertLogin>}
@@ -150,18 +143,15 @@ function App() {
           element={<ExpertProfile></ExpertProfile>}
         ></Route>
         <Route path="/admin/login" element={<AdminLogin></AdminLogin>}></Route>
-
         <Route path="/admin" element={<AdminHome></AdminHome>}></Route>
         <Route
           path="/admin/students"
           element={<AllStudents></AllStudents>}
         ></Route>
-
         <Route
           path="/admin/articles"
           element={<AllArticles></AllArticles>}
         ></Route>
-
         <Route
           path="/admin/experts"
           element={<AllExperts></AllExperts>}
