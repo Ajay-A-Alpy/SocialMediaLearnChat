@@ -15,13 +15,14 @@ import * as api from "../../redux/api";
 import {io} from "socket.io-client";
 import ExpertConversation from "../../components/imports/conversations/ExpertConversation";
 import {useNavigate} from "react-router-dom";
+import InputEmoji from "react-input-emoji";
 function ExpertMessenger() {
   const {user} = useSelector((state) => ({...state.auth}));
   const [currentChat, setCurrentChat] = useState(null);
   const [message, setMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState(null);
 
-  const [newMessage, setNewMessage] = useState(null);
+  const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const dispatch = useDispatch();
   const {conversations} = useSelector((state) => ({...state.chat}));
@@ -57,8 +58,6 @@ function ExpertMessenger() {
   useEffect(() => {
     socket.current.emit("addUser", currentUser?.result._id);
     socket.current.on("getUsers", (users) => {
-      console.log(users, "iiiiiiiiiii");
-      console.log(currentUser, "mmmmm");
       setOnlineUsers(
         currentUser?.result.experts.filter((f) =>
           users.some((u) => u.userId === f)
@@ -73,6 +72,7 @@ function ExpertMessenger() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    window.alert("clicked");
     const sendChat = {
       conversationId: currentChat._id,
       senderId: user.result._id,
@@ -104,7 +104,7 @@ function ExpertMessenger() {
     const getMessage = async () => {
       try {
         let response = await api.getMessage(currentChat?._id);
-        console.log(response);
+
         setMessage(response.data);
       } catch (err) {
         console.log(err);
@@ -119,12 +119,12 @@ function ExpertMessenger() {
 
   return (
     <Box>
-      <Navbar></Navbar>
+      <Navbar chatStatus={true}></Navbar>
       <Stack direction="row" className="messenger">
         <Box className="chatMenu" sx={{display: {xs: "none", sm: "block"}}}>
           <Box className="chatMenu_wrapper">
             <TextField
-              placeholder="Search friends"
+              placeholder="Search Experts"
               variant="standard"
               name="subject"
               sx={{padding: "", width: "100%"}}
@@ -176,23 +176,24 @@ function ExpertMessenger() {
                 })}
               </>
             ) : (
-              <Typography className="chatBox_conversationText">
+              <Typography className="chatBox_conversationText" variant="h3">
                 Open a conversation
               </Typography>
             )}
           </Box>
 
           <Box className="chatBox_bottom">
-            <TextField
-              placeholder="Send message"
-              variant="outlined"
-              name="subject"
-              sx={{padding: "", width: "100%"}}
-              onChange={(e) => {
-                setNewMessage(e.target.value);
-              }}
+            <InputEmoji
+              cleanOnEnter
+              placeholder="write message"
+              onChange={setNewMessage}
               value={newMessage}
-            />
+              className="send_btn"
+              name="subject"
+              onEnter={(e) => {
+                console.log(e.target.value);
+              }}
+            ></InputEmoji>
 
             <Button
               variant="contained"

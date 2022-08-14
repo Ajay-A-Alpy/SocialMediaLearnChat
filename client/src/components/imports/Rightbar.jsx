@@ -18,13 +18,13 @@ function Rightbar() {
         sx={{
           position: "fixed",
           paddingLeft: "2rem",
-          borderLeft: "1px solid #d3cedb",
+
           height: "100vh",
         }}
       >
         <AddPost></AddPost>
+        <div style={{height: "2px"}}></div>
         <AddQuestion></AddQuestion>
-        <Todo></Todo>
       </Box>
     </Box>
   );

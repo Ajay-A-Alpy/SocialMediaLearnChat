@@ -8,6 +8,7 @@ import Navbar from "../../../components/imports/Navbar";
 import {useState} from "react";
 import {ThemeProvider} from "@mui/system";
 import ExpertNavbar from "../../../components/imports/ExpertNavbar";
+import ExpertRightbar from "../../../components/imports/ExpertRightbar";
 
 export default function ExpertHome() {
   const [mode, setMode] = useState("dark");
@@ -18,11 +19,12 @@ export default function ExpertHome() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box bgcolor={"#393f4d"} color={"text.primary"}>
+      <Box bgcolor={"#faf8f9"} color={"text.primary"}>
         <ExpertNavbar></ExpertNavbar>
         <Stack direction="row" spacing={1} justifyContent="space-between">
           <ExpertSidebar></ExpertSidebar>
           <ExpertFeed></ExpertFeed>
+          <ExpertRightbar></ExpertRightbar>
         </Stack>
       </Box>
     </ThemeProvider>

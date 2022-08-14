@@ -10,6 +10,7 @@ const articleSchema = mongoose.Schema({
   likes: {type: [mongoose.ObjectId]},
   verifiedCount: {type: [mongoose.ObjectId]},
   public: Boolean,
+  expert: Boolean,
   comments: [
     {
       commentorId: mongoose.ObjectId,

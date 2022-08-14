@@ -34,10 +34,14 @@ function Home() {
 
   useEffect(() => {
     let token = localStorage.getItem("userToken");
+    let expertToken = localStorage.getItem("expertToken");
     if (token) {
       navigate("/student");
     }
-  });
+    if (expertToken) {
+      navigate("/expert");
+    }
+  }, []);
 
   return (
     <Grid container className="home">

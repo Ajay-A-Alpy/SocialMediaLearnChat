@@ -18,37 +18,10 @@ exports.createQuestion = async (req, res) => {
   }
 };
 
-// exports.updateArticle = async (req, res) => {
-//   const postId = req.params.id;
-//   const article = req.body;
-//   if (req.file) {
-//     article.images = req.file.filename;
-//   }
-
-//   try {
-//     console.log(article);
-//     console.log(postId);
-//     let doc = await articleModel.findOneAndUpdate(
-//       {_id: postId},
-//       {
-//         title: article.title,
-//         subject: article.subject,
-//         description: article.description,
-//         images: article?.images,
-//       }
-//     );
-//     console.log("updated");
-//     console.log(doc);
-//     res.status(201).json(doc);
-//   } catch (error) {
-//     res.status(404).json({message: "something went wrong"});
-//     console.log(error);
-//   }
-// };
-
 exports.getQuestions = async (req, res) => {
   try {
-    const questions = await QuestionModel.find();
+    console.log("get questions reached");
+    const questions = await QuestionModel.find().sort({createdAt: -1});
     res.status(201).json(questions);
   } catch (error) {
     console.log("no questions");
@@ -56,14 +29,34 @@ exports.getQuestions = async (req, res) => {
   }
 };
 
-// exports.deleteArticle = async (req, res) => {
-//   let postId = req.params.id;
+exports.deleteQuestion = async (req, res) => {
+  let Id = req.params.id;
+  console.log("question delete reached");
+  try {
+    await QuestionModel.deleteOne({_id: Id});
+    res.status(201).json({message: "successfully deleted"});
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({message: "something went wrong"});
+  }
+};
 
-//   try {
-//     await articleModel.deleteOne({_id: postId});
-//     res.status(201).json({message: "successfully deleted"});
-//   } catch (err) {
-//     console.log(err);
-//     res.status(404).json({message: "something went wrong"});
-//   }
-// };
+exports.addAnswer = async (req, res) => {
+  console.log("add answer reached");
+  let Id = req.body.questionId;
+  let {commentorId, text, commentedAt, commentedBy} = req.body;
+  let newAnswer = {commentorId, commentedAt, text, commentedBy};
+  try {
+    await QuestionModel.findOneAndUpdate(
+      {
+        _id: mongoose.Types.ObjectId(Id),
+      },
+      {$push: {answers: newAnswer}}
+    );
+    console.log("new Answer added");
+    res.status(201).json({message: "you have successfully Answered"});
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message: "something went wrong"});
+  }
+};

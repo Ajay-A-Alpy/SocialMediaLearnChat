@@ -8,6 +8,7 @@ import Navbar from "../../../components/imports/Navbar";
 import {useEffect, useState} from "react";
 import {ThemeProvider} from "@mui/system";
 import {useNavigate} from "react-router-dom";
+import QuestionFeed from "../../../components/imports/QuestionFeed";
 
 export default function MyQuestions() {
   const [mode, setMode] = useState("dark");
@@ -28,9 +29,9 @@ export default function MyQuestions() {
     <ThemeProvider theme={darkTheme}>
       <Box bgcolor={"#B0C4DE"} color={"text.primary"}>
         <Navbar></Navbar>
-        <Stack direction="row" spacing={1} justifyContent="space-between">
+        <Stack direction="row" justifyContent="space-between">
           <Sidebar></Sidebar>
-
+          <QuestionFeed></QuestionFeed>
           <Rightbar></Rightbar>
         </Stack>
       </Box>

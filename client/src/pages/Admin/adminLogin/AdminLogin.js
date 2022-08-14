@@ -186,12 +186,7 @@ export default function AdminLogin() {
                       </Button>
                     )}
                   </Box>
-                  <Box sx={{padding: "1rem"}}>
-                    <p>
-                      create an account ?{" "}
-                      <Link to="/admin/signup"> signup</Link>{" "}
-                    </p>
-                  </Box>
+                  <Box sx={{padding: "1rem"}}></Box>
                 </form>
               </Paper>
             </Box>

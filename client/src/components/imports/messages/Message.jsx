@@ -10,7 +10,7 @@ function Message({message, own, name}) {
     <Box className={own ? "message own" : "message"}>
       <Stack direction="column">
         <Box className="message_top">
-          <Avatar className="message_img">
+          <Avatar className="message_img" sx={{width: 30, height: 30}}>
             {own ? name?.substr(0, 2) : ""}
           </Avatar>
           <Typography
@@ -21,7 +21,7 @@ function Message({message, own, name}) {
         </Box>
 
         <Box className={own ? "message_bottom own" : "message_bottom"}>
-          <Typography sx={{fontSize: "0.8rem", color: "gray"}}>
+          <Typography sx={{fontSize: "0.8rem", color: "white"}}>
             {format(message.createdAt)}
           </Typography>
         </Box>

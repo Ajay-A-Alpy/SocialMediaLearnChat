@@ -41,15 +41,21 @@ import ViewExpert from "./pages/Students/ViewExpert/ViewExpert";
 import ExpertMessenger from "./pages/messenger/ExpertMessenger";
 import {useSelector} from "react-redux";
 import MyQuestions from "./pages/Students/MyQuestions/MyQuestions";
+import ExpertQuestionView from "./pages/Experts/ExpertQuestion/ExpertQuestionView";
+import ExpertArticles from "./pages/Experts/ExpertArticles/ExpertArticles";
+import ExpertStudents from "./pages/Experts/ExpertStudents/ExpertStudents";
+import ExpertRoutes from "./routes/ExpertRoutes";
+import AdminRoutes from "./routes/AdminRoutes";
+import StudentRoutes from "./routes/StudentRoutes";
+import ErrorPage from "./pages/Error/ErrorPage";
 
 function App() {
   const dispatch = useDispatch();
 
-  const userValid = JSON.parse(localStorage.getItem("userToken"));
-
-  const expertValid = JSON.parse(localStorage.getItem("expertToken"));
-
   useEffect(() => {
+    const userValid = JSON.parse(localStorage.getItem("userToken"));
+
+    const expertValid = JSON.parse(localStorage.getItem("expertToken"));
     console.log("hello user is dispatched");
     console.log(userValid);
     if (userValid) {
@@ -59,105 +65,19 @@ function App() {
     if (expertValid) {
       dispatch(getCurrentExpertData());
     }
-  }, []);
+  });
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/student" element={<StudentHome />}></Route>
-        <Route path="/student/login" element={<StudentLogin />}></Route>
-        <Route
-          path="/student/signup"
-          element={<StudentRegister></StudentRegister>}
-        ></Route>
-        <Route
-          path="/student/profile"
-          element={
-            <PrivateRouter>
-              <StudentProfile />
-            </PrivateRouter>
-          }
-        ></Route>
-        <Route path="/editProfie" element={<ProfileEdit />}></Route>
-        <Route path="/student/articles" element={<MyArticles />}></Route>
-        <Route
-          path="/student/questions"
-          element={<MyQuestions></MyQuestions>}
-        ></Route>
-        <Route
-          path="/student/followers"
-          element={
-            <PrivateRouter>
-              <MyFollowers />
-            </PrivateRouter>
-          }
-        ></Route>
-        <Route
-          path="/student/followings"
-          element={
-            <PrivateRouter>
-              <MyFollowings />
-            </PrivateRouter>
-          }
-        ></Route>
-        <Route
-          path="/student/friends"
-          element={
-            <PrivateRouter>
-              <Myfriends />
-            </PrivateRouter>
-          }
-        ></Route>
-        <Route path="/student/experts" element={<Experts></Experts>}></Route>
-        <Route path="/student/viewProfile" element={<ViewStudents />}></Route>
-        <Route
-          path="/student/viewExpertProfile"
-          element={<ViewExpert></ViewExpert>}
-        ></Route>
-        <Route path="/messenger" element={<Messenger></Messenger>}></Route>
-        <Route
-          path="/Expertmessenger"
-          element={<ExpertMessenger></ExpertMessenger>}
-        ></Route>
-        <Route
-          path="/videocall"
-          element={
-            // <ContextProvider>
-            <VideoChat />
-            // </ContextProvider>
-          }
-        ></Route>
-        <Route path="/expert/articles"></Route>
-        <Route path="/" element={<Home></Home>}></Route>
-        <Route
-          path="/expert/signup"
-          element={<ExpertRegister></ExpertRegister>}
-        ></Route>
-        <Route
-          path="/expert/login"
-          element={<ExpertLogin></ExpertLogin>}
-        ></Route>
-        <Route path="/expert" element={<ExpertHome></ExpertHome>}></Route>
-        <Route
-          path="/expert/profile"
-          element={<ExpertProfile></ExpertProfile>}
-        ></Route>
-        <Route path="/admin/login" element={<AdminLogin></AdminLogin>}></Route>
-        <Route path="/admin" element={<AdminHome></AdminHome>}></Route>
-        <Route
-          path="/admin/students"
-          element={<AllStudents></AllStudents>}
-        ></Route>
-        <Route
-          path="/admin/articles"
-          element={<AllArticles></AllArticles>}
-        ></Route>
-        <Route
-          path="/admin/experts"
-          element={<AllExperts></AllExperts>}
-        ></Route>
-      </Routes>
-    </BrowserRouter>
+    <>
+      <StudentRoutes></StudentRoutes>
+      <ExpertRoutes></ExpertRoutes>
+      <AdminRoutes></AdminRoutes>
+      {/* <BrowserRouter>
+        <Routes>
+          <Route path="*" element={<ErrorPage></ErrorPage>}></Route>
+        </Routes>
+      </BrowserRouter> */}
+    </>
   );
 }
 

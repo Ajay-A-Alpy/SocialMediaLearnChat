@@ -26,8 +26,10 @@ function Conversation({conversation}) {
   useEffect(() => {
     try {
       const getfriend = async function () {
-        let response = await api.getChatFriends(friendId);
-        setFriend(response.data);
+        if (conversation.members.length == 2) {
+          let response = await api.getChatFriends(friendId);
+          setFriend(response.data);
+        }
       };
       getfriend();
     } catch (err) {
@@ -37,12 +39,23 @@ function Conversation({conversation}) {
 
   return (
     <>
-      <List sx={{width: "80%", height: "auto"}}>
+      <List sx={{width: "90%", height: "auto"}}>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            {conversation.groupName ? (
+              <Avatar>G</Avatar>
+            ) : (
+              <Avatar>{friend?.user?.name.slice(0, 2)}</Avatar>
+            )}
           </ListItemAvatar>
-          <ListItemText primary={friend?.user?.name} secondary="hai" />
+          {conversation.groupName ? (
+            <ListItemText
+              primary={conversation.groupName}
+              secondary={conversation?.members.length + " members"}
+            />
+          ) : (
+            <ListItemText primary={friend?.user?.name} secondary="hai" />
+          )}
         </ListItem>
         <Divider variant="inset" component="li" />
       </List>

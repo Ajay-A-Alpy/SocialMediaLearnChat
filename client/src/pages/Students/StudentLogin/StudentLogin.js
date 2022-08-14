@@ -185,7 +185,8 @@ export default function StudentLogin() {
                       Login with google
                     </Typography>
                     <p>
-                      create an account ? <Link to="/signup"> signup</Link>{" "}
+                      create an account ?{" "}
+                      <Link to="/student/signup"> signup</Link>
                     </p>
                   </Box>
                 </form>

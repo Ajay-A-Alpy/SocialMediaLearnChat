@@ -10,8 +10,13 @@ function ArticleList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("hello my articles");
-    dispatch(getArticles());
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getArticles());
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, []);
 
   const UserBox = styled(Box)({backgroundColor: "#d4d4dc"});
@@ -28,7 +33,7 @@ function ArticleList() {
         }}
       >
         {user &&
-          articles.map((item, index) => {
+          articles.map((item) => {
             if (user?.result?._id == item.userId) {
               return (
                 <UserBox>

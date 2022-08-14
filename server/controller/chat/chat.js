@@ -12,12 +12,23 @@ exports.createConversation = async (req, res) => {
   } else {
     expert = false;
   }
-  console.log("create conversation got");
+  let membersArray = [];
+  let groupName = "";
+  if (req.body.groupName) {
+    for (let i = 0; i < req.body.member.length; i++) {
+      membersArray.push(mongoose.Types.ObjectId(req.body.member[i]));
+    }
+    groupName = req.body.groupName;
+  } else {
+    for (let i = 0; i < req.body.length; i++) {
+      membersArray.push(mongoose.Types.ObjectId(req.body[i]));
+    }
+  }
+
+  console.log("create conversation got", membersArray, groupName);
   const newConversation = new ConversationModel({
-    members: [
-      mongoose.Types.ObjectId(req.body.senderId),
-      mongoose.Types.ObjectId(req.body.recieverId),
-    ],
+    members: membersArray,
+    groupName,
     expert,
   });
 
@@ -36,7 +47,7 @@ exports.getConversation = async (req, res) => {
   try {
     console.log("get conversation reached");
     const myConversations = await ConversationModel.find({
-      members: {$in: [req.params.id]},
+      members: {$in: [req.userId]},
       expert: false,
     });
     res.status(200).json(myConversations);

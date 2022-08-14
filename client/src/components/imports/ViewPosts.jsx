@@ -5,21 +5,48 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import {useSelector, useDispatch} from "react-redux";
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import CommentIcon from "@mui/icons-material/Comment";
+
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {Checkbox, Tooltip} from "@mui/material";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 
-import CommentIcon from "@mui/icons-material/Comment";
 import GppGoodIcon from "@mui/icons-material/GppGood";
-import {verifyArticle} from "../../redux/features/articleSlice";
-import {unVerifyArticle} from "../../redux/features/articleSlice";
-import {useState, useEffect} from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
-import {getArticles} from "../../redux/features/articleSlice";
 
+import {Box, Button, Stack, Typography, styled} from "@mui/material";
+
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import SendIcon from "@mui/icons-material/Send";
+import CircularProgress from "@mui/material/CircularProgress";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Modal from "@mui/material/Modal";
+import {useState} from "react";
+import TextField from "@mui/material/TextField";
+import {useDispatch, useSelector} from "react-redux";
+import {
+  commentArticle,
+  deleteArticle,
+  updateArticle,
+} from "../../redux/features/articleSlice";
+import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
+import {followOne, getStudentProfile} from "../../redux/features/authSlice";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+import {useEffect} from "react";
+import {likeArticle, unlikeArticle} from "../../redux/features/articleSlice";
+import {getArticles} from "../../redux/features/articleSlice";
+import {
+  unVerifyArticle,
+  verifyArticle,
+} from "../../redux/features/articleSlice";
+import {format} from "timeago.js";
 export default function ViewPosts({
   title,
   subject,
@@ -27,20 +54,81 @@ export default function ViewPosts({
   images,
   description,
   createdAt,
-  likes,
-  verifiedCount,
+  userId,
   _id,
+  verifiedCount,
+  likes,
+  comments,
 }) {
-  const {error, loading} = useSelector(state => ({...state.article}));
+  const [modal, setModal] = useState(false);
+  const [comment, setComment] = useState(false);
+  const [showComment, setShowComment] = useState(false);
+  const [commentText, setCommentText] = useState("");
+
+  const [open, setOpen] = useState(false);
+  const [title1, setTitle] = useState(title);
+  const [subject1, setSubject] = useState(subject);
+  const [description1, setDescription] = useState(description);
 
   const [likeChange, setLikeChange] = useState(false);
+  const {error, loading} = useSelector((state) => ({...state.article}));
 
-  const {expert} = useSelector(state => ({...state.expertAuth}));
   useEffect(() => {
-    dispatch(getArticles());
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getArticles());
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [likeChange]);
 
+  const [imageField, setImageField] = useState();
+
+  const {expert} = useSelector((state) => ({...state.expertAuth}));
+  let user = expert;
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmitComment = () => {
+    console.log(commentText);
+
+    let newComment = {
+      commentorId: user?.result._id,
+      text: commentText,
+      commentedAt: Date.now(),
+      postId: _id,
+      commentedBy: user?.result.name,
+    };
+
+    if (commentText !== "") {
+      dispatch(commentArticle(newComment));
+      setComment(false);
+      setLikeChange(!likeChange);
+      setCommentText("");
+    }
+  };
+
+  const handleClear = () => {
+    setTitle("");
+    setSubject("");
+    setDescription("");
+  };
+
+  const imageHandler = (e) => {
+    setImageField(e.target.files[0]);
+  };
+
+  const handleDelete = () => {
+    let id = _id;
+    setOpen(false);
+    dispatch(deleteArticle({id}));
+    navigate("/expert");
+    setLikeChange(!likeChange);
+    toast.success("Article deleted", {autoClose: 1000});
+  };
+
   const handleVerify = () => {
     let data = {
       post: _id,
@@ -64,76 +152,407 @@ export default function ViewPosts({
     setLikeChange(!likeChange);
   };
 
+  const handlePost = async (e) => {
+    e.preventDefault();
+    const fd = new FormData();
+    fd.append("image", imageField);
+    fd.append("title", title1);
+    fd.append("subject", subject1);
+    fd.append("description", description1);
+    fd.append("username", user?.result?.name);
+    fd.append("userId", user?.result?._id);
+
+    if (title1 && subject1 && description1) {
+      let id = _id;
+      dispatch(updateArticle({fd, id, navigate, toast}));
+      dispatch(getArticles());
+      handleClear();
+      setModal(false);
+      navigate("/expert");
+    }
+  };
+
+  const handleViewProfile = () => {
+    dispatch(getStudentProfile({userId, navigate}));
+  };
+
+  const handleLike = () => {
+    let data = {
+      post: _id,
+      user: user?.result?._id,
+    };
+    console.log("like button pressed");
+    dispatch(likeArticle(data));
+    setLikeChange(!likeChange);
+  };
+
+  const handleUnlike = () => {
+    let data = {
+      post: _id,
+      user: user?.result._id,
+    };
+    console.log("unlike button pressed");
+    dispatch(unlikeArticle(data));
+    setLikeChange(!likeChange);
+  };
+
+  const Input = styled("input")({
+    display: "none",
+  });
+
   return (
-    <Card sx={{margin: 5}}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{bgcolor: "red"}} aria-label="recipe">
-            {username}
-          </Avatar>
-        }
-        action={<IconButton aria-label="settings"></IconButton>}
-        title={title}
-        subheader={createdAt.substring(0, 10)}
-      />
-      {images ? (
-        <CardMedia
-          component="img"
-          height="20%"
-          // src="https://ontheworldmap.com/world-map-1750.jpg"
-          src={require(`../../../../server/uploads/${images}`)}
-          // src={`http://localhost:5000/${images}`}
-          alt="Paella dish"
-        />
-      ) : (
-        ""
-      )}
-      <CardContent>
-        <Typography font>{"Sub: " + subject}</Typography>
-        <Typography variant="body2" color="text.primary">
-          {description}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{display: "flex", justifyContent: "space-between"}}>
-        <IconButton aria-label="add to favorites">
-          <FavoriteBorder />
-          {likes.length}
-        </IconButton>
-
-        {verifiedCount.includes(expert.result._id) && loading == false ? (
-          <IconButton aria-label="unverify">
-            <Tooltip
-              title="unverify"
-              placement="left"
-              sx={{marginLeft: "1rem"}}
-              onClick={handleUnverify}
-            >
-              {loading ? <CircularProgress /> : <GppGoodIcon></GppGoodIcon>}
-            </Tooltip>
-            {verifiedCount.length}
-          </IconButton>
-        ) : (
-          <IconButton aria-label="verify">
-            <Tooltip
-              title="verify"
-              placement="left"
-              sx={{marginLeft: "1rem"}}
-              onClick={handleVerify}
-            >
-              {loading ? (
-                <CircularProgress />
+    <>
+      <Card sx={{margin: 2}}>
+        <CardHeader
+          avatar={
+            <Box>
+              {user?.result._id == userId ? (
+                <Avatar
+                  sx={{bgcolor: "red"}}
+                  aria-label="recipe"
+                  src={
+                    user?.result.profilePic
+                      ? "http://localhost:5000/" + user?.result?.profilePic
+                      : "http://localhost:5000/profile.jpg"
+                  }
+                ></Avatar>
               ) : (
-                <VerifiedUserOutlinedIcon></VerifiedUserOutlinedIcon>
+                <Tooltip
+                  title="view Profile"
+                  placement="top"
+                  onClick={handleViewProfile}
+                >
+                  <Avatar
+                    sx={{bgcolor: "red"}}
+                    aria-label="recipe"
+                    src={
+                      user?.result?.profilePic
+                        ? "http://localhost:5000/" + user?.result?.profilePic
+                        : "http://localhost:5000/profile.jpg"
+                    }
+                  >
+                    {username}
+                  </Avatar>
+                </Tooltip>
               )}
-            </Tooltip>
-            {verifiedCount.length}
-          </IconButton>
+            </Box>
+          }
+          action={
+            <>
+              <IconButton aria-label="settings" onClick={() => setModal(true)}>
+                {user?.result?._id == userId ? (
+                  <Tooltip title="Edit" placement="left">
+                    <MoreVertIcon />
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+              </IconButton>
+              <IconButton aria-label="settings" onClick={() => setOpen(true)}>
+                {user?.result?._id == userId ? (
+                  <Tooltip
+                    title="Delete"
+                    placement="left"
+                    sx={{marginLeft: "1rem"}}
+                  >
+                    <DeleteIcon />
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+              </IconButton>
+            </>
+          }
+          title={username}
+          subheader={format(createdAt.substring(0, 10))}
+        />
+        {images ? (
+          <CardMedia
+            component="img"
+            height="20%"
+            // src="https://ontheworldmap.com/world-map-1750.jpg"
+            src={require(`../../../../server/uploads/${images}`)}
+            // src={`http://localhost:5000/${images}`}
+            alt="Paella dish"
+          />
+        ) : (
+          ""
         )}
+        <CardContent>
+          <Typography>{"Sub: " + subject}</Typography>
+          <Typography variant="h6">{title}</Typography>
+          <Typography variant="body2" color="text.primary">
+            {description}
+          </Typography>
+          <Box
+            sx={{
+              dispay: "block",
+              width: "100%",
+              textAlign: "end",
+            }}
+          ></Box>
+        </CardContent>
+        <CardActions sx={{display: "flex", justifyContent: "space-between"}}>
+          {likes.includes(user?.result._id) && loading == false ? (
+            <IconButton aria-label="unlike" onClick={handleUnlike}>
+              <Tooltip
+                title="unlike"
+                placement="left"
+                sx={{marginLeft: "1rem"}}
+              >
+                {loading ? <CircularProgress /> : <Favorite />}
+              </Tooltip>
+              {likes.length}
+            </IconButton>
+          ) : (
+            <IconButton aria-label="like" onClick={handleLike}>
+              <Tooltip title="like" placement="left" sx={{marginLeft: "1rem"}}>
+                {<FavoriteBorder />}
+              </Tooltip>
+              {likes.length}
+            </IconButton>
+          )}
 
-        <IconButton aria-label="comment">
-          <Checkbox icon={<CommentIcon></CommentIcon>} />
-        </IconButton>
-      </CardActions>
-    </Card>
+          {verifiedCount.includes(expert?.result._id) && loading == false ? (
+            <IconButton aria-label="unverify" onClick={handleUnverify}>
+              <Tooltip
+                title="unverify"
+                placement="left"
+                sx={{marginLeft: "1rem"}}
+              >
+                <VerifiedUserOutlinedIcon></VerifiedUserOutlinedIcon>
+              </Tooltip>
+              {verifiedCount.length}
+            </IconButton>
+          ) : (
+            <IconButton aria-label="verify" onClick={handleVerify}>
+              <Tooltip
+                title="verify"
+                placement="left"
+                sx={{marginLeft: "1rem"}}
+              >
+                {loading ? (
+                  <CircularProgress />
+                ) : (
+                  <VerifiedUserOutlinedIcon></VerifiedUserOutlinedIcon>
+                )}
+              </Tooltip>
+              {verifiedCount.length}
+            </IconButton>
+          )}
+          <IconButton
+            aria-label="comment"
+            onClick={() => {
+              setShowComment(true);
+            }}
+          >
+            <Tooltip title="comment" placement="left" sx={{marginLeft: "1rem"}}>
+              <CommentIcon />
+            </Tooltip>
+            {comments.length}
+          </IconButton>
+        </CardActions>
+      </Card>
+
+      <Dialog open={modal}>
+        <DialogTitle sx={{width: "100%", textAlign: "center"}}>
+          Edit Article
+        </DialogTitle>
+        <DialogContent>
+          <Box className="Article_form">
+            <TextField
+              autoFocus
+              margin="dense"
+              name="title1"
+              label="Title"
+              fullWidth
+              variant="standard"
+              value={title1}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              variant="standard"
+              label="Subject"
+              name="subject1"
+              value={subject1}
+              onChange={(e) => {
+                setSubject(e.target.value);
+              }}
+              sx={{padding: "", width: "100%"}}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              variant="standard"
+              label="Description"
+              name="description1"
+              value={description1}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+              multiline
+              rows={4}
+              sx={{padding: "", width: "100%"}}
+            />
+          </Box>
+          <Stack
+            direction="row"
+            sx={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+            gap={1}
+            mb={0}
+            p={3}
+          >
+            <label htmlFor="contained-button-file">
+              <Input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+                name="image"
+                onChange={imageHandler}
+              />
+              <Button
+                variant="contained"
+                component="span"
+                endIcon={<AddPhotoAlternateIcon></AddPhotoAlternateIcon>}
+              >
+                Upload
+              </Button>
+            </label>
+
+            <Button
+              variant="contained"
+              color="success"
+              endIcon={<SendIcon />}
+              onClick={handlePost}
+            >
+              Post
+            </Button>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setModal(false);
+            }}
+          >
+            Cancel
+          </Button>
+          {/* <Button onClick={handleClose}>Subscribe</Button> */}
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={open}
+        // onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure want to delete ?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Once deleted you cannot see article
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>No</Button>
+          <Button onClick={handleDelete} autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={comment}>
+        <DialogTitle>Add comment</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Follow the rules while comment</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="comment"
+            name="comment"
+            label="comment"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setComment(false)}>close</Button>
+          <Button onClick={handleSubmitComment}>Send</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={showComment}>
+        <DialogTitle>
+          {" "}
+          {comments.length + " comment"}{" "}
+          <Typography
+            sx={{cursor: "pointer"}}
+            onClick={() => {
+              setComment(true);
+            }}
+          >
+            Add a comment
+          </Typography>
+        </DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>
+            {comments?.map((c) => {
+              return (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "400px",
+                    height: "auto",
+                  }}
+                  key={c.createdAt}
+                >
+                  <Box
+                    sx={{
+                      minWidth: "400px",
+
+                      borderBottom: "1px solid grey",
+                      margin: "1rem",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      padding: "5px",
+                    }}
+                  >
+                    <Avatar sx={{backgroundColor: "black", fontSize: "10px"}}>
+                      {c.commentedBy}
+                    </Avatar>
+
+                    <Typography variant="body2" color="black">
+                      {c.text}
+                    </Typography>
+
+                    <Typography>{c.createdAt}</Typography>
+                  </Box>
+                </Box>
+              );
+            })}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowComment(false)}>close</Button>
+          {/* <Button onClick={handleSubmitComment}>Send</Button> */}
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

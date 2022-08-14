@@ -43,10 +43,7 @@ function FollowersList() {
         if (check.data.chat) {
           navigate("/messenger");
         } else {
-          let conversation = {
-            senderId: user.result._id,
-            recieverId: friendId,
-          };
+          let conversation = [user.result._id, friendId];
           console.log("dispatch new conversation");
           dispatch(createConversation({conversation, navigate}));
         }
@@ -59,12 +56,6 @@ function FollowersList() {
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
-      <Typography
-        variant="h5"
-        style={{margin: "auto", textAlign: "center", color: "blue"}}
-      >
-        MY FOLLOWERS
-      </Typography>
       {followers?.map((item) => {
         return (
           <List

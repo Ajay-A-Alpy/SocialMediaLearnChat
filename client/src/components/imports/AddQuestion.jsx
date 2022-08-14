@@ -1,26 +1,25 @@
-import {Box, Button, Grid, Stack, Typography, styled} from "@mui/material";
+import {Box, Button, Grid, Stack, styled} from "@mui/material";
 
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import SendIcon from "@mui/icons-material/Send";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import Modal from "@mui/material/Modal";
+
 import {useState, useEffect} from "react";
 import TextField from "@mui/material/TextField";
 import {useDispatch, useSelector} from "react-redux";
-import {createArticle, getArticles} from "../../redux/features/articleSlice";
+
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
+
 import DialogTitle from "@mui/material/DialogTitle";
-import {createQuestion} from "../../redux/features/questionSlice";
+import {createQuestion, getQuestions} from "../../redux/features/questionSlice";
 
 export default function AddQuestion() {
-  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [subject, setSubject] = useState("");
   const [open, setOpen] = useState(false);
@@ -30,9 +29,9 @@ export default function AddQuestion() {
   const {user} = useSelector((state) => ({...state.auth}));
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   useEffect(() => {
-    console.log("add post");
-    dispatch(getArticles());
+    dispatch(getQuestions());
   }, [change]);
 
   const handleClear = () => {

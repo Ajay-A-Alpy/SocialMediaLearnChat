@@ -164,3 +164,42 @@ exports.unblock = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.getUser = async (req, res) => {
+  try {
+    console.log("hello", req.body);
+    console.log("get one user reached");
+    let olduser = await StudentModel.findById(req.body.id);
+    if (!olduser) olduser = await ExpertModel.findById(req.body.id);
+
+    if (!olduser) {
+      res.status(400).json({message: "user not found"});
+    }
+    return res.status(200).json({result: olduser});
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.searchUser = async (req, res) => {
+  try {
+    console.log("hello", req.body);
+    console.log("search user reached");
+    let pattern = `${req.body.query}`;
+    let olduser = await StudentModel.find({
+      name: {$regex: pattern, $options: "i"},
+    });
+    if (!olduser)
+      olduser = await ExpertModel.find({
+        name: {$regex: pattern, $options: "i"},
+      });
+
+    if (!olduser) {
+      res.status(400).json({message: "user not found"});
+    }
+    console.log("jjjjjjjjj", olduser);
+    return res.status(200).json({result: olduser});
+  } catch (err) {
+    console.log(err);
+  }
+};

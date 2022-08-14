@@ -14,6 +14,9 @@ router.post("/getExpertData", auth, controller.getExpertData);
 //expert profile update
 router.put("/profile/:id", auth, controller.profile);
 
+//expert profile update
+router.get("/getMyStudents", auth, controller.getMyStudents);
+
 //expert profile get
 router.get("/viewProfile/:id", auth, controller.Viewprofile);
 

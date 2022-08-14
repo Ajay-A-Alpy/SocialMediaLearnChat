@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const secret = process.env.SECRET;
 const studentModal = require("../../models/user");
 const StudentModal = require("../../models/user");
-const secret = process.env.SECRET;
+
 const mongoose = require("mongoose");
 const ArticleModal = require("../../models/articles");
 const ExpertModel = require("../../models/expert");

@@ -4,6 +4,7 @@ const conversationSchema = new mongoose.Schema(
   {
     members: [mongoose.Types.ObjectId],
     expert: Boolean,
+    groupName: {type: String},
   },
   {timestamps: true}
 );

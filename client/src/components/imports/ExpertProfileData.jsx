@@ -8,12 +8,18 @@ import {Tooltip, Typography} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ExpertProfileEdit from "./ExpertProfileEdit";
 
-import {useState} from "react";
-import {useSelector} from "react-redux";
+import {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {getExpertProfile} from "../../redux/features/authSlice";
+import {getCurrentExpertData} from "../../redux/features/expertAuthSlice";
 
 export default function ExpertProfileData() {
+  const dispatch = useDispatch();
   const [edit, setEdit] = useState(false);
   const {expert} = useSelector((state) => ({...state.expertAuth}));
+  useEffect(() => {
+    dispatch(getCurrentExpertData);
+  });
 
   return (
     <Box flex={4} sx={{backgroundColor: "white", height: "100%"}}>
@@ -168,7 +174,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result.email}
+                    {expert?.result.email}
                   </Typography>
                 </Stack>
 
@@ -198,7 +204,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result.mobile}
+                    {expert?.result.mobile}
                   </Typography>
                 </Stack>
 
@@ -227,7 +233,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result?.place}
+                    {expert?.result?.place}
                   </Typography>
                 </Stack>
 
@@ -256,7 +262,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result?.dob.substring(0, 10)}
+                    {expert?.result?.dob.substring(0, 10)}
                   </Typography>
                 </Stack>
 
@@ -285,7 +291,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result?.hobbies}
+                    {expert?.result?.hobbies}
                   </Typography>
                 </Stack>
               </Stack>
@@ -333,7 +339,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result?.education}
+                    {expert?.result?.education}
                   </Typography>
                 </Stack>
                 <Stack direction="row">
@@ -361,7 +367,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result?.institute}
+                    {expert?.result?.institute}
                   </Typography>
                 </Stack>
                 <Stack direction="row">
@@ -389,7 +395,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result?.experience}
+                    {expert?.result?.experience}
                   </Typography>
                 </Stack>
 
@@ -418,7 +424,7 @@ export default function ExpertProfileData() {
                       padding: "1rem 0 0 2rem",
                     }}
                   >
-                    {expert.result?.subjects}
+                    {expert?.result?.subjects}
                   </Typography>
                 </Stack>
               </Stack>

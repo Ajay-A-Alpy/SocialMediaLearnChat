@@ -52,10 +52,8 @@ function ViewFriends() {
         if (check.data.chat) {
           navigate("/messenger");
         } else {
-          let conversation = {
-            senderId: user.result._id,
-            recieverId: friendId,
-          };
+          let conversation = [user.result._id, friendId];
+
           console.log("dispatch new conversation");
           dispatch(createConversation({conversation, navigate}));
         }
@@ -68,12 +66,6 @@ function ViewFriends() {
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
-      <Typography
-        variant="h4"
-        style={{margin: "auto", textAlign: "center", color: "blue"}}
-      >
-        My friends
-      </Typography>
       {friendsList?.length == 0 ? (
         <Typography
           variant="h5"

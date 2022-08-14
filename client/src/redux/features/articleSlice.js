@@ -6,11 +6,16 @@ import AlertTitle from "@mui/material/AlertTitle";
 
 export const createArticle = createAsyncThunk(
   "article/create",
-  ({fd, navigate, toast}, {rejectWithValue}) => {
+  ({fd, navigate, toast, expert}, {rejectWithValue}) => {
     try {
       const response = api.AddArticle(fd);
       toast.success("You have succefully posted ", {autoClose: 1000});
-      navigate("/student");
+      if (expert) {
+        navigate("/expert");
+      } else {
+        navigate("/student");
+      }
+
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -22,8 +27,8 @@ export const getArticles = createAsyncThunk(
   "article/get",
   async (_, {rejectWithValue}) => {
     try {
+      console.log("get articles ");
       const response = await api.GetArticles();
-
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

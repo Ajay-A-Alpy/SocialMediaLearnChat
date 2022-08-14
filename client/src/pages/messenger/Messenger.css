@@ -1,9 +1,7 @@
-body {
-  background-color: cornflowerblue;
-}
 .messenger {
-  height: calc(100vh-70px);
+  height: calc(100vh);
   display: flex;
+  background-color: #128c7e;
 }
 
 .chatMenu {
@@ -12,29 +10,48 @@ body {
 .chatBox {
   flex: 5;
   max-height: calc(100vh-70px);
-  background-color: burlywood;
-  min-height: 80vh;
+  background-color: #25d366;
+  min-height: 75vh;
+  box-sizing: border-box;
+  border-radius: 1rem;
 }
 .chatOnline {
   flex: 3;
+  position: relative;
+}
+
+.chatOnline_wrapper {
+  position: fixed;
 }
 .chatMenu_wrapper {
   padding: 2rem;
   position: fixed;
+  overflow-y: scroll;
+  height: 70vh;
 }
 .chatBox_wrapper {
-  padding: 2rem;
   overflow-y: auto;
   position: relative;
-  max-height: 80vh;
+  height: 70vh;
+  padding: 2rem;
+  margin: 1rem;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 .chatOnline_wrapper {
-  padding: 2rem;
-  position: fixed;
+  position: relative;
   margin: 1rem;
 }
 .chatBox_bottom {
   display: flex;
+  background-color: beige;
+  border-radius: 1rem;
+  border: none;
+  position: fixed;
+  bottom: 2rem;
+  width: 45%;
+  margin-top: 2rem;
 }
 
 .chatBox_bottom_submit {
@@ -45,4 +62,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 3rem;
+  color: rgb(81, 128, 129);
+}
+
+@media (min-width: 280px) and (max-width: 800px) {
+  .chatBox_bottom {
+    width: 100%;
+  }
 }

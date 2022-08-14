@@ -56,12 +56,27 @@ export const expertUpdateProfile = createAsyncThunk(
   }
 );
 
+export const getStudentsList = createAsyncThunk(
+  "auth/getStudents",
+  async (navigate, {rejectWithValue}) => {
+    try {
+      console.log("hello get my  students");
+      const response = await api.getStudentData();
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const expertSlice = createSlice({
   name: "expert", // the name used in the useSelector,also in store
   initialState: {
-    expert: null,
+    expert: {},
     error: "",
     loading: false,
+    students: [],
   },
 
   reducers: {
@@ -131,6 +146,21 @@ const expertSlice = createSlice({
     },
     [expertUpdateProfile.rejected]: (state, action) => {
       state.loading = false;
+      state.error = action.payload.message;
+    },
+
+    [getStudentsList.pending]: (state, action) => {
+      console.log("get students pending");
+      state.loading = true;
+    },
+    [getStudentsList.fulfilled]: (state, action) => {
+      state.loading = false;
+      console.log("get students fulfilled");
+      state.students = action.payload;
+    },
+    [getStudentsList.rejected]: (state, action) => {
+      state.loading = false;
+      console.log("get students rejected");
       state.error = action.payload.message;
     },
   },

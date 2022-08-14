@@ -30,8 +30,13 @@ export default function AddPost() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("add post");
-    dispatch(getArticles());
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getArticles());
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [change]);
 
   const handleClear = () => {

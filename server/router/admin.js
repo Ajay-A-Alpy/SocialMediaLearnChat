@@ -20,6 +20,12 @@ router.get("/getStudents", auth, controller.getAllStudents);
 //get all   expert details
 router.get("/getExperts", auth, controller.getAllExperts);
 
+//get one user
+router.post("/getOneUser", auth, controller.getUser);
+
+//search one user
+router.post("/searchUser", controller.searchUser);
+
 //block student
 router.post("/block", auth, controller.block);
 

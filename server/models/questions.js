@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const QuestionSchema = mongoose.Schema({
   userId: mongoose.ObjectId,
   username: {type: String, required: true},
+  subject: {type: String, required: true},
   description: {type: String, required: true},
   images: String,
   verifiedCount: {type: [mongoose.ObjectId]},

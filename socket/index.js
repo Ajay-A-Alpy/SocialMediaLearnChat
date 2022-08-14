@@ -38,9 +38,14 @@ io.on("connection", (socket) => {
   //send message to a user
   socket.on("sendMessage", ({senderId, recieverId, text}) => {
     console.log("socket sendMessage recieved  from client 1" + senderId);
-    const user = getUser(recieverId);
-    console.log("hello", user);
-    io.to(user?.socketId).emit("getMessage", {senderId, text});
+
+    let memberCount = recieverId.length;
+    for (let i = 0; i < memberCount; i++) {
+      const user = getUser(recieverId[i]);
+      console.log("hello", user);
+      io.to(user?.socketId).emit("getMessage", {senderId, text});
+    }
+
     console.log("send messge emmitted to client 2" + recieverId);
   });
 

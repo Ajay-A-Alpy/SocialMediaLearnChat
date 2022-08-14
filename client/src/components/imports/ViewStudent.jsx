@@ -87,7 +87,7 @@ function ViewStudent() {
               display: "flex",
             }}
           >
-            {profile.user.followers.includes(user?.result._id) ? (
+            {profile?.user.followers.includes(user?.result._id) ? (
               <ListItem>
                 <Button variant="outlined" onClick={handleUnfollow}>
                   Unfollow
@@ -124,7 +124,7 @@ function ViewStudent() {
                   <ListItemText
                     primary="Followings"
                     secondary={
-                      profile.user?.following
+                      profile?.user?.following
                         ? profile.user.following.length
                         : 0
                     }

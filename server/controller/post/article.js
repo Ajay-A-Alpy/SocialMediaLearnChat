@@ -47,7 +47,7 @@ exports.updateArticle = async (req, res) => {
 
 exports.getArticles = async (req, res) => {
   try {
-    const articles = await articleModel.find();
+    const articles = await articleModel.find().sort({createdAt: -1});
     res.status(201).json(articles);
   } catch (error) {
     console.log("no articles");

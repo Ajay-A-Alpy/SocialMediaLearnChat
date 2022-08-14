@@ -10,7 +10,10 @@ import Avatar from "@mui/material/Avatar";
 import {useNavigate} from "react-router-dom";
 import {Button, Typography} from "@mui/material";
 import {useSelector, useDispatch} from "react-redux";
-import {getFollowingsData} from "../../redux/features/authSlice";
+import {
+  getFollowingsData,
+  getStudentProfile,
+} from "../../redux/features/authSlice";
 import * as api from "../../redux/api";
 import {createConversation} from "../../redux/features/chatSlice";
 
@@ -21,6 +24,13 @@ function FollowingsList() {
   const {followings} = useSelector((state) => ({...state.auth}));
   const dispatch = useDispatch();
   const {user} = useSelector((state) => ({...state.auth}));
+
+  const handleViewProfile = (id) => {
+    let userId = id;
+    console.log("view reached", id);
+    dispatch(getStudentProfile({userId, navigate}));
+  };
+
   const handleMessage = (friendId) => {
     let data = {
       first: user.result._id,
@@ -35,10 +45,7 @@ function FollowingsList() {
         if (check.data.chat) {
           navigate("/messenger");
         } else {
-          let conversation = {
-            senderId: user.result._id,
-            recieverId: friendId,
-          };
+          let conversation = [user.result._id, friendId];
           console.log("dispatch new conversation");
           dispatch(createConversation({conversation, navigate}));
         }
@@ -57,12 +64,6 @@ function FollowingsList() {
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
-      <Typography
-        variant="h5"
-        style={{margin: "auto", textAlign: "center", color: "blue"}}
-      >
-        MY FOLLOWINGS
-      </Typography>
       {followingList?.map((item, index) => {
         return (
           <List
@@ -76,7 +77,12 @@ function FollowingsList() {
                 primary={item.person.name}
                 secondary={item.person.email}
               />
-              <Button variant="outlined">view</Button>
+              <Button
+                variant="outlined"
+                onClick={handleViewProfile.bind(this, item.person._id)}
+              >
+                view
+              </Button>
               <Button
                 variant="outlined"
                 onClick={handleMessage.bind(this, item.person._id)}

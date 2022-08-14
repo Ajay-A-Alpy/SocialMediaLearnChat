@@ -4,9 +4,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Switch from "@mui/material/Switch";
-import {Link, useNavigate} from "react-router-dom";
 
+import {useNavigate} from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import FeedIcon from "@mui/icons-material/Feed";
@@ -15,9 +14,6 @@ import PeopleIcon from "@mui/icons-material/People";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import SchoolIcon from "@mui/icons-material/School";
-import SettingsIcon from "@mui/icons-material/Settings";
-import NightlightIcon from "@mui/icons-material/Nightlight";
-import BookIcon from "@mui/icons-material/Book";
 import {
   getFollowersData,
   getFollowingsData,
@@ -67,7 +63,7 @@ function Sidebar() {
           position: "fixed",
           width: "auto",
           paddingRight: "3rem",
-          borderRight: "1px solid #d3cedb",
+
           height: "100vh",
         }}
       >
@@ -134,15 +130,6 @@ function Sidebar() {
             </ListItemButton>
           </ListItem>
 
-          {/* <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
-                <BookIcon></BookIcon>
-              </ListItemIcon>
-              <ListItemText primary="Subjects" />
-            </ListItemButton>
-          </ListItem> */}
-
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
@@ -181,24 +168,6 @@ function Sidebar() {
               <ListItemText primary="Friends" onClick={handleShowFriends} />
             </ListItemButton>
           </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon sx={{display: {md: "none", lg: "block"}}}>
-                <SettingsIcon></SettingsIcon>
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-            </ListItemButton>
-          </ListItem>
-
-          {/* <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-        <NightlightIcon></NightlightIcon>
-              </ListItemIcon>
-              <Switch  defaultChecked  />
-            </ListItemButton>
-          </ListItem> */}
         </List>
       </Box>
     </Box>

@@ -3,7 +3,6 @@ import axios from "axios";
 const API = axios.create({baseURL: "http://localhost:5000"});
 
 API.interceptors.request.use((req) => {
-  console.log("headerssssss");
   if (localStorage.getItem("userToken")) {
     req.headers.Authorization = `Bearer ${JSON.parse(
       localStorage.getItem("userToken")
@@ -21,8 +20,6 @@ API.interceptors.request.use((req) => {
       localStorage.getItem("adminToken")
     )}`;
   }
-
-  console.log("returnnnnn");
 
   return req;
 });
@@ -118,6 +115,11 @@ export const getExpertDetails = async () => {
   return await API.post("/expert/getExpertData");
 };
 
+//expert students Data
+export const getStudentData = async () => {
+  return await API.get("/expert/getMyStudents");
+};
+
 //add new article
 export const AddArticle = async (articleData) => {
   console.log(articleData);
@@ -126,7 +128,11 @@ export const AddArticle = async (articleData) => {
 
 //get all article
 export const GetArticles = async () => {
-  return await API.get("/article");
+  console.log("calling articlesssss");
+
+  let result = await API.get("/article");
+
+  return result;
 };
 
 //update article
@@ -165,13 +171,19 @@ export const AddQuestions = async (Data) => {
   return await API.post("/question", Data);
 };
 
-//get all article
+//get
 export const GetQuestions = async () => {
   return await API.get("/question");
 };
 
-export const UpdateQuestion = async (Data) => {
-  return await API.put("/question", Data);
+//delete
+export const DeleteQuestion = async (id) => {
+  return await API.delete(`/question/${id}`);
+};
+
+//add new answer
+export const addAnswer = async (data) => {
+  return await API.post("/question/answer", data);
 };
 
 //add new comment
@@ -247,4 +259,14 @@ export const blockUser = async (data) => {
 //unblock students and experts
 export const unblockUser = async (data) => {
   return await API.post("/admin/unblock", data);
+};
+
+//get one user
+export const getOneUser = async (data) => {
+  return await API.post("/admin/getOneUser", data);
+};
+
+//search  user
+export const searchUser = async (data) => {
+  return await API.post("/admin/searchUser", data);
 };

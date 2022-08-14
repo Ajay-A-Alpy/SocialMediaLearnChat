@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const expertModal = require("../../models/expert");
 const secret = process.env.SECRET;
-
+const mongoose = require("mongoose");
 exports.login = async (req, res) => {
   console.log("expert login");
   console.log(req.body);
@@ -96,5 +96,43 @@ exports.Viewprofile = async (req, res) => {
     res.status(201).json(doc);
   } catch (err) {
     console.log(err);
+  }
+};
+
+exports.getMyStudents = async (req, res) => {
+  console.log("hello get studentsss", req.userId);
+  let userId = mongoose.Types.ObjectId(req.userId);
+  console.log(userId);
+
+  try {
+    const mystudents = await expertModal.aggregate([
+      {
+        $match: {_id: userId},
+      },
+      {
+        $unwind: "$students",
+      },
+      {
+        $project: {mystudents: "$students"},
+      },
+
+      {
+        $lookup: {
+          from: "students",
+          localField: "mystudents",
+          foreignField: "_id",
+          as: "people",
+        },
+      },
+      {
+        $project: {
+          person: {$arrayElemAt: ["$people", 0]},
+        },
+      },
+    ]);
+
+    res.status(201).json(mystudents);
+  } catch (error) {
+    res.status(404).json({messsage: "something wernt wrong"});
   }
 };

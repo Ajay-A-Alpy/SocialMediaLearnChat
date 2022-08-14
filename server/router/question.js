@@ -17,10 +17,16 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage});
 
-//new article posting
+//create
 router.post("/", auth, upload.single("image"), controller.createQuestion);
 
-//new article posting
-router.get("/", auth, controller.createQuestion);
+//get
+router.get("/", controller.getQuestions);
+
+//delete
+router.delete("/:id", auth, controller.deleteQuestion);
+
+// add answer
+router.post("/answer", controller.addAnswer);
 
 module.exports = router;

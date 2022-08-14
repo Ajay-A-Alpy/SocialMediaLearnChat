@@ -41,7 +41,8 @@ import {toast} from "react-toastify";
 import {useEffect} from "react";
 import {likeArticle, unlikeArticle} from "../../redux/features/articleSlice";
 import {getArticles} from "../../redux/features/articleSlice";
-import {useRef} from "react";
+
+import {format} from "timeago.js";
 export default function Posts({
   title,
   subject,
@@ -69,8 +70,13 @@ export default function Posts({
   const {error, loading} = useSelector((state) => ({...state.article}));
 
   useEffect(() => {
-    console.log("posttttttt");
-    dispatch(getArticles());
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getArticles());
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [likeChange]);
 
   const [imageField, setImageField] = useState();
@@ -95,6 +101,7 @@ export default function Posts({
       dispatch(commentArticle(newComment));
       setComment(false);
       setLikeChange(!likeChange);
+      setCommentText("");
     }
   };
 
@@ -161,22 +168,8 @@ export default function Posts({
     setLikeChange(!likeChange);
   };
 
-  const ModalStyled = styled(Modal)({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  });
-
   const Input = styled("input")({
     display: "none",
-  });
-
-  const UserBox = styled(Box)({
-    display: "flex",
-
-    alignItems: "center",
-    paddingInline: "3rem",
-    marginTop: "0",
   });
 
   return (
@@ -239,7 +232,7 @@ export default function Posts({
             </IconButton>
           }
           title={username}
-          subheader={createdAt.substring(0, 10)}
+          subheader={format(createdAt.substring(0, 10))}
         />
         {images ? (
           <CardMedia
@@ -265,16 +258,7 @@ export default function Posts({
               width: "100%",
               textAlign: "end",
             }}
-          >
-            <Typography
-              sx={{cursor: "pointer"}}
-              onClick={() => {
-                setShowComment(true);
-              }}
-            >
-              Comments
-            </Typography>
-          </Box>
+          ></Box>
         </CardContent>
         <CardActions sx={{display: "flex", justifyContent: "space-between"}}>
           {likes.includes(user?.result._id) && loading == false ? (
@@ -320,7 +304,7 @@ export default function Posts({
               placement="left"
               sx={{marginLeft: "1rem"}}
               onClick={() => {
-                setComment(true);
+                setShowComment(true);
               }}
             >
               <CommentIcon />
@@ -472,7 +456,19 @@ export default function Posts({
       </Dialog>
 
       <Dialog open={showComment}>
-        <DialogTitle> {comments.length + " comment"}</DialogTitle>
+        <DialogTitle>
+          {" "}
+          {comments.length + " comment"}{" "}
+          <Typography
+            sx={{cursor: "pointer"}}
+            onClick={() => {
+              setComment(true);
+            }}
+          >
+            Add a comment
+          </Typography>
+        </DialogTitle>
+
         <DialogContent>
           <DialogContentText>
             {comments?.map((c) => {
@@ -485,23 +481,22 @@ export default function Posts({
                     height: "auto",
                   }}
                 >
-                  {" "}
                   <Box
                     sx={{
-                      border: "beige",
-                      boxSizing: "border-box",
-                      minWidth: "300px",
-                      border: "1px solid black",
+                      minWidth: "400px",
+
+                      borderBottom: "1px solid grey",
                       margin: "1rem",
-                      borderRadius: "8px",
+                      display: "flex",
+                      justifyContent: "space-between",
                       padding: "5px",
                     }}
                   >
-                    <Avatar sx={{backgroundColor: "orange"}}>
+                    <Avatar sx={{backgroundColor: "black", fontSize: "10px"}}>
                       {c.commentedBy}
                     </Avatar>
-                    <Typography>{c.commentedBy}</Typography>
-                    <Typography variant="h6" color="black">
+
+                    <Typography variant="body2" color="black">
                       {c.text}
                     </Typography>
 
