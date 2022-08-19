@@ -40,9 +40,9 @@ import Picker from "emoji-picker-react";
 
 function Messenger() {
   const {user} = useSelector((state) => ({...state.auth}));
-  const [currentChat, setCurrentChat] = useState(null);
-  const [message, setMessage] = useState(null);
-  const [onlineUsers, setOnlineUsers] = useState(null);
+  const [currentChat, setCurrentChat] = useState({});
+  const [message, setMessage] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const [open, setOpen] = useState(false);
   const [groupName, setGroupName] = useState();
   const [followers, setFollowers] = useState([]);
@@ -50,7 +50,7 @@ function Messenger() {
   const [change, setChange] = useState(false);
   const [checked, setChecked] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [arrivalMessage, setArrivalMessage] = useState({});
   const dispatch = useDispatch();
   const {conversations} = useSelector((state) => ({...state.chat}));
   const {friends} = useSelector((state) => ({...state.auth}));
@@ -77,7 +77,7 @@ function Messenger() {
   useEffect(() => {
     console.log("set arrival messages");
     arrivalMessage &&
-      currentChat.members.includes(arrivalMessage.sender) &&
+      currentChat.members?.includes(arrivalMessage.sender) &&
       setMessage((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, currentChat]);
 
@@ -85,8 +85,6 @@ function Messenger() {
   useEffect(() => {
     socket.current.emit("addUser", currentUser?.result._id);
     socket.current.on("getUsers", (users) => {
-      console.log(users, "iiiiiiiiiii");
-      console.log(currentUser, "mmmmm");
       setOnlineUsers(
         currentUser?.result.friends.filter((f) =>
           users.some((u) => u.userId === f)
@@ -101,8 +99,16 @@ function Messenger() {
       let result = await api.getFollowers(id);
       setFollowers(result.data);
     };
-    getFollowers();
-  }, [followers]);
+
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      getFollowers();
+      console.log("calling follwers");
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(getConversation(user?.result._id));
@@ -141,7 +147,7 @@ function Messenger() {
     const getMessage = async () => {
       try {
         let response = await api.getMessage(currentChat?._id);
-        console.log(response);
+
         setMessage(response.data);
       } catch (err) {
         console.log(err);

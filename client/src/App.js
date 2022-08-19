@@ -1,7 +1,7 @@
 import {useDispatch} from "react-redux";
 import {useEffect} from "react";
 import {getCurrentUser, setUser} from "./redux/features/authSlice";
-
+import {Route, Routes, BrowserRouter} from "react-router-dom";
 import {
   getCurrentExpertData,
   setExpert,
@@ -11,6 +11,7 @@ import ExpertRoutes from "./routes/ExpertRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 import StudentRoutes from "./routes/StudentRoutes";
 import ErrorPage from "./pages/Error/ErrorPage";
+import Home from "./pages/common/Home";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,11 @@ function App() {
 
   return (
     <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home></Home>}></Route>
+        </Routes>
+      </BrowserRouter>
       <StudentRoutes></StudentRoutes>
       <ExpertRoutes></ExpertRoutes>
       <AdminRoutes></AdminRoutes>

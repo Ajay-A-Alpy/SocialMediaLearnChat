@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 
-import {Button, Typography} from "@mui/material";
+import {Button, Grid, Typography} from "@mui/material";
 import {useSelector, useDispatch} from "react-redux";
 import {getStudentProfile, setUser} from "../../redux/features/authSlice";
 import {useNavigate} from "react-router-dom";
@@ -55,35 +55,63 @@ function FollowersList() {
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
+      <Box variant="h5" style={{height: "2rem"}}></Box>
       {followers?.map((item) => {
         return (
-          <List
-            sx={{width: "80%", bgcolor: "background.paper", height: "auto"}}
-            key={item._id}
-          >
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              </ListItemAvatar>
-              <ListItemText
-                primary={item.person.name}
-                secondary={item.person.email}
-              />
-              <Button
-                variant="outlined"
-                onClick={handleViewProfile.bind(this, item.person._id)}
+          <Grid container>
+            <Grid item xs={12} sm={12} md={12}>
+              <List
+                sx={{
+                  width: "80%",
+                  bgcolor: "background.paper",
+                  height: "auto",
+                  borderRadius: "1rem",
+                  marginTop: "1rem",
+                }}
+                key={item.person._id}
               >
-                view
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={handleMessage.bind(this, item.person._id)}
-              >
-                Message
-              </Button>
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </List>
+                <ListItem alignItems="flex-start">
+                  <ListItemAvatar>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={
+                        item?.person?.profilePic
+                          ? "http://localhost:5000/" + item?.person?.profilePic
+                          : "http://localhost:5000/profile.jpg"
+                      }
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <Typography
+                        sx={{fontSize: {xs: "10px", sm: "15px", md: "20px"}}}
+                      >
+                        {item.person.name}
+                      </Typography>
+                    }
+                    secondary={
+                      <Typography sx={{display: {xs: "none", sm: "block"}}}>
+                        {item.person.email}
+                      </Typography>
+                    }
+                  />
+                  <Button
+                    variant="outlined"
+                    onClick={handleViewProfile.bind(this, item.person._id)}
+                  >
+                    view
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={handleMessage.bind(this, item.person._id)}
+                  >
+                    Message
+                  </Button>
+                </ListItem>
+                <Divider variant="inset" component="li" />
+              </List>
+            </Grid>{" "}
+          </Grid>
         );
       })}
     </Box>

@@ -3,7 +3,8 @@ import {Route, Routes, BrowserRouter} from "react-router-dom";
 import PrivateRouter from "../components/imports/ExpertAuthRouter";
 
 import ProfileEdit from "../components/imports/ProfileEdit";
-import Home from "../pages/common/Home";
+import StudentAuthRouter from "../components/imports/StudentAuthRouter";
+
 import ExpertMessenger from "../pages/messenger/ExpertMessenger";
 import Messenger from "../pages/messenger/Messenger";
 import MyArticles from "../pages/Students/Articles/MyArticles";
@@ -19,7 +20,7 @@ import StudentRegister from "../pages/Students/StudentRegister/StudentRegister";
 import ViewExpert from "../pages/Students/ViewExpert/ViewExpert";
 import ViewStudents from "../pages/Students/ViewStudent/ViewStudents";
 import VideoChat from "../pages/VideoChat/VideoChat";
-
+import Home from "../pages/common/Home";
 export default function StudentRoutes() {
   return (
     <BrowserRouter>
@@ -29,9 +30,8 @@ export default function StudentRoutes() {
           path="/student/signup"
           element={<StudentRegister></StudentRegister>}
         ></Route>
-
         <Route path="/" element={<Home></Home>}></Route>
-
+        {/* <Route element={<StudentAuthRouter />}> */}
         <Route path="/student" element={<StudentHome />}></Route>
 
         <Route path="/student/profile" element={<StudentProfile />}></Route>
@@ -56,6 +56,7 @@ export default function StudentRoutes() {
           element={<ExpertMessenger></ExpertMessenger>}
         ></Route>
         <Route path="/videocall" element={<VideoChat />}></Route>
+        {/* </Route> */}
       </Routes>
     </BrowserRouter>
   );

@@ -62,6 +62,8 @@ export default function ProfileData() {
               justifyContent: "center",
               display: "flex",
               flexDirection: "column",
+              border: "1px solid violet",
+              borderRadius: "1rem",
             }}
           >
             <Box
@@ -70,6 +72,9 @@ export default function ProfileData() {
                 boxSizing: "border-box",
                 width: "70%",
                 height: "70%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <img
@@ -107,6 +112,9 @@ export default function ProfileData() {
               alignItems: "center",
               justifyContent: "center",
               display: "flex",
+              border: "1px solid violet",
+              borderRadius: "1rem",
+              marginTop: "1rem",
             }}
           >
             <Stack
@@ -128,7 +136,10 @@ export default function ProfileData() {
               </ListItem>
 
               <ListItem>
-                <ListItemText primary="Friends" secondary="" />
+                <ListItemText
+                  primary="Friends"
+                  secondary={user?.result?.friends.length}
+                />
               </ListItem>
             </Stack>
           </Box>
@@ -137,17 +148,35 @@ export default function ProfileData() {
         {edit ? (
           <ProfileEdit setEdit></ProfileEdit>
         ) : (
-          <Box flex={4} sx={{backgroundColor: "", height: "100%"}}>
+          <Box
+            flex={5}
+            sx={{
+              backgroundColor: "",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: {sm: "column", xs: "column", md: "row"},
+            }}
+          >
             <Box
-              sx={{backgroundColor: "", height: "auto", textAlign: "center"}}
+              sx={{
+                backgroundColor: "",
+                height: "auto",
+                textAlign: "start",
+                margin: "1rem",
+                border: "1px solid violet",
+                borderRadius: "1rem",
+                padding: "2rem",
+                width: "auto",
+              }}
             >
               <Typography
                 component="h5"
                 variant="h5"
-                color="white"
-                sx={{width: "100%", backgroundColor: "#34568B"}}
+                color="black"
+                sx={{width: "100%", backgroundColor: ""}}
               >
-                Personal Info
+                PERSONAL INFO
               </Typography>
 
               <Stack direction="column">
@@ -332,18 +361,23 @@ export default function ProfileData() {
             <Box
               sx={{
                 backgroundColor: "white",
-                height: "50%",
+
                 textAlign: "center",
                 padding: "1rem",
+                border: "1px solid violet",
+                borderRadius: "1rem",
+                padding: "1rem",
+                width: "auto",
+                margin: "1rem",
               }}
             >
               <Typography
                 component="h5"
                 variant="h5"
-                color="white"
-                sx={{width: "100%", backgroundColor: "#34568B"}}
+                color="black"
+                sx={{width: "100%", backgroundColor: "", textAlign: "start"}}
               >
-                Educational Info
+                EDUCATIONAL INFO
               </Typography>
 
               <Stack direction="column">

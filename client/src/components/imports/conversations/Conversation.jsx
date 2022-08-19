@@ -17,7 +17,7 @@ function Conversation({conversation}) {
   const dispatch = useDispatch();
   let [a, b] = conversation.members;
 
-  if (a == user.result._id) {
+  if (a == user?.result._id) {
     friendId = b;
   } else {
     friendId = a;

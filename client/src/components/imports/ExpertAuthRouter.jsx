@@ -4,13 +4,15 @@ import {useEffect, useState} from "react";
 import {Outlet, Navigate} from "react-router-dom";
 
 function PrivateRouter() {
-  const [user, setUser] = useState({});
+  const [Isuser, setIsUser] = useState(false);
   const {expert} = useSelector((state) => ({...state.expertAuth}));
   useEffect(() => {
-    console.log(expert.result);
-    setUser(expert.result);
-  }, []);
-  return user ? <Outlet></Outlet> : <Navigate to="/expert/login"></Navigate>;
+    let token = localStorage.getItem("expertToken");
+    if (expert) {
+      setIsUser(true);
+    }
+  }, [expert]);
+  return Isuser ? <Outlet></Outlet> : <Navigate to="/expert/login"></Navigate>;
 }
 
 export default PrivateRouter;

@@ -1,6 +1,7 @@
 import React from "react";
 import {Route, Routes, BrowserRouter} from "react-router-dom";
 import PrivateRouter from "../components/imports/ExpertAuthRouter";
+import Home from "../pages/common/Home";
 import ExpertArticles from "../pages/Experts/ExpertArticles/ExpertArticles";
 import ExpertHome from "../pages/Experts/ExpertHome/ExpertHome";
 import ExpertLogin from "../pages/Experts/ExpertLogin/ExpertLogin";
@@ -13,6 +14,7 @@ export default function ExpertRoutes() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Home></Home>}></Route>
         <Route
           path="/expert/signup"
           element={<ExpertRegister></ExpertRegister>}

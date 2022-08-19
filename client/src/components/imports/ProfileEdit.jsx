@@ -92,15 +92,24 @@ export default function ProfileEdit(props) {
           onChange={onInputChange}
           placeholder="Place"
         />
-        <label>DOB {dob ? ":" + dob.substring(0, 10) : ""}</label>
+        {/* <label>DOB {dob ? ":" + dob.substring(0, 10) : ""}</label> */}
+
         <input
-          style={{width: "13rem", height: "3rem", borderColor: "white"}}
+          style={{
+            width: "13rem",
+            height: "3.5rem",
+            borderColor: "white",
+            border: "1px solid gray",
+            borderRadius: "5px",
+            backgroundColor: "",
+          }}
           type="date"
           placeholder="DOB"
           name="dob"
           onChange={onInputChange}
           value={dob}
         ></input>
+
         <Box bgcolor="powderblue" sx={{width: "100%", textAlign: "center"}}>
           <Typography variant="h6" component="h6">
             Educational Info

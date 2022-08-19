@@ -71,6 +71,7 @@ function ViewFriends() {
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
+      <Box variant="h5" style={{height: "2rem"}}></Box>
       {friendsList?.length == 0 ? (
         <Typography
           variant="h5"
@@ -87,11 +88,24 @@ function ViewFriends() {
         friendsList?.map((item, index) => {
           return (
             <List
-              sx={{width: "80%", bgcolor: "background.paper", height: "auto"}}
+              sx={{
+                width: "80%",
+                bgcolor: "background.paper",
+                height: "auto",
+                borderRadius: "1rem",
+                marginTop: "1rem",
+              }}
             >
               <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={
+                      item?.person?.profilePic
+                        ? "http://localhost:5000/" + item?.person?.profilePic
+                        : "http://localhost:5000/profile.jpg"
+                    }
+                  />
                 </ListItemAvatar>
                 <ListItemText
                   primary={item.person.name}

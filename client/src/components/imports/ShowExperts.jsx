@@ -24,8 +24,6 @@ import {
 } from "../../redux/features/chatSlice";
 
 function ShowExperts() {
-  // const [followersList, setFollowers] = useState([]);
-
   const {user} = useSelector((state) => ({...state.auth}));
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -51,7 +49,7 @@ function ShowExperts() {
 
   const handleViewProfile = (id) => {
     let userId = id;
-    console.log("view reached", id);
+
     dispatch(getExpertProfile({userId, navigate}));
   };
 
@@ -62,9 +60,8 @@ function ShowExperts() {
     };
     const checkChat = async () => {
       try {
-        console.log("check chat now");
         let check = await api.getChatStatus(data);
-        console.log(check);
+
         if (check.data.chat) {
           navigate("/Expertmessenger");
         } else {
@@ -73,7 +70,7 @@ function ShowExperts() {
             recieverId: expertId,
             expert: true,
           };
-          console.log("dispatch new conversation");
+
           dispatch(createExpertConversation({conversation, navigate}));
         }
       } catch (err) {
@@ -85,21 +82,29 @@ function ShowExperts() {
 
   return (
     <Box flex={6} sx={{backgroundColor: "", minHeight: "90vh"}}>
-      <Typography
-        variant="h5"
-        style={{margin: "auto", textAlign: "center", color: "blue"}}
-      >
-        Experts
-      </Typography>
+      <Box variant="h5" style={{height: "2rem"}}></Box>
       {allExperts?.map((item) => {
         return (
           <List
-            sx={{width: "80%", bgcolor: "background.paper", height: "auto"}}
+            sx={{
+              width: "80%",
+              bgcolor: "background.paper",
+              height: "auto",
+              borderRadius: "1rem",
+              marginTop: "1rem",
+            }}
             key={item._id}
           >
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                <Avatar
+                  alt="Remy Sharp"
+                  src={
+                    item?.person?.profilePic
+                      ? "http://localhost:5000/" + item?.person?.profilePic
+                      : "http://localhost:5000/profile.jpg"
+                  }
+                />
               </ListItemAvatar>
               <ListItemText primary={item.name} secondary={item.email} />
               <Button
