@@ -20,7 +20,13 @@ export default function ExpertQuestionFeed() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getQuestions());
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getQuestions());
+    }
+    return () => {
+      let unsubscribed = true;
+    };
   }, []);
 
   const handlePagination = (e, page) => {

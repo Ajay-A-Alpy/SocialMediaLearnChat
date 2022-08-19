@@ -17,8 +17,6 @@ import * as api from "../../redux/api";
 import {createExpertConversation} from "../../redux/features/chatSlice";
 
 function ExpertStudentsList() {
-  // const [followersList, setFollowers] = useState([]);
-
   const {students} = useSelector((state) => ({...state.expertAuth}));
   const {expert} = useSelector((state) => ({...state.expertAuth}));
   const dispatch = useDispatch();
@@ -27,7 +25,7 @@ function ExpertStudentsList() {
 
   const handleViewProfile = (id) => {
     let userId = id;
-    console.log("view reached", id);
+
     dispatch(getStudentProfile({userId, navigate}));
   };
 
@@ -38,9 +36,8 @@ function ExpertStudentsList() {
     };
     const checkChat = async () => {
       try {
-        console.log("check chat now");
         let check = await api.getChatStatus(data);
-        console.log(check);
+
         if (check.data.chat) {
           navigate("/Expertmessenger");
         } else {
@@ -49,7 +46,7 @@ function ExpertStudentsList() {
             recieverId: studentId,
             expert: true,
           };
-          console.log("dispatch new conversation");
+
           dispatch(createExpertConversation({conversation, navigate}));
         }
       } catch (err) {

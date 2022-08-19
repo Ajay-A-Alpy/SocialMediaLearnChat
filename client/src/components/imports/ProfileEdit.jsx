@@ -1,14 +1,14 @@
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { updateProfile } from "../../redux/features/authSlice";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import {Box, Button, Stack, TextField, Typography} from "@mui/material";
+import {useState} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {updateProfile} from "../../redux/features/authSlice";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 export default function ProfileEdit(props) {
-  const { user } = useSelector((state) => ({ ...state.auth }));
-  const dispatch=useDispatch();
-  const navigate=useNavigate();
+  const {user} = useSelector((state) => ({...state.auth}));
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const initials = {
     name: user.result.name,
     email: user.result.email,
@@ -22,41 +22,27 @@ export default function ProfileEdit(props) {
   };
 
   const [profileData, setProfileData] = useState(initials);
-  const {
-    name,
-    email,
-    mobile,
-    place,
-    dob,
-    classNum,
-    school,
-    subjects,
-    hobbies,
-  } = profileData;
+  const {name, email, mobile, place, dob, classNum, school, subjects, hobbies} =
+    profileData;
 
   const onInputChange = (e) => {
-       e.preventDefault()
-    const { name, value } = e.target;
-    setProfileData({ ...profileData, [name]: value });
+    e.preventDefault();
+    const {name, value} = e.target;
+    setProfileData({...profileData, [name]: value});
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let Id = user.result._id;
 
-  const handleSubmit=(e)=>{
-       e.preventDefault()
-       let Id=user.result._id;
-
-       if(name && email && mobile ){
-              console.log('00000000000')
-              dispatch(updateProfile({profileData,Id,toast,navigate}))
-              props.setEdit(false)
-       }
-
-       
-
-  }
+    if (name && email && mobile) {
+      dispatch(updateProfile({profileData, Id, toast, navigate}));
+      props.setEdit(false);
+    }
+  };
 
   return (
-    <Box flex={4} sx={{ backgroundColor: "#F8F8FF" }}>
+    <Box flex={4} sx={{backgroundColor: "#F8F8FF"}}>
       <Stack
         direction="column"
         spacing={2}
@@ -68,9 +54,9 @@ export default function ProfileEdit(props) {
         }}
       >
         <Typography variant="h5" component="h5">
-         EDIT PROFILE
+          EDIT PROFILE
         </Typography>
-        <Box bgcolor="powderblue" sx={{ width: "100%", textAlign: "center" }}>
+        <Box bgcolor="powderblue" sx={{width: "100%", textAlign: "center"}}>
           <Typography variant="h6" component="h6">
             Personal Info
           </Typography>{" "}
@@ -106,16 +92,16 @@ export default function ProfileEdit(props) {
           onChange={onInputChange}
           placeholder="Place"
         />
-        <label>DOB { dob ? ":"+dob.substring(0,10) : "" }</label>
+        <label>DOB {dob ? ":" + dob.substring(0, 10) : ""}</label>
         <input
-          style={{ width: "13rem", height: "3rem", borderColor: "white" }}
+          style={{width: "13rem", height: "3rem", borderColor: "white"}}
           type="date"
           placeholder="DOB"
           name="dob"
           onChange={onInputChange}
           value={dob}
         ></input>
-        <Box bgcolor="powderblue" sx={{ width: "100%", textAlign: "center" }}>
+        <Box bgcolor="powderblue" sx={{width: "100%", textAlign: "center"}}>
           <Typography variant="h6" component="h6">
             Educational Info
           </Typography>{" "}
@@ -152,8 +138,13 @@ export default function ProfileEdit(props) {
           placeholder="Hobbies"
         />
 
-        <Button variant="contained" type="submit" color="primary" onClick={handleSubmit}>
-         Save Changes
+        <Button
+          variant="contained"
+          type="submit"
+          color="primary"
+          onClick={handleSubmit}
+        >
+          Save Changes
         </Button>
       </Stack>
     </Box>

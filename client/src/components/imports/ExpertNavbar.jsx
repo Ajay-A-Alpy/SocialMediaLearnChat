@@ -56,7 +56,7 @@ export default function ExpertNavbar({chatStatus}) {
 
   const handleViewProfile = (id) => {
     let userId = id;
-    console.log("view reached", id);
+
     dispatch(getStudentProfile({userId, navigate}));
     setQuery("");
   };
@@ -64,7 +64,6 @@ export default function ExpertNavbar({chatStatus}) {
   const handleSearch = (e) => {
     e.preventDefault();
     setQuery(e.target.value);
-    console.log(e.target.value);
   };
   useEffect(() => {
     let callAPI = async () => {
@@ -73,14 +72,21 @@ export default function ExpertNavbar({chatStatus}) {
       };
       let result = await api.searchUser(obj);
       setData(result.data?.result);
-      console.log(result);
     };
-    callAPI();
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      callAPI();
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [query]);
+
   const SyledToolbar = styled(Toolbar)({
     display: "flex",
     justifyContent: "space-between",
   });
+
   const Search = styled("div")({
     backgroundColor: "white",
     borderRadius: "2rem",

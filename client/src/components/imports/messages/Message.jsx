@@ -10,9 +10,13 @@ function Message({message, own, name}) {
     <Box className={own ? "message own" : "message"}>
       <Stack direction="column">
         <Box className="message_top">
-          <Avatar className="message_img" sx={{width: 30, height: 30}}>
-            {own ? name?.substr(0, 2) : ""}
-          </Avatar>
+          {own ? (
+            <Avatar className="message_img" sx={{width: 30, height: 30}}>
+              {own ? name?.substr(0, 2) : ""}
+            </Avatar>
+          ) : (
+            " "
+          )}
           <Typography
             className={own ? "message_text ownText" : "message_text "}
           >

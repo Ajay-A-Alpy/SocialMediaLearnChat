@@ -20,7 +20,13 @@ function AllStudentList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getAllStudents(navigate));
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getAllStudents(navigate));
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [change]);
 
   const handleBlock = (id) => {

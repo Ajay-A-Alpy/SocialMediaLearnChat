@@ -102,9 +102,8 @@ export default function StudentLogin() {
           container
           sx={{
             alignItems: "center",
-            margin: "auto",
-            marginTop: "",
-            padding: "1rem",
+
+            paddingTop: "3rem",
           }}
           className="login"
         >

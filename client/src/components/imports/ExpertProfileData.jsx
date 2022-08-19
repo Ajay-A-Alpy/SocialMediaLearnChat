@@ -18,7 +18,13 @@ export default function ExpertProfileData() {
   const [edit, setEdit] = useState(false);
   const {expert} = useSelector((state) => ({...state.expertAuth}));
   useEffect(() => {
-    dispatch(getCurrentExpertData);
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getCurrentExpertData);
+    }
+    return () => {
+      unsubscribed = true;
+    };
   });
 
   return (

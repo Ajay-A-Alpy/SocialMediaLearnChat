@@ -37,14 +37,13 @@ function FollowersList() {
     };
     const checkChat = async () => {
       try {
-        console.log("check chat now");
         let check = await api.getChatStatus(data);
-        console.log(check);
+
         if (check.data.chat) {
           navigate("/messenger");
         } else {
           let conversation = [user.result._id, friendId];
-          console.log("dispatch new conversation");
+
           dispatch(createConversation({conversation, navigate}));
         }
       } catch (err) {

@@ -45,7 +45,13 @@ function AllArticleList() {
   const [showDelete, setShowDelete] = useState(false);
   const [showComment, setShowComment] = useState(false);
   useEffect(() => {
-    dispatch(getAllArticles(navigate));
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getAllArticles(navigate));
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [showDelete]);
 
   const ModalStyled = styled(Modal)({

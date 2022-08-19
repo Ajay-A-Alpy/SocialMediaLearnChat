@@ -11,18 +11,17 @@ function ExpertArticleList() {
 
   const dispatch = useDispatch();
   const [articleList, setArticleList] = useState([]);
-  //   useEffect(() => {
-  //     let unsubscribed = false;
-  //     if (!unsubscribed) {
-  //       console.log("expert listttttttttttttttt");
-  //       dispatch(getArticles());
-  //       setArticleList(articles);
-  //     }
-  //     return () => {
-  //       console.log("cleanupppppp");
-  //       unsubscribed = true;
-  //     };
-  //   }, [articleList]);
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      console.log("expert listttttttttttttttt");
+      dispatch(getArticles());
+      setArticleList(articles);
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, [articleList]);
 
   const UserBox = styled(Box)({backgroundColor: "#d4d4dc"});
   return (

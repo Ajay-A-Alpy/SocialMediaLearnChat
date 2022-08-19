@@ -58,7 +58,7 @@ export default function Navbar({chatStatus}) {
 
   const handleViewProfile = (id) => {
     let userId = id;
-    console.log("view reached", id);
+
     dispatch(getStudentProfile({userId, navigate}));
     setQuery("");
   };
@@ -77,7 +77,13 @@ export default function Navbar({chatStatus}) {
       setData(result.data?.result);
       console.log(result);
     };
-    callAPI();
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      callAPI();
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [query]);
   const SyledToolbar = styled(Toolbar)({
     display: "flex",

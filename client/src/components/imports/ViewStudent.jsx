@@ -21,8 +21,14 @@ function ViewStudent() {
   const [change, setChange] = useState(false);
 
   useEffect(() => {
-    let userId = profile.user._id;
-    dispatch(getStudentProfile({userId, navigate}));
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      let userId = profile.user._id;
+      dispatch(getStudentProfile({userId, navigate}));
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [change]);
 
   const handleFollow = () => {

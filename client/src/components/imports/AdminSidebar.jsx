@@ -11,14 +11,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import FeedIcon from "@mui/icons-material/Feed";
 import QuizIcon from "@mui/icons-material/Quiz";
-import PeopleIcon from "@mui/icons-material/People";
 
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
-
-import BookIcon from "@mui/icons-material/Book";
 import SettingsIcon from "@mui/icons-material/Settings";
-import NightlightIcon from "@mui/icons-material/Nightlight";
-
 import {useSelector} from "react-redux";
 
 function AdminSidebar() {
@@ -103,15 +98,6 @@ function AdminSidebar() {
               </ListItemButton>
             </ListItem>
 
-            {/* <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <BookIcon></BookIcon>
-                </ListItemIcon>
-                <ListItemText primary="Subjects" />
-              </ListItemButton>
-            </ListItem> */}
-
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
@@ -144,15 +130,6 @@ function AdminSidebar() {
                 <ListItemText primary="Settings" />
               </ListItemButton>
             </ListItem>
-
-            {/* <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-        <NightlightIcon></NightlightIcon>
-              </ListItemIcon>
-              <Switch  defaultChecked  />
-            </ListItemButton>
-          </ListItem> */}
           </List>
         </Paper>
       </Box>

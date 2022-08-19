@@ -33,8 +33,6 @@ function ShowExperts() {
   useEffect(() => {
     const getAllExperts = async () => {
       try {
-        console.log("get experts reached");
-
         let experts = await api.getAllExperts();
 
         setExperts(experts.data);
@@ -42,7 +40,13 @@ function ShowExperts() {
         console.log(err);
       }
     };
-    getAllExperts();
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      getAllExperts();
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, []);
 
   const handleViewProfile = (id) => {

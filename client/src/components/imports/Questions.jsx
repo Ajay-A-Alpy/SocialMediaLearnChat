@@ -66,8 +66,13 @@ export default function Questions({
   const {error, loading} = useSelector((state) => ({...state.article}));
 
   useEffect(() => {
-    console.log("get questions");
-    dispatch(getQuestions());
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getQuestions());
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [likeChange]);
 
   const {user} = useSelector((state) => ({...state.auth}));

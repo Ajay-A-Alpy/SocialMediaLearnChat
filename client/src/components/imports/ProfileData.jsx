@@ -28,7 +28,6 @@ export default function ProfileData() {
     const fd = new FormData();
     fd.append("image", imageField);
     fd.append("userId", user?.result._id);
-    console.log("hello upload pic");
 
     dispatch(updateProfilePic(fd));
   };

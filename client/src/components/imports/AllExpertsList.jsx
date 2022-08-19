@@ -18,7 +18,13 @@ function AllExpertList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(getAllExperts(navigate));
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getAllExperts(navigate));
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [change]);
 
   const handleBlock = (id) => {

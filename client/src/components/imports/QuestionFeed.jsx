@@ -19,8 +19,13 @@ export default function QuestionFeed() {
   const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
-    console.log("feed articles");
-    dispatch(getQuestions());
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getQuestions());
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, []);
 
   const handlePagination = (e, page) => {

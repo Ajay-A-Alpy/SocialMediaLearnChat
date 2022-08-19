@@ -48,13 +48,12 @@ export default function Feed() {
             articles?.map((item) => {
               return <Posts key={item._id} {...item} />;
             })}
-          {articles.length === 0 ? (
-            " "
-          ) : (
+          {!loading && articles.length === 0 ? (
             <Box sx={{height: "2rem", position: "sticky"}}>
-              {" "}
-              No articles Found
+              <Typography> No articles Found</Typography>
             </Box>
+          ) : (
+            ""
           )}
         </Box>
       </Stack>

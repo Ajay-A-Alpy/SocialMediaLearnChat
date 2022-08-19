@@ -31,7 +31,13 @@ export default function AddQuestion() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getQuestions());
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getQuestions());
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [change]);
 
   const handleClear = () => {

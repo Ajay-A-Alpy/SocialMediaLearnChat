@@ -1,6 +1,7 @@
 import React from "react";
 import {Route, Routes, BrowserRouter} from "react-router-dom";
-import PrivateRouter from "../components/imports/PrivateRouter";
+import PrivateRouter from "../components/imports/ExpertAuthRouter";
+
 import ProfileEdit from "../components/imports/ProfileEdit";
 import Home from "../pages/common/Home";
 import ExpertMessenger from "../pages/messenger/ExpertMessenger";
@@ -23,51 +24,26 @@ export default function StudentRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home></Home>}></Route>
-        <Route path="/student" element={<StudentHome />}></Route>
         <Route path="/student/login" element={<StudentLogin />}></Route>
         <Route
           path="/student/signup"
           element={<StudentRegister></StudentRegister>}
         ></Route>
-        <Route
-          path="/student/profile"
-          element={
-            <PrivateRouter>
-              <StudentProfile />
-            </PrivateRouter>
-          }
-        ></Route>
+
+        <Route path="/" element={<Home></Home>}></Route>
+
+        <Route path="/student" element={<StudentHome />}></Route>
+
+        <Route path="/student/profile" element={<StudentProfile />}></Route>
         <Route path="/editProfie" element={<ProfileEdit />}></Route>
         <Route path="/student/articles" element={<MyArticles />}></Route>
         <Route
           path="/student/questions"
           element={<MyQuestions></MyQuestions>}
         ></Route>
-        <Route
-          path="/student/followers"
-          element={
-            <PrivateRouter>
-              <MyFollowers />
-            </PrivateRouter>
-          }
-        ></Route>
-        <Route
-          path="/student/followings"
-          element={
-            <PrivateRouter>
-              <MyFollowings />
-            </PrivateRouter>
-          }
-        ></Route>
-        <Route
-          path="/student/friends"
-          element={
-            <PrivateRouter>
-              <Myfriends />
-            </PrivateRouter>
-          }
-        ></Route>
+        <Route path="/student/followers" element={<MyFollowers />}></Route>
+        <Route path="/student/followings" element={<MyFollowings />}></Route>
+        <Route path="/student/friends" element={<Myfriends />}></Route>
         <Route path="/student/experts" element={<Experts></Experts>}></Route>
         <Route path="/student/viewProfile" element={<ViewStudents />}></Route>
         <Route

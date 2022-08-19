@@ -269,7 +269,11 @@ export default function Posts({
                 sx={{marginLeft: "1rem"}}
                 onClick={handleUnlike}
               >
-                {loading ? <CircularProgress /> : <Favorite />}
+                {loading ? (
+                  <CircularProgress />
+                ) : (
+                  <Favorite sx={{color: "#764AF1"}} />
+                )}
               </Tooltip>
               {likes.length}
             </IconButton>
@@ -281,7 +285,7 @@ export default function Posts({
                 sx={{marginLeft: "1rem"}}
                 onClick={handleLike}
               >
-                {<FavoriteBorder />}
+                {<FavoriteBorder sx={{color: "#764AF1"}} />}
               </Tooltip>
               {likes.length}
             </IconButton>
@@ -293,7 +297,7 @@ export default function Posts({
               placement="left"
               sx={{marginLeft: "1rem"}}
             >
-              {<GppGoodIcon></GppGoodIcon>}
+              {<GppGoodIcon sx={{color: "#764AF1"}}></GppGoodIcon>}
             </Tooltip>
             {verifiedCount.length}
           </IconButton>
@@ -307,7 +311,7 @@ export default function Posts({
                 setShowComment(true);
               }}
             >
-              <CommentIcon />
+              <CommentIcon sx={{color: "#764AF1"}} />
             </Tooltip>
             {comments.length}
           </IconButton>

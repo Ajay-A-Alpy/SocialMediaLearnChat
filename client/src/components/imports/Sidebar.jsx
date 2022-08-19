@@ -27,7 +27,13 @@ function Sidebar() {
   const {user} = useSelector((state) => ({...state.auth}));
 
   useEffect(() => {
-    dispatch(getFriendsData(navigate));
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getFriendsData(navigate));
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, []);
 
   const navigate = useNavigate();

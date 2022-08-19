@@ -27,14 +27,19 @@ function ViewFriends() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getFriendsData(navigate));
-    setFriendsList(friends);
-    console.log(friendsList);
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      dispatch(getFriendsData(navigate));
+      setFriendsList(friends);
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, []);
 
   const handleViewProfile = (id) => {
     let userId = id;
-    console.log("view reached", id);
+
     dispatch(getStudentProfile({userId, navigate}));
   };
 

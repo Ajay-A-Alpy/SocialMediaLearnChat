@@ -49,7 +49,6 @@ export default function ExpertProfileEdit() {
     let Id = expert.result._id;
 
     if (name && email && mobile) {
-      console.log("expert 00000000000");
       dispatch(expertUpdateProfile({profileData, Id, toast, navigate}));
     }
   };

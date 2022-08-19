@@ -22,9 +22,14 @@ function ViewExpertProfile({Id}) {
   const {user} = useSelector((state) => ({...state.auth}));
 
   useEffect(() => {
-    let userId = expert._id;
-    console.log("view reached");
-    dispatch(getExpertProfile({userId, navigate}));
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      let userId = expert._id;
+      dispatch(getExpertProfile({userId, navigate}));
+    }
+    return () => {
+      unsubscribed = true;
+    };
   }, [change]);
 
   const handleFollow = () => {
